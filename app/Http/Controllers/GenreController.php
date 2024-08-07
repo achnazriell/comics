@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Genre;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class GenreController extends Controller
 {
 
     public function index()
     {
-        $genres = Genre::all(); // Fetch all genres from the database
-        return view('table.genre-table', compact('genres')); // Pass genres to the view
+        $genres = Genre::all();
+        return view('table.genre-table', compact('genres'));
     }
     
 
@@ -20,22 +21,25 @@ class GenreController extends Controller
      */
     public function create()
     {
-        return view('categories.create'); // No need to pass genres here for category creation
+        return view('create.create-genre');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|unique:genres|string|max:255',
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
 
         Genre::create($request->all());
 
-        return redirect()->route('genres.index')->with('success', 'Genre created successfully.');
+        return redirect()->route('table.genre-table')->with('success', 'Genre created successfully.');
     }
+
 
     /**
      * Display the specified resource.
@@ -73,7 +77,6 @@ class GenreController extends Controller
     public function destroy(Genre $genre)
     {
         $genre->delete();
-
         return redirect()->route('genres.index')->with('success', 'Genre deleted successfully.');
     }
 }
