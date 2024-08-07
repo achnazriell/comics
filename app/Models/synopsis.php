@@ -5,14 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Genre extends Model
+class Synopsis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['comic_id', 'synopsis'];
 
-    public function comics()
+    public function comic()
     {
-        return $this->hasMany(Comic::class);
+        return $this->belongsTo(Comic::class);
     }
 }
+
