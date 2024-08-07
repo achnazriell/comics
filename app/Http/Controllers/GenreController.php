@@ -14,7 +14,7 @@ class GenreController extends Controller
         $genres = Genre::all();
         return view('table.genre-table', compact('genres'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -24,7 +24,7 @@ class GenreController extends Controller
         return view('create.create-genre');
     }
 
-    
+
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -37,7 +37,7 @@ class GenreController extends Controller
 
         Genre::create($request->all());
 
-        return redirect()->route('table.genre-table')->with('success', 'Genre created successfully.');
+        return redirect()->route('genre.table')->with('success', 'Genre created successfully.');
     }
 
 
