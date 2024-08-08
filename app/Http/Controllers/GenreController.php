@@ -54,7 +54,7 @@ class GenreController extends Controller
      */
     public function edit(Genre $genre)
     {
-        return view('categories.edit', compact('genre')); // Pass genre to the edit view
+        return view('update.edit-genre', compact('genre'));
     }
 
     /**
@@ -62,9 +62,13 @@ class GenreController extends Controller
      */
     public function update(Request $request, Genre $genre)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255|unique:genres,name,' . $genre->id,
         ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withInput()->withErrors($validator);
+        }
 
         $genre->update($request->all());
 

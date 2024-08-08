@@ -62,3 +62,4 @@ class SynopsisController extends Controller
         return redirect()->route('synopses.index')->with('success', 'Synopsis deleted successfully.');
     }
 }
+

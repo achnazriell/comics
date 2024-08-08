@@ -18,10 +18,10 @@ Route::get('/', function () {
 Route::resource('genres', GenreController::class);
 Route::resource('authors', AuthorController::class);
 Route::resource('comics', ComicController::class);
-// Route::resource('chapters', ChapterController::class);
+Route::resource('chapters', ChapterController::class);
 Route::resource('publishers', PublisherController::class);
 Route::resource('reviews', ReviewController::class);
-// Route::resource('synopses', SynopsisController::class);
+Route::resource('synopses', SynopsisController::class);
 
 
 

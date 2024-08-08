@@ -9,16 +9,16 @@ class Comic extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'author_id', 'genre_id'];
+    protected $fillable = ['title', 'description', 'author_id', 'image'];
 
     public function author()
     {
         return $this->belongsTo(Author::class);
     }
 
-    public function genre()
+    public function genres()
     {
-        return $this->belongsTo(Genre::class);
+        return $this->belongsToMany(Genre::class, 'comic_genre');
     }
 
     public function chapters()
