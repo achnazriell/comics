@@ -7,10 +7,10 @@
                 {{ session('success') }}
             </div>
         @endif
-        <div class="mt-4 overflow-x-auto">
-            <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
-                <thead>
-                    <tr class="border-b bg-gray-100 text-left">
+        <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
+            <table class="table-auto min-w-full bg-white border border-black rounded-lg shadow-md">
+                <thead class='bg-blue-400'>
+                    <tr class="border border-black">
                         <th class="py-2 px-4">No</th>
                         <th class="py-2 px-4">Name</th>
                         <th class="py-2 px-4">Actions</th>

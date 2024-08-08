@@ -20,7 +20,7 @@
                     <div @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <button @click="open = !open"
                             class="inline-flex items-center px-3 py-6 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
-                            <div>{{ __('Tabel') }}</div>
+                            <div>{{ __('Table') }}</div>
                             <div class="ml-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
                                     viewBox="0 0 20 20">
@@ -39,8 +39,17 @@
                             x-transition:leave-end="opacity-0 transform scale-95"
                             class="absolute z-50 mt-2 w-48 rounded-md shadow-lg origin-top-right right-0">
                             <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white dark:bg-gray-800">
+                                <x-dropdown-link :href="route('comics.index')">
+                                    {{ __('Comics') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('authors.index')">
+                                    {{ __('Authors') }}
+                                </x-dropdown-link>
+                                <x-dropdown-link :href="route('publishers.index')">
+                                    {{ __('Publisher') }}
+                                </x-dropdown-link>
                                 <x-dropdown-link :href="route('genres.index')">
-                                    {{ __('Genres') }}
+                                    {{ __('Genre') }}
                                 </x-dropdown-link>
                                 <!-- Add more links here as needed -->
                             </div>
@@ -48,7 +57,7 @@
                     </div>
                 </div>
             </div>
-                    
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
