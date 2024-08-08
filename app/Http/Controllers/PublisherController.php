@@ -10,16 +10,18 @@ class PublisherController extends Controller
     public function index()
     {
         $publishers = Publisher::all();
-        return view('publishers.index', compact('publishers'));
+        return view('table.publishers-table', compact('publishers'));
     }
 
     public function create()
     {
-        return view('publishers.create');
+        return view('create.create-publisher');
     }
 
     public function store(Request $request)
     {
+        dd($request->all());
+        
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
