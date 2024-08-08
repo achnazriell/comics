@@ -11,7 +11,6 @@ class CreateReviewsTable extends Migration
         Schema::create('reviews', function (Blueprint $table) {
             $table->id();
             $table->foreignId('comic_id')->constrained()->onDelete('cascade');
-            $table->foreignId('publisher_id')->constrained()->onDelete('cascade');
             $table->text('review');
             $table->integer('rating');
             $table->timestamps();
