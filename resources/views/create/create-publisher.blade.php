@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Add Genre</h1>
-        <form action="{{ route('genres.store') }}" method="POST" class="bg-white p-6 rounded shadow-md">
+        <h1 class="text-2xl font-bold mb-4">Add Publisher</h1>
+        <form action="{{ route('publishers.store') }}" method="POST" class="bg-white p-6 rounded shadow-md">
             @csrf
             <div class="mb-4">
                 <label for="name" class="block text-sm font-medium text-gray-700">Name</label>

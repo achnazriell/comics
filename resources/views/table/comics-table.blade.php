@@ -20,7 +20,7 @@
                 </thead>
                 <tbody>
                     @foreach ($comics as $comic)
-                        <tr>
+                        <tr class="border border-black">
                             <td class="py-2 px-4 border-b">{{ $loop->iteration }}</td>
                             <td class="py-2 px-4 border-b">{{ $comic->title }}</td>
                             <td class="py-2 px-4 border-b">{{ $comic->author->name }}</td>
