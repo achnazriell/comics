@@ -11,14 +11,21 @@ class CreateChaptersTable extends Migration
         Schema::create('chapters', function (Blueprint $table) {
             $table->id();
             $table->foreignId('comic_id')->constrained()->onDelete('cascade');
-            $table->string('title');
             $table->integer('number');
+            $table->timestamps();
+        });
+
+        Schema::create('chapter_images', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('chapter_id')->constrained()->onDelete('cascade');
+            $table->string('image');
             $table->timestamps();
         });
     }
 
     public function down()
     {
+        Schema::dropIfExists('chapter_images');
         Schema::dropIfExists('chapters');
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Chapter;
+use App\Models\ChapterImage;
 use App\Models\Comic;
 use Illuminate\Http\Request;
 
@@ -17,21 +18,35 @@ class ChapterController extends Controller
     public function create()
     {
         $comics = Comic::all();
-        return view('chapters.create', compact('comics'));
+        return view('create.create-chapter', compact('comics'));
     }
+    
 
     public function store(Request $request)
     {
         $request->validate([
             'comic_id' => 'required|exists:comics,id',
-            'title' => 'required|string|max:255',
             'number' => 'required|integer',
+            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
-        Chapter::create($request->all());
-
+    
+        $chapter = Chapter::create($request->only(['comic_id', 'number']));
+    
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time().rand(1, 100).'.'.$image->extension();
+                $image->move(public_path('chapter_images'), $imageName);
+    
+                ChapterImage::create([
+                    'chapter_id' => $chapter->id,
+                    'image' => $imageName,
+                ]);
+            }
+        }
+    
         return redirect()->route('chapters.index')->with('success', 'Chapter created successfully.');
     }
+    
 
     public function show(Chapter $chapter)
     {

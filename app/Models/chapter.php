@@ -15,5 +15,9 @@ class Chapter extends Model
     {
         return $this->belongsTo(Comic::class);
     }
-}
 
+    public function images()
+    {
+        return $this->hasMany(ChapterImage::class);
+    }
+}

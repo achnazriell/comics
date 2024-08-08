@@ -24,6 +24,8 @@ Route::resource('reviews', ReviewController::class);
 Route::resource('synopses', SynopsisController::class);
 
 
+Route::get('/chapters/create', [ChapterController::class, 'create'])->name('chapters.create');
+
 
 // Route for genre table, handled by GenreController
 Route::get('/genre-table', [GenreController::class, 'index'])->name('genre.table');
