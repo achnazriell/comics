@@ -10,9 +10,11 @@ class CreateSynopsisTable extends Migration
     {
         Schema::create('synopsis', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('comic_id')->constrained()->onDelete('cascade');
-            $table->text('synopsis');
+            $table->unsignedBigInteger('comic_id');
+            $table->text('content');
             $table->timestamps();
+
+            $table->foreign('comic_id')->references('id')->on('comics')->onDelete('cascade');
         });
     }
 

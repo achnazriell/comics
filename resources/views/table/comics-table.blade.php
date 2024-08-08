@@ -15,6 +15,7 @@
                         <th class="py-2 px-4">Title</th>
                         <th class="py-2 px-4">Author</th>
                         <th class="py-2 px-4">Genres</th>
+                        <th class="py-2 px-4">Image</th>
                         <th class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
@@ -28,6 +29,13 @@
                                 @foreach ($comic->genres as $genre)
                                     {{ $genre->name }}@if (!$loop->last), @endif
                                 @endforeach
+                            </td>
+                            <td class="py-2 px-4 border-b">
+                                @if ($comic->image)
+                                    <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-24 h-24 object-cover">
+                                @else
+                                    No Image
+                                @endif
                             </td>
                             <td class="py-2 px-4 border-b">
                                 <a href="{{ route('comics.edit', $comic) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>

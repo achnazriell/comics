@@ -10,16 +10,9 @@ class CreateComicGenreTable extends Migration
     {
         Schema::create('comic_genre', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('comic_id');
-            $table->unsignedBigInteger('genre_id');
+            $table->foreignId('comic_id')->constrained()->onDelete('cascade');
+            $table->foreignId('genre_id')->constrained()->onDelete('cascade');
             $table->timestamps();
-
-            // Add foreign key constraints
-            $table->foreign('comic_id')->references('id')->on('comics')->onDelete('cascade');
-            $table->foreign('genre_id')->references('id')->on('genres')->onDelete('cascade');
-            
-            // Add a unique constraint to prevent duplicate entries
-            $table->unique(['comic_id', 'genre_id']);
         });
     }
 

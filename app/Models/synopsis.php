@@ -9,11 +9,12 @@ class Synopsis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['comic_id', 'synopsis'];
+    protected $table = 'synopsis';  // This should match your migration table name
+
+    protected $fillable = ['comic_id', 'content'];
 
     public function comic()
     {
         return $this->belongsTo(Comic::class);
     }
 }
-
