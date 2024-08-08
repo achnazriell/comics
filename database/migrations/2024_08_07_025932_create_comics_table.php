@@ -11,8 +11,15 @@ class CreateComicsTable extends Migration
         Schema::create('comics', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->text('description');
             $table->foreignId('author_id')->constrained()->onDelete('cascade');
+            $table->string('image')->nullable(); // Adding image column
+            $table->timestamps();
+        });
+
+        // Create the pivot table for comics and genres
+        Schema::create('comic_genre', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('comic_id')->constrained()->onDelete('cascade');
             $table->foreignId('genre_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
@@ -20,6 +27,7 @@ class CreateComicsTable extends Migration
 
     public function down()
     {
+        Schema::dropIfExists('comic_genre');
         Schema::dropIfExists('comics');
     }
 }
