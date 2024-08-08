@@ -14,35 +14,43 @@
                         <th class="py-2 px-4">No</th>
                         <th class="py-2 px-4">Title</th>
                         <th class="py-2 px-4">Author</th>
+                        <th class="py-2 px-4">Publisher</th> <!-- Add this column -->
                         <th class="py-2 px-4">Genres</th>
                         <th class="py-2 px-4">Image</th>
+                        <th class="py-2 px-4">Synopsis</th> <!-- Add this column -->
                         <th class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($comics as $comic)
+                    @foreach ($comics as $index => $comic)
                         <tr class="border border-black">
-                            <td class="py-2 px-4 border-b">{{ $loop->iteration }}</td>
-                            <td class="py-2 px-4 border-b">{{ $comic->title }}</td>
-                            <td class="py-2 px-4 border-b">{{ $comic->author->name }}</td>
-                            <td class="py-2 px-4 border-b">
+                            <td class="py-2 px-4">{{ $index + 1 }}</td>
+                            <td class="py-2 px-4">{{ $comic->title }}</td>
+                            <td class="py-2 px-4">{{ $comic->author->name }}</td>
+                            <td class="py-2 px-4">{{ $comic->publisher ? $comic->publisher->name : 'No Publisher' }}</td>
+                            <td class="py-2 px-4">
                                 @foreach ($comic->genres as $genre)
                                     {{ $genre->name }}@if (!$loop->last), @endif
                                 @endforeach
                             </td>
-                            <td class="py-2 px-4 border-b">
+                            <td class="py-2 px-4">
                                 @if ($comic->image)
-                                    <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-24 h-24 object-cover">
-                                @else
-                                    No Image
+                                    <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-16 h-16 object-cover">
                                 @endif
                             </td>
-                            <td class="py-2 px-4 border-b">
-                                <a href="{{ route('comics.edit', $comic) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
-                                <form action="{{ route('comics.destroy', $comic) }}" method="POST" style="display:inline;">
+                            <td class="py-2 px-4">
+                                @if ($comic->synopsis)
+                                    {{ $comic->synopsis->content }} <!-- Display Synopsis -->
+                                @else
+                                    No Synopsis
+                                @endif
+                            </td>
+                            <td class="py-2 px-4">
+                                <a href="{{ route('comics.edit', $comic) }}" class="text-blue-500 hover:underline">Edit</a>
+                                <form action="{{ route('comics.destroy', $comic) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                                    <button type="submit" class="text-red-500 hover:underline">Delete</button>
                                 </form>
                             </td>
                         </tr>
