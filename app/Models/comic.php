@@ -34,5 +34,5 @@ class Comic extends Model
     public function synopsis()
     {
         return $this->hasOne(Synopsis::class);
-    }
+    }    
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comic;
 use App\Models\Author;
 use App\Models\Genre;
+use App\Models\Synopsis;
 use Illuminate\Http\Request;
 
 class ComicController extends Controller
@@ -23,32 +24,35 @@ class ComicController extends Controller
     }
 
     public function store(Request $request)
-{
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'author_id' => 'required|exists:authors,id',
-        'synopsis' => 'required|string',
-        'genres' => 'required|array',
-        'genres.*' => 'exists:genres,id',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-    ]);
-
-    $comic = new Comic($request->except(['genres', 'synopsis', 'image']));
-
-    if ($request->hasFile('image')) {
-        $imageName = time().'.'.$request->image->extension();
-        $request->image->move(public_path('images'), $imageName);
-        $comic->image = $imageName;
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'author_id' => 'required|exists:authors,id',
+            'synopsis' => 'required|string',
+            'genres' => 'required|array',
+            'genres.*' => 'exists:genres,id',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        $comic = new Comic($request->except(['genres', 'synopsis', 'image']));
+    
+        if ($request->hasFile('image')) {
+            $imageName = time().'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $comic->image = $imageName;
+        }
+    
+        $comic->save();
+        $comic->genres()->attach($request->genres);
+    
+        $synopsis = new Synopsis([
+            'content' => $request->synopsis
+        ]);
+        $comic->synopsis()->save($synopsis);
+    
+        return redirect()->route('table.comics-table')->with('success', 'Comic created successfully.');
     }
-
-    $comic->save();
-    $comic->genres()->attach($request->genres);
-    $comic->synopsis()->create(['content' => $request->synopsis]);
-
-    return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
-}
-
-
+    
     public function show(Comic $comic)
     {
         // return view('comics.show', compact('comic'));
@@ -59,7 +63,7 @@ class ComicController extends Controller
         $authors = Author::all();
         $genres = Genre::all();
         $selectedGenres = $comic->genres->pluck('id')->toArray();
-        return view('', compact('comic', 'authors', 'genres', 'selectedGenres'));
+        return view('update.edit-comic', compact('comic', 'authors', 'genres', 'selectedGenres'));
     }
 
     public function update(Request $request, Comic $comic)
