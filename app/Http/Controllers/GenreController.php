@@ -40,7 +40,7 @@ class GenreController extends Controller
         return redirect()->route('genre.table')->with('success', 'Genre created successfully.');
     }
 
-
+    
     /**
      * Display the specified resource.
      */
