@@ -12,7 +12,7 @@ class ChapterController extends Controller
     public function index()
     {
         $chapters = Chapter::with('comic')->get();
-        return view('chapters.index', compact('chapters'));
+        return view('table.chapter-table    ', compact('chapters'));
     }
 
     public function create()
@@ -44,7 +44,7 @@ class ChapterController extends Controller
             }
         }
     
-        return redirect()->route('chapters.index')->with('success', 'Chapter created successfully.');
+        return redirect()->route('create.create-chapter')->with('success', 'Chapter created successfully.');
     }
     
 
@@ -56,7 +56,7 @@ class ChapterController extends Controller
     public function edit(Chapter $chapter)
     {
         $comics = Comic::all();
-        return view('chapters.edit', compact('chapter', 'comics'));
+        return view('update.edit-chapter', compact('chapter', 'comics'));
     }
 
     public function update(Request $request, Chapter $chapter)
@@ -69,13 +69,21 @@ class ChapterController extends Controller
 
         $chapter->update($request->all());
 
-        return redirect()->route('chapters.index')->with('success', 'Chapter updated successfully.');
+        return redirect()->route('create.create-chapter')->with('success', 'Chapter updated successfully.');
     }
 
     public function destroy(Chapter $chapter)
     {
-        $chapter->delete();
-
-        return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
+        try {
+            if ($chapter->comic()->exists()) {
+                return redirect()->route('create.create-chapter')->with('error', 'Chapter tidak bisa dihapus karena masih terkait dengan data comic.');
+            }
+            $chapter->delete();
+            return redirect()->route('create.create-chapter')->with('success', 'Chapter deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('create.create-chapter')->with('error', 'Terjadi kesalahan saat menghapus chapter.');
+        }
     }
+    
+    
 }

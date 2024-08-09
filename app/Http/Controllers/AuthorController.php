@@ -52,8 +52,16 @@ class AuthorController extends Controller
 
     public function destroy(Author $author)
     {
-        $author->delete();
-
-        return redirect()->route('authors.index')->with('success', 'Author deleted successfully.');
+        try {
+            if ($author->comics()->exists()) {
+                return redirect()->route('authors.index')->with('error', 'Author tidak bisa dihapus karena masih terkait dengan data comic.');
+            }
+            $author->delete();
+            return redirect()->route('authors.index')->with('success', 'Author deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('authors.index')->with('error', 'Terjadi kesalahan saat menghapus author.');
+        }
     }
+    
+    
 }
