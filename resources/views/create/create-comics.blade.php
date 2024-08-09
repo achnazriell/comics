@@ -33,6 +33,16 @@
                         <option value="{{ $genre->id }}">{{ $genre->name }}</option>
                     @endforeach
                 </select>
+
+                <div class="form-group">
+                    <label for="genres">Kategori</label>
+                    <select class="form-control select2" id="genres" name="genres[]" multiple >
+                        @foreach($kategoris as $kategori)
+                            <option value="{{ $kategori->genres }}" {{ in_array($kategori->genres, old('genres', [])) ? 'selected' : '' }}>{{ $kategori->kategori }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
             </div>
             <div class="mb-4">
                 <label for="synopsis" class="block text-sm font-medium text-gray-700">Synopsis</label>

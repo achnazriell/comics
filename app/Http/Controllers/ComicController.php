@@ -62,10 +62,16 @@ class ComicController extends Controller
     
     
     
+// app/Http/Controllers/ComicController.php
+
     public function show(Comic $comic)
     {
-        // return view('comics.show', compact('comic'));
+    // Load relationships as needed
+    $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages']);
+
+    return view('comics-show', compact('comic'));
     }
+
 
     public function edit(Comic $comic)
     {
