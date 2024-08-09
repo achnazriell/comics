@@ -1,26 +1,5 @@
 <!-- resources/views/dashboard.blade.php -->
-<x-app-layout>
-    <x-slot name="header">
-        <div class="flex justify-between items-center">
-            <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-                {{ __('Home') }}
-            </h2>
-
-            <!-- Search Form -->
-            <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
-                <input
-                    type="text"
-                    name="search"
-                    value="{{ request('search') }}"
-                    placeholder="Search Comics..."
-                    class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
-                />
-                <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
-                    Search
-                </button>
-            </form>
-        </div>
-    </x-slot>
+<x-app-layout>>
 
     <div class="container mx-auto p-4">
         <h3 class="text-lg font-semibold mb-4">Komik Terbaru</h3>
