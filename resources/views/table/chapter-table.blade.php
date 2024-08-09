@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Genres</h1>
-        <a href="{{ route('genres.create') }}" class="bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600 border border-black">Add Genre</a>
+        <h1 class="text-2xl font-bold mb-4">Chapters</h1>
+        <a href="{{ route('chapters.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Chapter</a>
 
         <!-- Alert Section -->
         @if (session('success'))
@@ -15,7 +15,7 @@
                 </span>
             </div>
         @endif
-
+    
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <strong class="font-bold">Error!</strong>
@@ -33,21 +33,23 @@
                 <thead class="bg-blue-400">
                     <tr class="border border-black">
                         <th class="py-2 px-4 border border-black">No</th>
-                        <th class="py-2 px-4 border border-black">Genre</th>
+                        <th class="py-2 px-4 border border-black">Comic</th>
+                        <th class="py-2 px-4 border border-black">Chapter Number</th>
                         <th class="py-2 px-4 border border-black">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($genres as $genre)
+                    @foreach ($chapters as $chapter)
                         <tr class="border border-black">
                             <td class="py-2 px-4 border border-black">{{ $loop->iteration }}</td>
-                            <td class="py-2 px-4 border border-black">{{ $genre->name }}</td>
+                            <td class="py-2 px-4 border border-black">{{ $chapter->comic->title }}</td>
+                            <td class="py-2 px-4 border border-black">{{ $chapter->number }}</td>
                             <td class="py-2 px-4 border border-black">
-                                <a href="{{ route('genres.edit', $genre) }}" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 border border-black">Edit</a>
-                                <form action="{{ route('genres.destroy', $genre) }}" method="POST" style="display:inline;">
+                                <a href="{{ route('chapters.edit', $chapter) }}" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
+                                <form action="{{ route('chapters.destroy', $chapter) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-black px-4 py-2 rounded hover:bg-red-600 border border-black">Delete</button>
+                                    <button type="submit" class="bg-red-500 text-black px-4 py-2 rounded hover:bg-red-600">Delete</button>
                                 </form>
                             </td>
                         </tr>

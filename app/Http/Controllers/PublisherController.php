@@ -33,12 +33,12 @@ class PublisherController extends Controller
 
     public function show(Publisher $publisher)
     {
-        return view('publishers.show', compact('publisher'));
+        // return view('update.edit-publisher', compact('publisher'));
     }
 
     public function edit(Publisher $publisher)
     {
-        return view('publishers.edit', compact('publisher'));
+        return view('update.edit-publisher', compact('publisher'));
     }
 
     public function update(Request $request, Publisher $publisher)
@@ -55,8 +55,16 @@ class PublisherController extends Controller
 
     public function destroy(Publisher $publisher)
     {
-        $publisher->delete();
-
-        return redirect()->route('publishers.index')->with('success', 'Publisher deleted successfully.');
+        try {
+            if ($publisher->comics()->exists()) {
+                return redirect()->route('publishers.index')->with('error', 'Publisher tidak bisa dihapus karena masih terkait dengan data comic.');
+            }
+            $publisher->delete();
+            return redirect()->route('publishers.index')->with('success', 'Publisher deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('publishers.index')->with('error', 'Terjadi kesalahan saat menghapus publisher.');
+        }
     }
+    
+    
 }

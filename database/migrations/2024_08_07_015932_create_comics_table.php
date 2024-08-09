@@ -12,6 +12,7 @@ class CreateComicsTable extends Migration
             $table->id();
             $table->string('title');
             $table->foreignId('author_id')->constrained()->onDelete('cascade');
+            $table->foreignId('publisher_id')->constrained()->onDelete('cascade');
             $table->string('image')->nullable(); // Adding image column
             $table->timestamps();
         });

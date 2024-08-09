@@ -80,7 +80,18 @@ class GenreController extends Controller
      */
     public function destroy(Genre $genre)
     {
-        $genre->delete();
-        return redirect()->route('genres.index')->with('success', 'Genre deleted successfully.');
+        try {
+            if ($genre->comics()->exists()) {
+                return redirect()->route('genre.table')->with('error', 'Genre tidak bisa dihapus karena masih terkait dengan data comic.');
+            }
+            $genre->delete();
+            return redirect()->route('genre.table')->with('success', 'Genre deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('genre.table')->with('error', 'Terjadi kesalahan saat menghapus genre.');
+        }
     }
+    
+    
+    
+    
 }
