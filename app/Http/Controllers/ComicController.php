@@ -13,9 +13,11 @@ class ComicController extends Controller
 {
     public function index()
     {
-        $comics = Comic::with('author', 'genres', 'publisher', 'synopsis')->get(); 
+        $comics = Comic::with(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages'])->get(); 
         return view('table.comics-table', compact('comics'));
     }
+    
+    
     
     
 
@@ -83,32 +85,35 @@ class ComicController extends Controller
         $request->validate([
             'title' => 'required|string|max:255',
             'author_id' => 'required|exists:authors,id',
-            'publisher_id' => 'required|exists:publishers,id', // Add this line
+            'publisher_id' => 'required|exists:publishers,id',
             'synopsis' => 'required|string',
             'genres' => 'required|array',
             'genres.*' => 'exists:genres,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         if ($request->hasFile('image')) {
+            // Delete the old image if it exists
+            if ($comic->image) {
+                @unlink(public_path('images/' . $comic->image));
+            }
             $imageName = time().'.'.$request->image->extension();
             $request->image->move(public_path('images'), $imageName);
             $comic->image = $imageName;
         }
-    
+
         $comic->update($request->except(['genres', 'synopsis', 'image']));
-        $comic->genres()->sync($request->genres);
         $comic->publisher_id = $request->publisher_id; // Update publisher_id
+        $comic->genres()->sync($request->genres);
         $comic->synopsis()->updateOrCreate([], ['content' => $request->synopsis]);
-    
-        return redirect()->route('comics.index')->with('success', 'Comic updated successfully.');
+
+        return redirect()->route('comic.table')->with('success', 'Comic updated successfully.');
     }
-    
 
     public function destroy(Comic $comic)
     {
         $comic->delete();
 
-        return redirect()->route('comics.index')->with('success', 'Comic deleted successfully.');
+        return redirect()->route('comic.table')->with('success', 'Comic deleted successfully.');
     }
 }

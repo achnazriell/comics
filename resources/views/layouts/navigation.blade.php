@@ -51,6 +51,9 @@
                                 <x-dropdown-link :href="route('genres.index')">
                                     {{ __('Genre') }}
                                 </x-dropdown-link>
+                                <x-dropdown-link :href="route('chapters.create')">
+                                    {{ __('chapter') }}
+                                </x-dropdown-link>
                                 <!-- Add more links here as needed -->
                             </div>
                         </div>
