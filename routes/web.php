@@ -30,6 +30,8 @@ Route::get('/genre-table', [GenreController::class, 'index'])->name('genre.table
 // Route for creating genre, handled by GenreController
 Route::get('/create-genre', [GenreController::class, 'create'])->name('genre.create');
 
+Route::get('/comics/{comic}', [ComicController::class, 'show'])->name('comics.show');
+
 // routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
