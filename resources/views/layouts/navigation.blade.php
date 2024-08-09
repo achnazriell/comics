@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }" class="bg-gray-400 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false, searchOpen: false }" class="bg-gray-400 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -16,14 +16,13 @@
                         {{ __('Home') }}
                     </x-nav-link>
 
-                    <!-- Tabel Dropdown -->
+                    <!-- Table Dropdown -->
                     <div @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <button @click="open = !open"
-                            class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white dark:text-gray-400 bg dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150 sm:flex sm:items-center sm:ms-2 sm:mt-4">
+                            class="inline-flex items-center px-3 py-6 border border-transparent text-sm leading-4 font-medium rounded-md text-white dark:text-gray-400 bg dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ __('Table') }}</div>
                             <div class="ml-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
-                                    viewBox="0 0 20 20">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                         clip-rule="evenodd" />
@@ -37,8 +36,8 @@
                             x-transition:leave="transition ease-in duration-75"
                             x-transition:leave-start="opacity-100 transform scale-100"
                             x-transition:leave-end="opacity-0 transform scale-95"
-                            class="absolute z-50 mt-2 w-48 rounded-md shadow-lg origin-top-right right-0">
-                            <div class="rounded-md ring-1 ring-black ring-opacity-5 py-1 bg-white dark:bg-gray-800">
+                            class="absolute z-50 mt-2 w-48 rounded-md shadow-lg origin-top-right right-0 bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 py-1">
+                            <div class="rounded-md">
                                 <x-dropdown-link :href="route('comics.index')">
                                     {{ __('Comics') }}
                                 </x-dropdown-link>
@@ -52,12 +51,34 @@
                                     {{ __('Genre') }}
                                 </x-dropdown-link>
                                 <x-dropdown-link :href="route('chapters.create')">
-                                    {{ __('chapter') }}
+                                    {{ __('Chapter') }}
                                 </x-dropdown-link>
-                                <!-- Add more links here as needed -->
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Search Button -->
+            <div class="flex items-center ml-auto relative">
+                <button @click="searchOpen = !searchOpen"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-white dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.293 17.293a6 6 0 111.414-1.414l3.5 3.5a1 1 0 01-1.414 1.414l-3.5-3.5zM10 4a6 6 0 106 6 6 6 0 00-6-6z" />
+                    </svg>
+                </button>
+                <div x-show="searchOpen" @click.outside="searchOpen = false"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform scale-95"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 transform scale-100"
+                    x-transition:leave-end="opacity-0 transform scale-95"
+                    class="absolute z-50 mt-2 right-0 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg w-80 p-4">
+                    <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
+                        <input type="text" name="query" placeholder="Search..." class="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+                        <button type="submit" class="ml-2 p-2 bg-black text-white rounded-md">Search</button>
+                    </form>
                 </div>
             </div>
 
@@ -91,7 +112,6 @@
                     </x-slot>
                 </x-dropdown>
             </div>
-
 
             <!-- Hamburger -->
             <div class="-me-2 flex items-center sm:hidden">
