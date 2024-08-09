@@ -1,5 +1,5 @@
 <!-- resources/views/layouts/sidebar.blade.php -->
-<div class="bg-white dark:bg-gray-800 w-64 min-h-screen shadow-md">
+<div id="sidebar" class="bg-white dark:bg-gray-800 w-64 min-h-screen shadow-md transform transition-transform -translate-x-full md:translate-x-0">
     <div class="p-4">
         <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-500">Sidebar</h2>
         <ul class="mt-4">
