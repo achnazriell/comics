@@ -1,6 +1,4 @@
-<!-- resources/views/dashboard.blade.php -->
-<x-app-layout>>
-
+<x-app-layout>
     <div class="container mx-auto p-4">
         <h3 class="text-lg font-semibold mb-4">Komik Terbaru</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
