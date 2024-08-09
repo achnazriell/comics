@@ -15,11 +15,7 @@ class ComicController extends Controller
     {
         $comics = Comic::with(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages'])->get(); 
         return view('table.comics-table', compact('comics'));
-    }
-    
-    
-    
-    
+    }    
 
     public function create()
     {
