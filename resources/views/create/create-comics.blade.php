@@ -16,7 +16,7 @@
                     @endforeach
                 </select>
             </div>
-            <!-- Add this section for Publisher -->
+            <!-- Publisher field -->
             <div class="mb-4">
                 <label for="publisher_id" class="block text-sm font-medium text-gray-700">Publisher</label>
                 <select name="publisher_id" id="publisher_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
@@ -25,7 +25,7 @@
                     @endforeach
                 </select>
             </div>
-            <!-- Existing fields -->
+            <!-- Genres field -->
             <div class="mb-4">
                 <label for="genres" class="block text-sm font-medium text-gray-700">Genres</label>
                 <select name="genres[]" id="genres" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" multiple required>
@@ -34,15 +34,22 @@
                     @endforeach
                 </select>
             </div>
+            <!-- Synopsis field -->
             <div class="mb-4">
                 <label for="synopsis" class="block text-sm font-medium text-gray-700">Synopsis</label>
                 <textarea name="synopsis" id="synopsis" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required></textarea>
             </div>
+            <!-- Image field -->
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
                 <input type="file" name="image" id="image" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             </div>
-            <button type="submit" class="bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600">Save</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Save</button>
         </form>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('genres').select2();
+        });
+    </script>
 </x-app-layout>
