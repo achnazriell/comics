@@ -42,6 +42,10 @@
                         <option value="{{ $genre->id }}">{{ $genre->name }}</option>
                     @endforeach
                 </select>
+<<<<<<< HEAD
+=======
+
+>>>>>>> 0fda0044be0de8e619a3320a8c5e0fcd5f2d5a75
             </div>
             <!-- Synopsis field -->
             <div class="mb-4">

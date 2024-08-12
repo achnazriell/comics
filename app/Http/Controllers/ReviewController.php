@@ -25,39 +25,26 @@ class ReviewController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Comic $comic)
     {
-        $comics = Comic::all();
-        $publishers = Publisher::all();
-        return view('reviews.create', compact('comics', 'publishers'));
+        // Pass the specific comic to the review form
+        return view('create.create-review', compact('comic'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store(Request $request, Comic $comic)
     {
-        $request->validate([
-            'comic_id' => 'required|exists:comics,id',
-            'publisher_id' => 'required|exists:publishers,id',
-            'review' => 'required|string',
-            'rating' => 'required|integer|between:1,5',
+        $validatedData = $request->validate([
+            'rating' => 'required|integer|min:1|max:5',
+            'review' => 'required|string|max:1000',
         ]);
 
-        Review::create($request->all());
+        // Automatically associate the review with the selected comic
+        $comic->reviews()->create($validatedData);
 
-        return redirect()->route('reviews.index')->with('success', 'Review created successfully.');
+        return redirect()->route('comics.show', $comic->id)->with('success', 'Review created successfully!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param \App\Models\Review $review
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Review $review)
     {
         return view('reviews.show', compact('review'));

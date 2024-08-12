@@ -33,7 +33,7 @@ class ChapterController extends Controller
 
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
-                $imageName = time().rand(1, 100).'.'.$image->extension();
+                $imageName = time() . rand(1, 100) . '.' . $image->extension();
                 $image->move(public_path('chapter_images'), $imageName);
 
                 ChapterImage::create([
@@ -61,13 +61,26 @@ class ChapterController extends Controller
     {
         $request->validate([
             'comic_id' => 'required|exists:comics,id',
-            'title' => 'required|string|max:255',
             'number' => 'required|integer',
         ]);
 
-        $chapter->update($request->all());
+        $chapter->update($request->only(['comic_id', 'number']));
 
-        return redirect()->route('chapters.show', $chapter)->with('success', 'Chapter updated successfully.');
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $image) {
+                $imageName = time() . rand(1, 100) . '.' . $image->extension();
+                $image->move(public_path('chapter_images'), $imageName);
+
+                ChapterImage::create([
+                    'chapter_id' => $chapter->id,
+                    'image' => $imageName,
+                ]);
+            }
+        }
+
+        return redirect()->route('chapters.index')->with('success', 'Chapter updated successfully.');
+
     }
 
     public function destroy(Chapter $chapter)
@@ -80,6 +93,13 @@ class ChapterController extends Controller
             return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('chapters.show', $chapter)->with('error', 'Terjadi kesalahan saat menghapus chapter.');
+            $chapter->images()->delete(); // Deleting associated images first
+            $chapter->delete();
+
+            return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('chapters.index')->with('error', 'An error occurred while deleting the chapter.');
+
         }
     }
 }

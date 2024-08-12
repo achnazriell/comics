@@ -1,8 +1,26 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Comics</h1>
+<<<<<<< HEAD
         <a href="{{ route('comics.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add
             Comic</a>
+=======
+        <a href="{{ route('comics.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
+        
+        <!-- Search Form -->
+        <form action="{{ route('comics.index') }}" method="GET" class="flex items-center mt-4">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search Comics..."
+                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+            />
+            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                Search
+            </button>
+        </form>
+>>>>>>> 0fda0044be0de8e619a3320a8c5e0fcd5f2d5a75
 
         <!-- Alert Section -->
         @if (session('success'))
@@ -94,6 +112,11 @@
                     @endforeach
                 </tbody>
             </table>
+        </div>
+
+        <!-- Pagination Links -->
+        <div class="mt-4">
+            {{ $comics->links() }}
         </div>
     </div>
 </x-app-layout>

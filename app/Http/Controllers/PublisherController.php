@@ -7,9 +7,15 @@ use Illuminate\Http\Request;
 
 class PublisherController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $publishers = Publisher::all();
+        $search = $request->input('search');
+        
+        // Get publishers based on the search query
+        $publishers = Publisher::when($search, function ($query, $search) {
+            return $query->where('name', 'like', "%{$search}%");
+        })->paginate(10); // Adjust pagination as needed
+    
         return view('table.publishers-table', compact('publishers'));
     }
 
