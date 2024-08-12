@@ -35,12 +35,12 @@
                         <th class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="border border-black">
                     @foreach ($authors as $author)
-                        <tr class="border border-black">
+                        <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td class="py-2 px-4 border-b">{{ $author->name }}</td>
-                            <td class="py-2 px-4 border-b">
+                            <td class="py-2 px-4 border-1">{{ $author->name }}</td>
+                            <td class="py-2 px-4 border-1">
                                 <a href="{{ route('authors.edit', $author) }}" class="bg-yellow-500 text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
                                 <form action="{{ route('authors.destroy', $author) }}" method="POST" style="display:inline;">
                                     @csrf

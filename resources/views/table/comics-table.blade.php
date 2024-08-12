@@ -45,7 +45,7 @@
                         <th class="py-2 px-4">Comic Image</th>
                         <th class="py-2 px-4">Chapter Images</th>
                         <th class="py-2 px-4">Synopsis</th>
-                        <th class="py-2 px-4">Actions</th>
+                        <th colspan="2" class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
