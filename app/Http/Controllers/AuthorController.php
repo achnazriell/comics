@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::all();
-        return view('table.author-table', compact('authors'));
+        $query = $request->input('query');
+        
+        if ($query) {
+            $authors = Author::where('name', 'LIKE', "%$query%")->get();
+        } else {
+            $authors = Author::all();
+        }
+        
+        return view('table.author-table', compact('authors', 'query'));
     }
-
-    public function create()
-    {
-        return view('create.create-authors');
-    }
+    
 
     public function store(Request $request)
     {

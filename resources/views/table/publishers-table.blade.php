@@ -15,6 +15,7 @@
             <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                 Search
             </button>
+            <a href="{{ route('publishers.index') }}" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</a>
         </form>
 
         <!-- Alert Section -->
@@ -22,11 +23,6 @@
             <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <strong class="font-bold">Success!</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
-                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                    <svg class="fill-current h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M7.629 12.357l-3.243-3.243 1.414-1.414L7.629 9.53l7.636-7.636 1.415 1.414L7.629 12.357z"/>
-                    </svg>
-                </span>
             </div>
         @endif
     
@@ -34,36 +30,29 @@
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <strong class="font-bold">Error!</strong>
                 <span class="block sm:inline">{{ session('error') }}</span>
-                <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
-                    <svg class="fill-current h-6 w-6 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M10 8.586L13.586 12l1.414-1.414L11.414 7.172 15 3.586 13.586 2 10 5.586 6.414 2 5 3.586l3.586 3.586-3.586 3.586L6.414 12 10 8.586z"/>
-                    </svg>
-                </span>
             </div>
         @endif
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
             <table class="table-auto min-w-full bg-white border border-black rounded-lg shadow-md">
-                <thead class="bg-blue-400">
+                <thead class='bg-blue-400'>
                     <tr class="border border-black">
-                        <th class="py-2 px-4 border border-black">No</th>
-                        <th class="py-2 px-4 border border-black">Name Publisher</th>
-                        <th class="py-2 px-4 border border-black">Address</th>
-                        <th class="py-2 px-4 border border-black">Actions</th>
+                        <th class="py-2 px-4">No</th>
+                        <th class="py-2 px-4">Publisher Name</th>
+                        <th class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($publishers as $publisher)
+                    @foreach ($publishers as $index => $publisher)
                         <tr class="border border-black">
-                            <td class="py-2 px-4 border border-black">{{ $loop->iteration }}</td>
-                            <td class="py-2 px-4 border border-black">{{ $publisher->name }}</td>
-                            <td class="py-2 px-4 border border-black">{{ $publisher->address }}</td>
-                            <td class="py-2 px-4 border border-black">
-                                <a href="{{ route('publishers.edit', $publisher) }}" class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600 border border-black">Edit</a>
-                                <form action="{{ route('publishers.destroy', $publisher) }}" method="POST" style="display:inline;">
+                            <td class="py-2 px-4">{{ $index + 1 }}</td>
+                            <td class="py-2 px-4">{{ $publisher->name }}</td>
+                            <td class="py-2 px-4">
+                                <a href="{{ route('publishers.edit', $publisher) }}" class="text-blue-500 hover:underline">Edit</a>
+                                <form action="{{ route('publishers.destroy', $publisher) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-black px-4 py-2 rounded hover:bg-red-600 border border-black">Delete</button>
+                                    <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure want to delete data publisher?')">Delete</button>
                                 </form>
                             </td>
                         </tr>
