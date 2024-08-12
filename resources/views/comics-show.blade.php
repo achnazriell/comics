@@ -1,4 +1,5 @@
 <!-- resources/views/comics/show.blade.php -->
+
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -25,22 +26,20 @@
                 <ul class="list-disc list-inside text-gray-600">
                     @forelse($comic->chapters as $chapter)
                     <li>
-                        <li class="py-2 px-4">
-                            @if ($comic->chapters->isNotEmpty())
-                                @foreach ($comic->chapters as $chapter)
-                                    <p><strong>{{ $chapter->title }}</strong></p>
-                                    @foreach ($chapter->chapterImages as $image)
-                                        <img src="{{ asset('chapter_images/' . $image->image) }}" alt="{{ $chapter->title }}" class="w-16 h-16 object-cover mb-2">
-                                    @endforeach
-                                    <br>
-                                @endforeach
-                            @endif
-                        </td>
+                        @foreach ($comic->chapters as $chapter)
+                            <p><strong>{{ $chapter->title }}</strong></p>
+                            @foreach ($chapter->chapterImages as $image)
+                                <img src="{{ asset('chapter_images/' . $image->image) }}" alt="{{ $chapter->title }}" class="w-16 h-16 object-cover mb-2">
+                            @endforeach
+                            <br>
+                        @endforeach
+                    </li>
                     @empty
                     <li>No chapters available.</li>
                     @endforelse
                 </ul>
             </div>
         </div>
+        <a href="{{ route('review.create', $comic->id) }}" class="bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600 border border-black mt-4 inline-block">Review This Comic</a>
     </div>
 </x-app-layout>
