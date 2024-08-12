@@ -31,6 +31,7 @@ Route::get('/genre-table', [GenreController::class, 'index'])->name('genre.table
 Route::get('/create-genre', [GenreController::class, 'create'])->name('genre.create');
 
 Route::get('/comics/{comic}', [ComicController::class, 'show'])->name('comics.show');
+Route::get('/chapters/{chapter}', [ChapterController::class, 'show'])->name('chapters.show');
 
 // routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])

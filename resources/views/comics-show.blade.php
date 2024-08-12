@@ -1,4 +1,3 @@
-<!-- resources/views/comics/show.blade.php -->
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -7,40 +6,42 @@
     </x-slot>
 
     <div class="container mx-auto p-4">
-        <div class="bg-white shadow-md rounded-lg overflow-hidden">
-            @if($comic->image)
-            <img src="{{ asset('images/' . $comic->image) }}" class="w-full h-64 object-cover" alt="{{ $comic->title }}">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row">
+            @if ($comic->image)
+                <div class="md:w-1/2">
+                    <img src="{{ asset('images/' . $comic->image) }}" class="w-full h-full object-cover" alt="{{ $comic->title }}">
+                </div>
             @endif
-            <div class="p-4">
-                <h3 class="text-2xl font-semibold mb-4">{{ $comic->title }}</h3>
-                <p class="text-gray-600 mb-4">Author: {{ $comic->author->name }}</p>
-                <p class="text-gray-600 mb-4">Publisher: {{ $comic->publisher->name }}</p>
-                <p class="text-gray-600 mb-4">Genres:
-                    @foreach($comic->genres as $genre)
-                        <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $genre->name }}</span>
-                    @endforeach
-                </p>
-                <p class="text-gray-600 mb-4">{{ $comic->synopsis->content ?? 'No synopsis available' }}</p>
-                <h4 class="text-xl font-semibold mb-2">Chapters:</h4>
-                <ul class="list-disc list-inside text-gray-600">
-                    @forelse($comic->chapters as $chapter)
-                    <li>
-                        <li class="py-2 px-4">
-                            @if ($comic->chapters->isNotEmpty())
-                                @foreach ($comic->chapters as $chapter)
-                                    <p><strong>{{ $chapter->title }}</strong></p>
-                                    @foreach ($chapter->chapterImages as $image)
-                                        <img src="{{ asset('chapter_images/' . $image->image) }}" alt="{{ $chapter->title }}" class="w-16 h-16 object-cover mb-2">
-                                    @endforeach
-                                    <br>
-                                @endforeach
-                            @endif
-                        </td>
-                    @empty
-                    <li>No chapters available.</li>
-                    @endforelse
-                </ul>
+            <div class="p-4 md:w-1/2 flex flex-col justify-between">
+                <div>
+                    <h3 class="text-2xl font-semibold mb-4">{{ $comic->title }}</h3>
+                    <p class="text-gray-600 mb-4"><strong>Synopsis:</strong> {{ $comic->synopsis->content ?? 'No synopsis available' }}</p>
+                    <hr class="my-4">
+                    <p class="text-gray-600 mb-4"><strong>Author:</strong> {{ $comic->author->name }}</p>
+                    <p class="text-gray-600 mb-4"><strong>Publisher:</strong> {{ $comic->publisher->name }}</p>
+                    <p class="text-gray-600 mb-4"><strong>Genres:</strong>
+                        @foreach ($comic->genres as $genre)
+                            <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">{{ $genre->name }}</span>
+                        @endforeach
+                    </p>
+                </div>
             </div>
+        </div>
+
+        <h4 class="text-xl font-semibold mb-2 mt-4">Chapters</h4>
+        <div class="grid grid-cols-2 md:grid-cols-7 gap-4 mb-3">
+            <a href="{{ route('chapters.create') }}" class="block p-4 bg-gray-200 rounded-lg shadow-md text-center hover:bg-gray-300">
+                <span class="text-lg font-semibold">Create</span>
+            </a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            @forelse($comic->chapters as $chapter)
+                <a href="{{ route('chapters.show', $chapter) }}" class="block p-4 bg-gray-200 rounded-lg shadow-md text-center hover:bg-gray-300">
+                    <span class="text-lg font-semibold">Chapter {{ $loop->iteration }}</span>
+                </a>
+            @empty
+                <p>No chapters available.</p>
+            @endforelse
         </div>
     </div>
 </x-app-layout>

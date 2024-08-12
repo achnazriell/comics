@@ -29,11 +29,6 @@ class AuthorController extends Controller
         return redirect()->route('authors.index')->with('success', 'Author created successfully.');
     }
 
-    public function show(Author $author)
-    {
-      //
-    }
-
     public function edit(Author $author)
     {
         return view('update.edit-author', compact('author'));
@@ -62,6 +57,6 @@ class AuthorController extends Controller
             return redirect()->route('authors.index')->with('error', 'Terjadi kesalahan saat menghapus author.');
         }
     }
-    
-    
+
+
 }

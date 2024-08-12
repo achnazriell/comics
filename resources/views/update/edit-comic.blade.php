@@ -30,9 +30,9 @@
             </div>
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                <input type="file" name="image" id="image" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <input type="file" name="image" id="image" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" accept="image/*">
                 @if($comic->image)
-                    <img src="{{ asset('images/'.$comic->image) }}" alt="Comic Image" class="mt-2 w-32">
+                    <img src="{{ asset('images/'.$comic->image) }}" alt="Comic Image" id="image-preview" class="mt-2 w-32">
                 @endif
             </div>
             <div class="flex justify-end">
@@ -40,4 +40,18 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('image-preview');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </x-app-layout>
