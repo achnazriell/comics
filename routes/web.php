@@ -32,6 +32,10 @@ Route::get('/create-genre', [GenreController::class, 'create'])->name('genre.cre
 
 Route::get('/comics/{comic}', [ComicController::class, 'show'])->name('comics.show');
 
+
+Route::get('/comics/{comic}/review', [ReviewController::class, 'create'])->name('review.create');
+Route::post('/comics/{comic}/review', [ReviewController::class, 'store'])->name('review.store');
+
 // routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
