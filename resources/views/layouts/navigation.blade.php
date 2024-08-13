@@ -3,43 +3,36 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center">
-                <!-- Sidebar Toggle Button -->
-                <button @click="sidebarOpen = !sidebarOpen"
-                    class="mr-3 inline-flex items-center justify-center p-2 rounded-md text-white dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
-                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{ 'hidden': sidebarOpen, 'inline-flex': !sidebarOpen }" class="inline-flex"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !sidebarOpen, 'inline-flex': sidebarOpen }" class="hidden"
-                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-
-                <!-- Logo -->
-
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-400 dark:text-gray-300">
                         {{ __('Home') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white">
+                    <x-nav-link :href="route('comics.index')" :active="request()->routeIs('comics.index')" class="text-gray-400 dark:text-gray-300">
                         {{ __('Comics') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white">
+                    <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')" class="text-gray-400 dark:text-gray-300">
                         {{ __('Authors') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white">
+                    <x-nav-link :href="route('publishers.index')" :active="request()->routeIs('publishers.index')" class="text-gray-400 dark:text-gray-300">
                         {{ __('Publishers') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white">
+                    <x-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')" class="text-gray-400 dark:text-gray-300">
+                        {{ __('Genre') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('chapters.index')" :active="request()->routeIs('chapters.index')" class="text-gray-400 dark:text-gray-300">
                         {{ __('Chapters') }}
                     </x-nav-link>
+                </div>
+            </div>
+
             <!-- Search Button -->
-            <div class="flex items-center ml-auto relative">
+            <div class="relative ml-auto flex items-center">
                 <button @click="searchOpen = !searchOpen"
                     class="inline-flex items-center justify-center p-2 rounded-md text-white dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -57,7 +50,7 @@
                     x-transition:leave="transition ease-in duration-75"
                     x-transition:leave-start="opacity-100 transform scale-100"
                     x-transition:leave-end="opacity-0 transform scale-95"
-                    class="absolute z-50 m-2 right-11 bg-transparent dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg w-80 p-2">
+                    class="absolute z-50 right-0 mt-0 bg-transparent dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg w-80 p-2 mr-11">
                     <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
                         <input type="text" name="search" placeholder="Search..."
                             class="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
@@ -66,7 +59,6 @@
                     </form>
                 </div>
             </div>
-
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -117,10 +109,10 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{ 'block': open, 'hidden': !open }" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-400 dark:text-gray-300">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')">
+            <x-responsive-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')" class="text-gray-400 dark:text-gray-300">
                 {{ __('Genres') }}
             </x-responsive-nav-link>
         </div>
@@ -133,7 +125,7 @@
             </div>
 
             <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile.edit')">
+                <x-responsive-nav-link :href="route('profile.edit')" class="text-gray-400 dark:text-gray-300">
                     {{ __('Profile') }}
                 </x-responsive-nav-link>
 
@@ -142,7 +134,7 @@
                     @csrf
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
-                            this.closest('form').submit();">
+                            this.closest('form').submit();" class="text-gray-400 dark:text-gray-300">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
@@ -154,20 +146,4 @@
 <!-- Overlay for small screens -->
 <div id="sidebarOverlay" class="fixed inset-0 bg-black opacity-50 z-10 hidden md:hidden"></div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.querySelector('[x-data] [@click="sidebarOpen = !sidebarOpen"]');
-        const sidebarOverlay = document.getElementById('sidebarOverlay');
-
-        sidebarToggle.addEventListener('click', function () {
-            sidebar.classList.toggle('-translate-x-full');
-            sidebarOverlay.classList.toggle('hidden');
-        });
-
-        sidebarOverlay.addEventListener('click', function () {
-            sidebar.classList.add('-translate-x-full');
-            sidebarOverlay.classList.add('hidden');
-        });
-    });
-</script>
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
