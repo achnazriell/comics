@@ -33,6 +33,11 @@
                     {{ __('Genre') }}
                 </a>
             </li>
+            <li class="mb-2">
+                <a href="{{ route('chapters.index') }}" class="text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100">
+                    {{ __('Chapter') }}
+                </a>
+            </li>
         </ul>
     </div>
 </div>
