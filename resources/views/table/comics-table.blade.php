@@ -1,12 +1,8 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Comics</h1>
-<<<<<<< HEAD
-        <a href="{{ route('comics.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add
-            Comic</a>
-=======
         <a href="{{ route('comics.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
-        
+
         <!-- Search Form -->
         <form action="{{ route('comics.index') }}" method="GET" class="flex items-center mt-4">
             <input
@@ -19,8 +15,8 @@
             <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                 Search
             </button>
+            <a href="{{ route('comics.index') }}" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</a>
         </form>
->>>>>>> 0fda0044be0de8e619a3320a8c5e0fcd5f2d5a75
 
         <!-- Alert Section -->
         @if (session('success'))
@@ -28,6 +24,7 @@
                 role="alert">
                 <strong class="font-bold">Success!</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
+
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                     <svg class="fill-current h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20">
@@ -49,6 +46,7 @@
                             d="M10 8.586L13.586 12l1.414-1.414L11.414 7.172 15 3.586 13.586 2 10 5.586 6.414 2 5 3.586l3.586 3.586-3.586 3.586L6.414 12 10 8.586z" />
                     </svg>
                 </span>
+
             </div>
         @endif
 
@@ -78,7 +76,6 @@
                             <td class="py-2 px-4">
                                 @foreach ($comic->genres as $genre)
                                     {{ $genre->name }}@if (!$loop->last)
-                                        ,
                                     @endif
                                 @endforeach
                             </td>
