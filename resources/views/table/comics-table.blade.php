@@ -34,11 +34,9 @@
 
         <!-- Alert Section -->
         @if (session('success'))
-            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4"
-                role="alert">
+            <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <strong class="font-bold">Success!</strong>
                 <span class="block sm:inline">{{ session('success') }}</span>
-
                 <span class="absolute top-0 bottom-0 right-0 px-4 py-3">
                     <svg class="fill-current h-6 w-6 text-green-500" xmlns="http://www.w3.org/2000/svg"
                         viewBox="0 0 20 20">
@@ -85,18 +83,28 @@
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
                             <td class="py-2 px-4">{{ $comic->title }}</td>
                             <td class="py-2 px-4">{{ $comic->author->name }}</td>
-                            <td class="py-2 px-4">{{ $comic->publisher ? $comic->publisher->name : 'No Publisher' }}
-                            </td>
+                            <td class="py-2 px-4">{{ $comic->publisher ? $comic->publisher->name : 'No Publisher' }}</td>
                             <td class="py-2 px-4">
                                 @foreach ($comic->genres as $genre)
                                     {{ $genre->name }}@if (!$loop->last)
+                                        ,
                                     @endif
                                 @endforeach
                             </td>
                             <td class="py-2 px-4">
                                 @if ($comic->image)
-                                    <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}"
-                                        class="w-16 h-16 object-cover">
+                                    <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-16 h-16 object-cover">
+                                @endif
+                            </td>
+                            <td class="py-2 px-4">
+                                @if ($comic->chapters->isNotEmpty())
+                                    @foreach ($comic->chapters as $chapter)
+                                        <p><strong>{{ $chapter->title }}</strong></p>
+                                        @foreach ($chapter->chapterImages as $image)
+                                            <img src="{{ asset('chapter_images/' . $image->image) }}" alt="{{ $chapter->title }}" class="w-16 h-16 object-cover mb-2">
+                                        @endforeach
+                                        <br>
+                                    @endforeach
                                 @endif
                             </td>
                             <td class="py-2 px-4">
@@ -107,16 +115,11 @@
                                 @endif
                             </td>
                             <td class="py-2 px-4">
-                                <a href="{{ route('comics.edit', $comic) }}"
-                                    class="text-blue-500 hover:underline">Edit</a>
-                            </td>
-                            <td>
-                                <form action="{{ route('comics.destroy', $comic) }}" method="POST"
-                                    style="display:inline-block">
+                                <a href="{{ route('comics.edit', $comic) }}" class="text-blue-500 hover:underline">Edit</a>
+                                <form action="{{ route('comics.destroy', $comic) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="text-red-500 hover:underline"
-                                        onclick="return confirm('Are you sure want to delete data comic?')">Delete</button>
+                                    <button type="submit" class="text-red-500 hover:underline" onclick="return confirm('Are you sure want to delete data comic?')">Delete</button>
                                 </form>
                             </td>
                         </tr>
