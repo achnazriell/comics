@@ -7,16 +7,19 @@ use Illuminate\Http\Request;
 
 class AuthorController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $authors = Author::all();
-        return view('table.author-table', compact('authors'));
+        $query = $request->input('query');
+        
+        if ($query) {
+            $authors = Author::where('name', 'LIKE', "%$query%")->get();
+        } else {
+            $authors = Author::all();
+        }
+        
+        return view('table.author-table', compact('authors', 'query'));
     }
-
-    public function create()
-    {
-        return view('create.create-authors');
-    }
+    
 
     public function store(Request $request)
     {
@@ -27,11 +30,6 @@ class AuthorController extends Controller
         Author::create($request->all());
 
         return redirect()->route('authors.index')->with('success', 'Author created successfully.');
-    }
-
-    public function show(Author $author)
-    {
-      //
     }
 
     public function edit(Author $author)
@@ -62,6 +60,6 @@ class AuthorController extends Controller
             return redirect()->route('authors.index')->with('error', 'Terjadi kesalahan saat menghapus author.');
         }
     }
-    
-    
+
+
 }

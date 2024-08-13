@@ -9,12 +9,17 @@ use Illuminate\Support\Facades\Validator;
 class GenreController extends Controller
 {
 
-    public function index()
+    public function index(Request $request)
     {
-        $genres = Genre::all();
-        return view('table.genre-table', compact('genres'));
+        $search = $request->input('search');
+        $genres = Genre::when($search, function ($query, $search) {
+            return $query->where('name', 'like', '%' . $search . '%');
+        })->get();
+    
+        return view('table.genre-table', compact('genres', 'search'));
     }
-
+    
+    
 
     /**
      * Show the form for creating a new resource.

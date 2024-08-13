@@ -4,16 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Models\Comic;
 use Illuminate\Http\Request;
+
 class DashboardController extends Controller
 {
+    // In App\Http\Controllers\DashboardController.php
+
     public function index(Request $request)
-    {
-        $query = $request->input('query');
+{
+    $search = $request->input('search', '');
 
-        $comics = Comic::with(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages'])
-            ->where('title', 'like', "%{$query}%")
-            ->get();
+    // Fetch comics or other data
+    $comics = Comic::when($search, function ($query, $search) {
+        return $query->where('title', 'like', "%{$search}%");
+    })->get();
 
-        return view('dashboard', compact('comics'));
-    }
+    return view('dashboard', [
+        'comics' => $comics,
+        'search' => $search
+    ]);
+}
 }

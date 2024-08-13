@@ -85,4 +85,18 @@
             </div>
         </form>
     </div>
+
+    <script>
+        document.getElementById('image').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('image-preview');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
 </x-app-layout>

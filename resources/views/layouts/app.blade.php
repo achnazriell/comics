@@ -39,35 +39,48 @@
             });
         });
     </script>
-</head>
+    <script src="https://unpkg.com/alpinejs" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebarToggle');
 
-<body class="font-sans antialiased">
-    <!-- Tambahkan tombol toggle di sini -->
-    <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
-        ☰
-    </button>
+            sidebarToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('-translate-x-full');
+            });
+        });
+    </script>
 
-    <div class="min-h-screen bg-gray-100 dark:bg-gray-900 flex">
-        @include('layouts.sidebar')
+    </head>
+
+    <body class="font-sans antialiased">
+        <!-- Tambahkan tombol toggle di sini -->
+        <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
+            ☰
+        </button>
 
         <div class="flex-1 flex flex-col">
             @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white dark:bg-gray-800 shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
+            <div class="min-h-screen bg-white dark:bg-gray-900 flex">
+                @include('layouts.sidebar')
 
-            <!-- Page Content -->
-            <main class="flex-1">
-                {{ $slot }}
-            </main>
+
+                <!-- Page Heading -->
+                @isset($header)
+                    <header class="bg-white dark:bg-gray-800 shadow">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                            {{ $header }}
+                        </div>
+                    </header>
+                @endisset
+
+                <!-- Page Content -->
+                <main class="flex-1">
+                    {{ $slot }}
+                </main>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 
 </html>
