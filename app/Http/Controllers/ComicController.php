@@ -59,22 +59,19 @@ class ComicController extends Controller
         $comic = Comic::create($request->except(['genres', 'synopsis', 'image']));
 
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('images', 'public');
-
-            if ($imagePath) {
-                $comic->image = $imagePath;
-                $comic->save();
-            } else {
-                return redirect()->back()->withErrors(['image' => 'Failed to upload image.']);
-            }
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $comic->image = $imageName;
+            $comic->save();
         }
 
         $comic->genres()->attach($request->genres);
+
         $comic->synopsis()->create(['content' => $request->synopsis]);
 
         return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
     }
-
+    
     public function show(Comic $comic)
     {
         $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages']);
