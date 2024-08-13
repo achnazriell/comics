@@ -1,4 +1,4 @@
-<nav x-data="{ open: true, searchOpen: true, sidebarOpen: true }" class="bg-gray-400 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false, searchOpen: false, sidebarOpen: false }" class="bg-gray-400 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
@@ -24,7 +24,7 @@
                     </x-nav-link>
 
                     <!-- Table Dropdown -->
-                    <div @mouseenter="open = true" @mouseleave="open = true" class="relative">
+                    <div @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <button @click="open = !open"
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white dark:text-gray-400 bg-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ __('Table') }}</div>
@@ -37,7 +37,7 @@
                                 </svg>
                             </div>
                         </button>
-                        <div x-show="open" @click.outside="open = true"
+                        <div x-show="open" @click.outside="open = false"
                             x-transition:enter="transition ease-out duration-200"
                             x-transition:enter-start="opacity-0 transform scale-95"
                             x-transition:enter-end="opacity-100 transform scale-100"
@@ -92,28 +92,6 @@
                     </form>
                 </div>
             </div>
-         <!-- Search Button -->
-<div class="flex items-center ml-auto relative">
-    <button @click="searchOpen = !searchOpen"
-        class="inline-flex items-center justify-center p-2 rounded-md text-white dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
-        <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16.293 17.293a6 6 0 111.414-1.414l3.5 3.5a1 1 0 01-1.414 1.414l-3.5-3.5zM10 4a6 6 0 106 6 6 6 0 00-6-6z" />
-        </svg>
-    </button>
-    <div x-show="searchOpen" @click.outside="searchOpen = true"
-        x-transition:enter="transition ease-out duration-200"
-        x-transition:enter-start="opacity-0 transform scale-95"
-        x-transition:enter-end="opacity-100 transform scale-100"
-        x-transition:leave="transition ease-in duration-75"
-        x-transition:leave-start="opacity-100 transform scale-100"
-        x-transition:leave-end="opacity-0 transform scale-95"
-        class="absolute z-50 mt-2 right-0 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg w-80 p-4">
-        <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
-            <input type="text" name="query" placeholder="Search..." class="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
-            <button type="submit" class="ml-2 p-2 bg-black text-white rounded-md">Search</button>
-        </form>
-    </div>
-</div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
@@ -196,5 +174,25 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@2.x.x/dist/alpine.min.js" defer></script>
 </nav>
+
+<!-- Overlay for small screens -->
+<div id="sidebarOverlay" class="fixed inset-0 bg-black opacity-50 z-10 hidden md:hidden"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        const sidebarToggle = document.querySelector('[x-data] [@click="sidebarOpen = !sidebarOpen"]');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', function () {
+            sidebar.classList.toggle('-translate-x-full');
+            sidebarOverlay.classList.toggle('hidden');
+        });
+
+        sidebarOverlay.addEventListener('click', function () {
+            sidebar.classList.add('-translate-x-full');
+            sidebarOverlay.classList.add('hidden');
+        });
+    });
+</script>

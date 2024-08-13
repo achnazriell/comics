@@ -53,7 +53,8 @@
 
     </head>
 
-    <body class="font-sans antialiased">
+    <body class="font-sans antialiased" >
+
         <!-- Tambahkan tombol toggle di sini -->
         <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
             ☰

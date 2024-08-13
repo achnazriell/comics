@@ -10,6 +10,8 @@ use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SynopsisController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ComicWizardController;
+
 
 // Public routes
 Route::get('/', function () {
@@ -48,6 +50,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+
+Route::prefix('comics')->group(function () {
+    Route::get('create-step-1', [ComicWizardController::class, 'createStep1'])->name('comics.create.step1');
+    Route::post('store-step-1', [ComicWizardController::class, 'storeStep1'])->name('comics.store.step1');
+
+    Route::get('create-step-2', [ComicWizardController::class, 'createStep2'])->name('comics.create.step2');
+    Route::post('store-step-2', [ComicWizardController::class, 'storeStep2'])->name('comics.store.step2');
+
+    Route::get('create-step-3', [ComicWizardController::class, 'createStep3'])->name('comics.create.step3');
+    Route::post('store-step-3', [ComicWizardController::class, 'storeStep3'])->name('comics.store.step3');
+    
+    Route::post('finish', [ComicWizardController::class, 'finish'])->name('comics.finish');
+});
+
+Route::get('/step1', [ComicWizardController::class, 'step1'])->name('step1');
+
 
 // Authentication routes
 require __DIR__.'/auth.php';
