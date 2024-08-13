@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Laravel\Scout\Searchable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Comic extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = ['title', 'author_id', 'publisher_id', 'image'];
 
@@ -22,24 +21,21 @@ class Comic extends Model
         return $this->belongsToMany(Genre::class, 'comic_genre');
     }
 
-
-    public function chapters()
-    {
-        return $this->hasMany(Chapter::class);
-    }
-
-
-    public function reviews()
-    {
-        return $this->hasMany(Review::class);
-    }
-
     public function synopsis()
     {
         return $this->hasOne(Synopsis::class);
     }
+
     public function publisher()
     {
         return $this->belongsTo(Publisher::class);
     }
+
+
+    public function chapters()
+    {
+        return $this->hasMany(Chapter::class); // Assuming each comic has many chapters
+    }
+
+
 }
