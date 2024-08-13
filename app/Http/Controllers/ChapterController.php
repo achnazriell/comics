@@ -44,6 +44,7 @@ class ChapterController extends Controller
         }
 
         return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
+
     }
 
     public function show(Chapter $chapter)
@@ -67,6 +68,7 @@ class ChapterController extends Controller
         $chapter->update($request->only(['comic_id', 'number']));
 
 
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imageName = time() . rand(1, 100) . '.' . $image->extension();
@@ -86,6 +88,7 @@ class ChapterController extends Controller
     public function destroy(Chapter $chapter)
     {
         try {
+
             if ($chapter->comic()->exists()) {
                 return redirect()->route('chapters.show', $chapter)->with('error', 'Chapter tidak bisa dihapus karena masih terkait dengan data comic.');
             }

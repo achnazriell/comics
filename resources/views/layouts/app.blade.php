@@ -59,11 +59,12 @@
             ☰
         </button>
 
-        <div class="min-h-screen bg-white dark:bg-gray-900 flex">
-            @include('layouts.sidebar')
+        <div class="flex-1 flex flex-col">
+            @include('layouts.navigation')
 
-            <div class="flex-1 flex flex-col">
-                @include('layouts.navigation')
+            <div class="min-h-screen bg-white dark:bg-gray-900 flex">
+                @include('layouts.sidebar')
+
 
                 <!-- Page Heading -->
                 @isset($header)

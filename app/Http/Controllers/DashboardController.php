@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    // In App\Http\Controllers\DashboardController.php
+
     public function index(Request $request)
     {
         $query = Comic::query();
@@ -29,4 +31,17 @@ class DashboardController extends Controller
         // Mengirim data ke tampilan
         return view('dashboard', compact('comics', 'query'));
     }
+{
+    $search = $request->input('search', '');
+
+    // Fetch comics or other data
+    $comics = Comic::when($search, function ($query, $search) {
+        return $query->where('title', 'like', "%{$search}%");
+    })->get();
+
+    return view('dashboard', [
+        'comics' => $comics,
+        'search' => $search
+    ]);
+}
 }
