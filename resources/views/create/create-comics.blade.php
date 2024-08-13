@@ -54,7 +54,7 @@
             <!-- Image field with preview -->
             <div class="mb-4">
                 <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                <input type="file" name="image" id="image"
+                <input type="file" name="image" id="image" accept="image/*"
                     class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" accept="image/*">
                 <!-- Image preview -->
                 <img id="image-preview" class="mt-2 w-32" style="display: none;" />
