@@ -18,10 +18,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="font-sans antialiased">
-
     <!-- Scripts -->
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.5/dist/algoliasearch.umd.min.js"></script>
@@ -67,6 +63,7 @@
             });
         });
     </script>
+    </head>
 
     <body class="font-sans antialiased">
         <!-- Toggle button for mobile -->
