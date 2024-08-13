@@ -46,6 +46,9 @@ class ChapterController extends Controller
     }
     
 
+    return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
+}
+
     public function show(Chapter $chapter)
     {
         return view('chapter-show', compact('chapter'));
@@ -56,6 +59,7 @@ class ChapterController extends Controller
         $comics = Comic::all();
         return view('update.edit-chapter', compact('chapter', 'comics'));
     }
+
 
     public function update(Request $request, Chapter $chapter)
     {

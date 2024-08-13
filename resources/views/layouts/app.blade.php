@@ -29,16 +29,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const sidebar = document.getElementById('sidebar');
-            const sidebarToggle = document.getElementById('sidebarToggle');
-
-            sidebarToggle.addEventListener('click', function() {
-                sidebar.classList.toggle('-translate-x-full');
-            });
-        });
-    </script>
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
