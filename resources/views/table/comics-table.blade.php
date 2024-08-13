@@ -54,7 +54,6 @@
                         <th class="py-2 px-4">Genres</th>
                         <th class="py-2 px-4">Comic Image</th>
                         <th class="py-2 px-4">Synopsis</th>
-                        <th class="py-2 px-4">Chapter Images</th>
                         <th colspan="2" class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
@@ -84,21 +83,6 @@
                                     {{ $comic->synopsis->content }}
                                 @else
                                     No Synopsis
-                                @endif
-                            </td>
-                            <td class="py-2 px-4">
-                                @if ($comic->chapters->isNotEmpty())
-                                    @foreach ($comic->chapters as $chapter)
-                                        @if ($chapter->chapterImages->isNotEmpty())
-                                            @foreach ($chapter->chapterImages as $image)
-                                                <img src="{{ asset('images/' . $image->path) }}" alt="Chapter Image" class="w-16 h-16 object-cover mt-1">
-                                            @endforeach
-                                        @else
-                                            No Chapter Images
-                                        @endif
-                                    @endforeach
-                                @else
-                                    No Chapters
                                 @endif
                             </td>
                             <td class="py-2 px-4">

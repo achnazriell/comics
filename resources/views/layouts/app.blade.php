@@ -11,50 +11,68 @@
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
-
     <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
 
-
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-
-<body class="font-sans antialiased">
-
-    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-
     <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <script src="https://unpkg.com/alpinejs" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.5/dist/algoliasearch.umd.min.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
 
-            sidebarToggle.addEventListener('click', function() {
+            sidebarToggle.addEventListener('click', function () {
                 sidebar.classList.toggle('-translate-x-full');
+            });
+
+            // Algolia search setup
+            const client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey'); // Use Search-Only API Key for security
+            const index = client.initIndex('dashboard');
+
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.getElementById('searchInput');
+            const resultsContainer = document.getElementById('results');
+
+            searchForm.addEventListener('submit', function (event) {
+                event.preventDefault();
+                const query = searchInput.value;
+
+                index.search(query).then(({ hits }) => {
+                    resultsContainer.innerHTML = '';
+
+                    if (hits.length > 0) {
+                        const ul = document.createElement('ul');
+                        hits.forEach(hit => {
+                            const li = document.createElement('li');
+                            li.textContent = `${hit.title} - ${hit.author}`; // Adjust based on your data
+                            ul.appendChild(li);
+                        });
+                        resultsContainer.appendChild(ul);
+                    } else {
+                        resultsContainer.innerHTML = '<p>No results found.</p>';
+                    }
+                }).catch(err => {
+                    console.error('Error during search:', err);
+                });
             });
         });
     </script>
-
     </head>
 
     <body class="font-sans antialiased">
-        <!-- Tambahkan tombol toggle di sini -->
+        <!-- Toggle button for mobile -->
         <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
             ☰
         </button>
 
         <div class="flex-1 flex flex-col">
             @include('layouts.navigation')
-
-            <div class="min-h-screen bg-white dark:bg-gray-900 flex">
-                @include('layouts.sidebar')
-
 
                 <!-- Page Heading -->
                 @isset($header)
@@ -72,5 +90,4 @@
             </div>
         </div>
     </body>
-
 </html>
