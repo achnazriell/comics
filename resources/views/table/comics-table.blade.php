@@ -2,6 +2,20 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Comics</h1>
         <a href="{{ route('comics.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
+        
+        <!-- Search Form -->
+        <form action="{{ route('comics.index') }}" method="GET" class="flex items-center mt-4">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search Comics..."
+                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+            />
+            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                Search
+            </button>
+        </form>
 
         <!-- Search Form -->
         <form action="{{ route('comics.index') }}" method="GET" class="flex items-center mt-4">

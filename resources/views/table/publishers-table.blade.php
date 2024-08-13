@@ -10,11 +10,11 @@
                 name="search"
                 value="{{ request('search') }}"
                 placeholder="Search Publishers..."
-                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
-            />
+                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300">
             <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
                 Search
             </button>
+
             <a href="{{ route('publishers.index') }}" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</a>
         </form>
 
