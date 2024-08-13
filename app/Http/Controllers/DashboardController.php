@@ -7,22 +7,20 @@ use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
+    // In App\Http\Controllers\DashboardController.php
+
     public function index(Request $request)
-    {
-        $query = Comic::query();
+{
+    $search = $request->input('search', '');
 
-        if ($request->has('search')) {
-            $query->where('title', 'like', '%' . $request->input('search') . '%');
-        }
+    // Fetch comics or other data
+    $comics = Comic::when($search, function ($query, $search) {
+        return $query->where('title', 'like', "%{$search}%");
+    })->get();
 
-        $comics = $query->with(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages'])->get();
-
-        $query = $request->input('query');
-
-        $comics = Comic::with(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages'])
-            ->where('title', 'like', "%{$query}%")
-            ->get();
-
-        return view('dashboard', compact('comics'));
-    }
+    return view('dashboard', [
+        'comics' => $comics,
+        'search' => $search
+    ]);
+}
 }

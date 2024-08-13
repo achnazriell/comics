@@ -6,7 +6,7 @@
         <a href="{{ route('genres.create') }}" class="bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600 border border-black">Add Genre</a>
 
         <!-- Search Form -->
-        <form action="{{ route('genres.index') }}" method="GET" class="mb-4">
+        <form action="{{ route('genres.index') }}" method="GET" class="mb-4 mt-3">
             <input type="text" name="query" value="{{ request('query') }}" class="border rounded px-4 py-2 w-1/3" placeholder="Search genres...">
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
             <a href="{{ route('genres.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 ml-2">Reset</a>
