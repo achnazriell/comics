@@ -2,14 +2,13 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Authors</h1>
 
+        <a href="{{ route('authors.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Author</a>
         <!-- Search Bar -->
-        <form action="{{ route('authors.index') }}" method="GET" class="mb-4">
+        <form action="{{ route('authors.index') }}" method="GET" class="mb-4 mt-3">
             <input type="text" name="query" value="{{ request('query') }}" class="border rounded px-4 py-2 w-1/3" placeholder="Search authors...">
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
             <a href="{{ route('authors.index') }}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Reset</a>
         </form>
-
-        <a href="{{ route('authors.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Author</a>
 
         <!-- Alert Section -->
         @if (session('success'))
