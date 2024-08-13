@@ -3,14 +3,9 @@
         <h1 class="text-2xl font-bold mb-4">Add Chapter</h1>
         <form action="{{ route('chapters.store') }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
             @csrf
-            <div class="mb-4">
-                <label for="comic_id" class="block text-sm font-medium text-gray-700">Comic</label>
-                <select name="comic_id" id="comic_id" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
-                    @foreach($comics as $comic)
-                        <option value="{{ $comic->id }}">{{ $comic->title }}</option>
-                    @endforeach
-                </select>
-            </div>
+            <!-- Hidden field for comic_id -->
+            <input type="hidden" name="comic_id" value="{{ request()->query('comic_id') }}" />
+
             <div class="mb-4">
                 <label for="number" class="block text-sm font-medium text-gray-700">Number</label>
                 <input type="number" name="number" id="number" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>

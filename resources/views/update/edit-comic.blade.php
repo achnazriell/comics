@@ -70,17 +70,11 @@
 
             <!-- Image -->
             <div class="mb-4">
-<<<<<<< HEAD
-                <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
-                <input type="file" name="image" id="image" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" accept="image/*">
-                @if($comic->image)
-                    <img src="{{ asset('images/'.$comic->image) }}" alt="Comic Image" id="image-preview" class="mt-2 w-32">
-=======
                 <label for="image" class="block text-sm font-medium text-gray-700">Comic Image</label>
                 <input type="file" name="image" id="image" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 @if ($comic->image)
                     <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-32 h-32 mt-2 object-cover">
->>>>>>> 0fda0044be0de8e619a3320a8c5e0fcd5f2d5a75
+
                 @endif
                 @error('image')
                     <div class="text-red-500 text-sm mt-1">{{ $message }}</div>

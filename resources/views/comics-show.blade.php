@@ -30,7 +30,7 @@
 
         <h4 class="text-xl font-semibold mb-2 mt-4">Chapters</h4>
         <div class="grid grid-cols-2 md:grid-cols-7 gap-4 mb-3">
-            <a href="{{ route('chapters.create') }}" class="block p-4 bg-gray-200 rounded-lg shadow-md text-center hover:bg-gray-300">
+            <a href="{{ route('chapters.create', ['comic_id' => $comic->id]) }}" class="block p-4 bg-gray-200 rounded-lg shadow-md text-center hover:bg-gray-300">
                 <span class="text-lg font-semibold">Create</span>
             </a>
         </div>
