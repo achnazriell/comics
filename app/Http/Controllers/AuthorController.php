@@ -19,7 +19,11 @@ class AuthorController extends Controller
         
         return view('table.author-table', compact('authors', 'query'));
     }
-    
+
+    public function create()
+    {
+        return view('create.create-authors'); // Sesuaikan nama view di sini
+    }
 
     public function store(Request $request)
     {
@@ -27,7 +31,7 @@ class AuthorController extends Controller
             'name' => 'required|unique:authors|string|max:255',
         ]);
 
-        Author::create($request->all());
+        Author::create($request->all()); // Menyimpan data ke database
 
         return redirect()->route('authors.index')->with('success', 'Author created successfully.');
     }
@@ -60,6 +64,4 @@ class AuthorController extends Controller
             return redirect()->route('authors.index')->with('error', 'Terjadi kesalahan saat menghapus author.');
         }
     }
-
-
 }

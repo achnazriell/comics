@@ -16,4 +16,3 @@ class Genre extends Model
         return $this->belongsToMany(Comic::class, 'comic_genre');
     }
 }
-

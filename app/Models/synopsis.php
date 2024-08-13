@@ -9,9 +9,10 @@ class Synopsis extends Model
 {
     use HasFactory;
 
-    protected $table = 'synopsis';  // This should match your migration table name
-
     protected $fillable = ['comic_id', 'content'];
+
+    // Specify the table name if it does not follow the default plural convention
+    protected $table = 'synopsis'; 
 
     public function comic()
     {
