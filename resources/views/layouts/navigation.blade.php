@@ -29,7 +29,8 @@
                             class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white dark:text-gray-400 bg-gray-400 dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             <div>{{ __('Table') }}</div>
                             <div class="ml-1">
-                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 20 20">
                                     <path fill-rule="evenodd"
                                         d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
                                         clip-rule="evenodd" />
@@ -57,15 +58,40 @@
                                 <x-dropdown-link :href="route('genres.index')">
                                     {{ __('Genre') }}
                                 </x-dropdown-link>
-                                <x-dropdown-link :href="route('chapters.create')">
-                                    {{ __('Chapter') }}
-                                </x-dropdown-link>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Search Button -->
+            <div class="flex items-center ml-auto relative">
+                <button @click="searchOpen = !searchOpen"
+                    class="inline-flex items-center justify-center p-2 rounded-md text-white dark:text-gray-500 hover:text-gray-500 dark:hover:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-900 focus:outline-none focus:bg-gray-100 dark:focus:bg-gray-900 focus:text-gray-500 dark:focus:text-gray-400 transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <!-- Change icon based on searchOpen state -->
+                        <path :class="{ 'hidden': searchOpen, 'inline-flex': !searchOpen }" class="inline-flex"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16.293 17.293a6 6 0 111.414-1.414l3.5 3.5a1 1 0 01-1.414 1.414l-3.5-3.5zM10 4a6 6 0 106 6 6 6 0 00-6-6z" />
+                        <path :class="{ 'hidden': !searchOpen, 'inline-flex': searchOpen }" class="hidden"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+                <div x-show="searchOpen"
+                    x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 transform scale-95"
+                    x-transition:enter-end="opacity-100 transform scale-100"
+                    x-transition:leave="transition ease-in duration-75"
+                    x-transition:leave-start="opacity-100 transform scale-100"
+                    x-transition:leave-end="opacity-0 transform scale-95"
+                    class="absolute z-50 m-2 right-11 bg-transparent dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg w-80 p-2">
+                    <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
+                        <input type="text" name="query" placeholder="Search..."
+                            class="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200">
+                        <button type="submit" class="ml-2 p-2 bg-gray-100 text-gray-800 rounded-md">Search</button>
+                    </form>
+                </div>
+            </div>
          <!-- Search Button -->
 <div class="flex items-center ml-auto relative">
     <button @click="searchOpen = !searchOpen"
@@ -109,7 +135,6 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault();
                         this.closest('form').submit();">
@@ -128,8 +153,8 @@
                         <path :class="{ 'hidden': open, 'inline-flex': !open }" class="inline-flex"
                             stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round"
-                            stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path :class="{ 'hidden': !open, 'inline-flex': open }" class="hidden"
+                            stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </button>
             </div>
@@ -162,7 +187,6 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
                             this.closest('form').submit();">

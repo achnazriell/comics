@@ -92,7 +92,7 @@ class ChapterController extends Controller
             $chapter->delete();
             return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('chapters.show', $chapter)->with('error', 'Terjadi kesalahan saat menghapus chapter.');
+            return redirect()->route('chapters.index', $chapter)->with('error', 'Terjadi kesalahan saat menghapus chapter.');
             $chapter->images()->delete(); // Deleting associated images first
             $chapter->delete();
 
