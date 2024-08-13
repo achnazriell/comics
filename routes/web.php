@@ -37,6 +37,10 @@ Route::get('/chapters/{chapter}', [ChapterController::class, 'show'])->name('cha
 Route::get('/comics/{comic}/review', [ReviewController::class, 'create'])->name('review.create');
 Route::post('/comics/{comic}/review', [ReviewController::class, 'store'])->name('review.store');
 
+
+Route::get('/comics/{comic}/review', [ReviewController::class, 'create'])->name('review.create');
+Route::post('/comics/{comic}/review', [ReviewController::class, 'store'])->name('review.store');
+
 // routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->name('dashboard')
