@@ -1,7 +1,4 @@
-
 <x-app-layout>
-
-
     <div class="container mx-auto p-4">
         <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col md:flex-row">
             @if ($comic->image)

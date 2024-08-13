@@ -44,6 +44,7 @@ class ComicController extends Controller
         return view('create.create-comics', compact('authors', 'genres', 'publishers'));
     }
 
+
     public function store(Request $request)
     {
         $request->validate([
@@ -53,25 +54,22 @@ class ComicController extends Controller
             'synopsis' => 'required|string',
             'genres' => 'required|array',
             'genres.*' => 'exists:genres,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $comic = Comic::create($request->except(['genres', 'synopsis', 'image']));
 
         if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $comic->image = $imageName;
+            $imagePath = $request->file('image')->store('images', 'public');
+            $comic->image = $imagePath;
             $comic->save();
         }
 
         $comic->genres()->attach($request->genres);
-
         $comic->synopsis()->create(['content' => $request->synopsis]);
 
         return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
     }
-    
     public function show(Comic $comic)
     {
         $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages']);
@@ -98,9 +96,8 @@ class ComicController extends Controller
             'genres.*' => 'exists:genres,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
         $comic->update($request->except(['genres', 'synopsis', 'image']));
-
+    
         if ($request->hasFile('image')) {
             if ($comic->image) {
                 @unlink(public_path('images/' . $comic->image));
@@ -109,7 +106,7 @@ class ComicController extends Controller
             $request->image->move(public_path('images'), $imageName);
             $comic->image = $imageName;
         }
-
+    
         $comic->synopsis()->updateOrCreate([], ['content' => $request->synopsis]);
 
         $comic->genres()->sync($request->genres);
@@ -118,6 +115,7 @@ class ComicController extends Controller
 
         return redirect()->route('comics.index')->with('success', 'Comic updated successfully.');
     }
+    
 
 
     public function destroy(Comic $comic)

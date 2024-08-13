@@ -44,7 +44,6 @@ class GenreController extends Controller
 
         return redirect()->route('genre.table')->with('success', 'Genre created successfully.');
     }
-
     
     /**
      * Display the specified resource.
@@ -78,7 +77,7 @@ class GenreController extends Controller
         $genre->update($request->all());
 
         return redirect()->route('genres.index')->with('success', 'Genre updated successfully.');
-    }
+    }   
 
     /**
      * Remove the specified resource from storage.

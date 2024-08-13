@@ -64,7 +64,6 @@
         });
     </script>
     </head>
-
     <body class="font-sans antialiased">
         <!-- Toggle button for mobile -->
         <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
