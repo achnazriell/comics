@@ -14,7 +14,7 @@ class ComicController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-    
+
         $comics = Comic::with(['author', 'publisher', 'genres', 'chapters', 'synopsis'])
             ->when($search, function ($query, $search) {
                 $query->where('title', 'like', "%{$search}%")
@@ -32,7 +32,7 @@ class ComicController extends Controller
                     });
             })
             ->paginate(10);
-    
+
         return view('table.comics-table', compact('comics'));
     }
 
@@ -40,9 +40,10 @@ class ComicController extends Controller
     {
         $authors = Author::all();
         $genres = Genre::all();
-        $publishers = Publisher::all(); 
+        $publishers = Publisher::all();
         return view('create.create-comics', compact('authors', 'genres', 'publishers'));
     }
+
 
     public function store(Request $request)
     {
@@ -69,7 +70,6 @@ class ComicController extends Controller
 
         return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
     }
-
     public function show(Comic $comic)
     {
         $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages']);
@@ -80,11 +80,11 @@ class ComicController extends Controller
     {
         $authors = Author::all();
         $genres = Genre::all();
-        $publishers = Publisher::all(); 
+        $publishers = Publisher::all();
         $selectedGenres = $comic->genres->pluck('id')->toArray();
         return view('update.edit-comic', compact('comic', 'authors', 'genres', 'publishers', 'selectedGenres'));
     }
-    
+
     public function update(Request $request, Comic $comic)
     {
         $request->validate([
@@ -96,7 +96,6 @@ class ComicController extends Controller
             'genres.*' => 'exists:genres,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
         $comic->update($request->except(['genres', 'synopsis', 'image']));
     
         if ($request->hasFile('image')) {
@@ -117,6 +116,7 @@ class ComicController extends Controller
         return redirect()->route('comics.index')->with('success', 'Comic updated successfully.');
     }
     
+
 
     public function destroy(Comic $comic)
     {

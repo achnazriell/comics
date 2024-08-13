@@ -25,7 +25,7 @@
                 <span class="block sm:inline">{{ session('success') }}</span>
             </div>
         @endif
-    
+
         @if (session('error'))
             <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-4" role="alert">
                 <strong class="font-bold">Error!</strong>
@@ -37,17 +37,17 @@
             <table class="table-auto min-w-full bg-white border border-black rounded-lg shadow-md">
                 <thead class='bg-blue-400'>
                     <tr class="border border-black">
-                        <th class="py-2 px-4">No</th>
-                        <th class="py-2 px-4">Publisher Name</th>
-                        <th class="py-2 px-4">Actions</th>
+                        <th class="py-2 px-4 border border-black">No</th>
+                        <th class="py-2 px-4 border border-black">Publisher Name</th>
+                        <th class="py-2 px-4 border border-black">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach ($publishers as $index => $publisher)
                         <tr class="border border-black">
-                            <td class="py-2 px-4">{{ $index + 1 }}</td>
-                            <td class="py-2 px-4">{{ $publisher->name }}</td>
-                            <td class="py-2 px-4">
+                            <td class="py-2 px-4 border border-black">{{ $index + 1 }}</td>
+                            <td class="py-2 px-4 border border-black">{{ $publisher->name }}</td>
+                            <td class="py-2 px-4 border border-black">
                                 <a href="{{ route('publishers.edit', $publisher) }}" class="text-blue-500 hover:underline">Edit</a>
                                 <form action="{{ route('publishers.destroy', $publisher) }}" method="POST" style="display:inline-block">
                                     @csrf

@@ -27,24 +27,24 @@ class ChapterController extends Controller
             'comic_id' => 'required|exists:comics,id',
             'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         $chapter = Chapter::create($request->only(['comic_id'])); // Remove 'number'
-    
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imageName = time() . rand(1, 100) . '.' . $image->extension();
                 $image->move(public_path('chapter_images'), $imageName);
-    
+
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
                     'image' => $imageName,
                 ]);
             }
         }
-    
+
         return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
     }
-    
+
 
     return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
 }
@@ -66,24 +66,24 @@ class ChapterController extends Controller
         $request->validate([
             'comic_id' => 'required|exists:comics,id',
         ]);
-    
+
         $chapter->update($request->only(['comic_id'])); // Remove 'number'
-    
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imageName = time() . rand(1, 100) . '.' . $image->extension();
                 $image->move(public_path('chapter_images'), $imageName);
-    
+
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
                     'image' => $imageName,
                 ]);
             }
         }
-    
+
         return redirect()->route('chapters.index')->with('success', 'Chapter updated successfully.');
     }
-    
+
     public function destroy(Chapter $chapter)
     {
         try {
