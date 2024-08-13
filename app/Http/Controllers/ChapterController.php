@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Storage;
 use App\Models\Chapter;
 use App\Models\ChapterImage;
 use App\Models\Comic;
@@ -45,12 +44,12 @@ class ChapterController extends Controller
         }
 
         return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
+
     }
 
     public function show(Chapter $chapter)
     {
-        $images = $chapter->images; // Get images associated with the chapter
-        return view('chapter-show', compact('chapter', 'images'));
+        return view('chapter-show', compact('chapter'));
     }
 
     public function edit(Chapter $chapter)
@@ -69,6 +68,7 @@ class ChapterController extends Controller
         $chapter->update($request->only(['comic_id', 'number']));
 
 
+
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $imageName = time() . rand(1, 100) . '.' . $image->extension();
@@ -82,24 +82,27 @@ class ChapterController extends Controller
         }
 
         return redirect()->route('chapters.index')->with('success', 'Chapter updated successfully.');
+
     }
 
     public function destroy(Chapter $chapter)
     {
         try {
-            // Delete associated images
-            $chapter->images->each(function ($image) {
-                Storage::disk('public/chapter_images')->delete($image->image); // Deleting the file from storage
-                $image->delete(); // Deleting the image record from database
-            });
 
-            // Delete the chapter
+            if ($chapter->comic()->exists()) {
+                return redirect()->route('chapters.show', $chapter)->with('error', 'Chapter tidak bisa dihapus karena masih terkait dengan data comic.');
+            }
+            $chapter->delete();
+            return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
+        } catch (\Exception $e) {
+            return redirect()->route('chapters.index', $chapter)->with('error', 'Terjadi kesalahan saat menghapus chapter.');
+            $chapter->images()->delete(); // Deleting associated images first
             $chapter->delete();
 
             return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
         } catch (\Exception $e) {
             return redirect()->route('chapters.index')->with('error', 'An error occurred while deleting the chapter.');
+
         }
     }
-
 }
