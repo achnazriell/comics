@@ -62,33 +62,40 @@
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button
-                            class="inline-flex items-center justify-center p-2 rounded-full text-white dark:text-gray-400 bg-gray-800 dark:bg-gray-800 hover:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-700 transition duration-150 ease-in-out">
-                            <!-- User Photo -->
-                            <img src="{{ asset('images/user.png') }}" alt="User Photo"
-                                class="h-7 w-7 rounded-full object-cover">
-                        </button>
-                    </x-slot>
+                <div x-data="{ dropdownOpen: false }" class="relative">
+                    <!-- Dropdown Trigger -->
+                    <button @click="dropdownOpen = !dropdownOpen"
+                        class="inline-flex items-center justify-center p-2 rounded-full text-white dark:text-gray-400 bg-gray-800 dark:bg-gray-800 hover:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-700 transition duration-150 ease-in-out">
+                        <img src="{{ asset('images/user.png') }}" alt="User Photo" class="h-7 w-7 rounded-full object-cover">
+                    </button>
 
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
+                    <!-- Dropdown Menu -->
+                    <div x-show="dropdownOpen"
+                        x-transition:enter="transition ease-out duration-200"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-75"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-95"
+                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
+                        <div class="p-1">
+                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900">
+                                {{ __('Profile') }}
+                            </a>
 
-                        <!-- Authentication -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <x-dropdown-link :href="route('logout')"
-                                onclick="event.preventDefault();
-                        this.closest('form').submit();">
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <a href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); this.closest('form').submit();"
+                                    class="block px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900">
+                                    {{ __('Log Out') }}
+                                </a>
+                            </form>
+                        </div>
+                    </div>
+                </div>
             </div>
+
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">

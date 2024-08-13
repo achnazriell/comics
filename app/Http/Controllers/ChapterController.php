@@ -45,10 +45,6 @@ class ChapterController extends Controller
         return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
     }
 
-
-    return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
-}
-
     public function show(Chapter $chapter)
     {
         return view('chapter-show', compact('chapter'));
