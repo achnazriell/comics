@@ -53,7 +53,7 @@ class ComicController extends Controller
             'synopsis' => 'required|string',
             'genres' => 'required|array',
             'genres.*' => 'exists:genres,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $comic = Comic::create($request->except(['genres', 'synopsis', 'image']));
