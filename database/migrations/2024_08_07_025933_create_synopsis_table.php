@@ -13,9 +13,9 @@ class CreateSynopsisTable extends Migration
             $table->unsignedBigInteger('comic_id');
             $table->text('content');
             $table->timestamps();
-
+        
             $table->foreign('comic_id')->references('id')->on('comics')->onDelete('cascade');
-        });
+        });        
     }
 
     public function down()
