@@ -101,6 +101,44 @@
             </table>
         </div>
 
+                <!-- SweetAlert2 Alert Script -->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function () {
+                        @if (session('success'))
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Success',
+                                text: '{{ session('success') }}'
+                            });
+                        @endif
+
+                        @if (session('error'))
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: '{{ session('error') }}'
+                            });
+                        @endif
+                    });
+
+                    function confirmDeletion() {
+                        return Swal.fire({
+                            title: 'Are you sure?',
+                            text: 'This action cannot be undone!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                return true;
+                            }
+                            return false;
+                        });
+                    }
+                </script>
+                
         <!-- Pagination Links -->
         <div class="mt-4">
             {{ $comics->links() }}

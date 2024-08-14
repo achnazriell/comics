@@ -22,35 +22,43 @@
     <script src="https://unpkg.com/alpinejs" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/algoliasearch@4.10.5/dist/algoliasearch.umd.min.js"></script>
 
+    <!-- SweetAlert2 CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             const sidebar = document.getElementById('sidebar');
             const sidebarToggle = document.getElementById('sidebarToggle');
 
-            sidebarToggle.addEventListener('click', function () {
+            sidebarToggle.addEventListener('click', function() {
                 sidebar.classList.toggle('-translate-x-full');
             });
 
             // Algolia search setup
-            const client = algoliasearch('YourApplicationID', 'YourSearchOnlyAPIKey'); // Use Search-Only API Key for security
+            const client = algoliasearch('YourApplicationID',
+            'YourSearchOnlyAPIKey'); // Use Search-Only API Key for security
             const index = client.initIndex('dashboard');
 
             const searchForm = document.getElementById('searchForm');
             const searchInput = document.getElementById('searchInput');
             const resultsContainer = document.getElementById('results');
 
-            searchForm.addEventListener('submit', function (event) {
+            searchForm.addEventListener('submit', function(event) {
                 event.preventDefault();
                 const query = searchInput.value;
 
-                index.search(query).then(({ hits }) => {
+                index.search(query).then(({
+                    hits
+                }) => {
                     resultsContainer.innerHTML = '';
 
                     if (hits.length > 0) {
                         const ul = document.createElement('ul');
                         hits.forEach(hit => {
                             const li = document.createElement('li');
-                            li.textContent = `${hit.title} - ${hit.author}`; // Adjust based on your data
+                            li.textContent =
+                            `${hit.title} - ${hit.author}`; // Adjust based on your data
                             ul.appendChild(li);
                         });
                         resultsContainer.appendChild(ul);
@@ -63,30 +71,32 @@
             });
         });
     </script>
-    </head>
-    <body class="font-sans antialiased">
-        <!-- Toggle button for mobile -->
-        <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
-            ☰
-        </button>
+</head>
 
-        <div class="flex-1 flex flex-col">
-            @include('layouts.navigation')
+<body class="font-sans antialiased">
+    <!-- Toggle button for mobile -->
+    <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
+        ☰
+    </button>
 
-                <!-- Page Heading -->
-                @isset($header)
-                    <header class="bg-white dark:bg-gray-800 shadow">
-                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
+    <div class="flex-1 flex flex-col">
+        @include('layouts.navigation')
 
-                <!-- Page Content -->
-                <main class="flex-1">
-                    {{ $slot }}
-                </main>
-            </div>
-        </div>
-    </body>
+        <!-- Page Heading -->
+        @isset($header)
+            <header class="bg-white dark:bg-gray-800 shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endisset
+
+        <!-- Page Content -->
+        <main class="flex-1">
+            {{ $slot }}
+        </main>
+    </div>
+    </div>
+</body>
+
 </html>
