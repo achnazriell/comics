@@ -10,13 +10,13 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         $query = $request->input('query');
-        
+
         if ($query) {
             $authors = Author::where('name', 'LIKE', "%$query%")->get();
         } else {
             $authors = Author::all();
         }
-        
+
         return view('table.author-table', compact('authors', 'query'));
     }
 
@@ -29,6 +29,9 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|unique:authors|string|max:255',
+        ], [
+            'required' => 'Authors must be filled in',
+            'unique' => 'Genre is already in the menu',
         ]);
 
         Author::create($request->all()); // Menyimpan data ke database
@@ -45,6 +48,9 @@ class AuthorController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255|unique:authors,name,' . $author->id,
+        ], [
+            'required' => 'Authors must be filled in',
+            'unique' => 'Genre is already in the menu',
         ]);
 
         $author->update($request->all());

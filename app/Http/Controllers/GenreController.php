@@ -15,11 +15,11 @@ class GenreController extends Controller
         $genres = Genre::when($search, function ($query, $search) {
             return $query->where('name', 'like', '%' . $search . '%');
         })->get();
-    
+
         return view('table.genre-table', compact('genres', 'search'));
     }
-    
-    
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -34,6 +34,9 @@ class GenreController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|unique:genres|string|max:255',
+        ], [
+            'required' => 'Genre must be filled in',
+            'unique' => 'Genre is already in the menu',
         ]);
 
         if ($validator->fails()) {
@@ -44,7 +47,7 @@ class GenreController extends Controller
 
         return redirect()->route('genre.table')->with('success', 'Genre created successfully.');
     }
-    
+
     /**
      * Display the specified resource.
      */
@@ -68,6 +71,9 @@ class GenreController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255|unique:genres,name,' . $genre->id,
+        ], [
+            'required' => 'Genre must be filled in',
+            'unique' => 'Genre is already in the menu',
         ]);
 
         if ($validator->fails()) {
@@ -77,7 +83,7 @@ class GenreController extends Controller
         $genre->update($request->all());
 
         return redirect()->route('genres.index')->with('success', 'Genre updated successfully.');
-    }   
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -94,9 +100,5 @@ class GenreController extends Controller
             return redirect()->route('genre.table')->with('error', 'Terjadi kesalahan saat menghapus genre.');
         }
     }
-    
-    
-    
-    
-    
+
 }

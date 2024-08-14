@@ -10,12 +10,12 @@ class PublisherController extends Controller
     public function index(Request $request)
     {
         $search = $request->input('search');
-        
+
         // Get publishers based on the search query
         $publishers = Publisher::when($search, function ($query, $search) {
             return $query->where('name', 'like', "%{$search}%");
         })->paginate(10); // Adjust pagination as needed
-    
+
         return view('table.publishers-table', compact('publishers'));
     }
 
@@ -30,6 +30,10 @@ class PublisherController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+        ], [
+            'name.required' => 'Genre must be filled in',
+            'address.required' => 'Address must be filled in',
+            'unique' => 'Genre is already in the menu',
         ]);
 
         Publisher::create($request->all());
@@ -52,6 +56,10 @@ class PublisherController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'address' => 'required|string|max:255',
+        ], [
+            'name.required' => 'Genre must be filled in',
+            'address.required' => 'Address must be filled in',
+            'unique' => 'Genre is already in the menu',
         ]);
 
         $publisher->update($request->all());
@@ -71,6 +79,6 @@ class PublisherController extends Controller
             return redirect()->route('publishers.index')->with('error', 'Terjadi kesalahan saat menghapus publisher.');
         }
     }
-    
-    
+
+
 }
