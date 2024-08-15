@@ -25,6 +25,12 @@
     <!-- SweetAlert2 CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
+    <!-- Preline Select CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline@latest/dist/preline.min.css">
+
+    <!-- Preline Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/preline@latest/dist/preline.min.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -37,7 +43,7 @@
 
             // Algolia search setup
             const client = algoliasearch('YourApplicationID',
-            'YourSearchOnlyAPIKey'); // Use Search-Only API Key for security
+                'YourSearchOnlyAPIKey'); // Use Search-Only API Key for security
             const index = client.initIndex('dashboard');
 
             const searchForm = document.getElementById('searchForm');
@@ -58,7 +64,7 @@
                         hits.forEach(hit => {
                             const li = document.createElement('li');
                             li.textContent =
-                            `${hit.title} - ${hit.author}`; // Adjust based on your data
+                                `${hit.title} - ${hit.author}`; // Adjust based on your data
                             ul.appendChild(li);
                         });
                         resultsContainer.appendChild(ul);

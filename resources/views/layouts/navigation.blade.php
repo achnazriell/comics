@@ -1,32 +1,37 @@
-<nav x-data="{ open: false, searchOpen: false, sidebarOpen: false }" class="bg-gray-400 dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
+<nav x-data="{ open: false, searchOpen: false, sidebarOpen: false }"
+    class="bg-gradient-to-r from-gray-900 to-gray-400 ... dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7x2 mx-auto px-4 sm:px-8 lg:px-8">
         <div class="flex justify-between h-16">
             <div class="flex items-center">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="{{ route('dashboard') }}">
+                        <img src="{{ asset('images/KomikQue.png') }}" alt="Logo" class="h-12">
+                        <!-- Ubah path dan ukuran sesuai kebutuhan -->
+                    </a>
+                </div>
+
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-400 dark:text-gray-300">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Home') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('comics.index')" :active="request()->routeIs('comics.index')" class="text-gray-400 dark:text-gray-300">
+                    <x-nav-link :href="route('comics.index')" :active="request()->routeIs('comics.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Comics') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')" class="text-gray-400 dark:text-gray-300">
+                    <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Authors') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('publishers.index')" :active="request()->routeIs('publishers.index')" class="text-gray-400 dark:text-gray-300">
+                    <x-nav-link :href="route('publishers.index')" :active="request()->routeIs('publishers.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Publishers') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')" class="text-gray-400 dark:text-gray-300">
+                    <x-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Genre') }}
-                    </x-nav-link>
-
-                    <x-nav-link :href="route('chapters.index')" :active="request()->routeIs('chapters.index')" class="text-gray-400 dark:text-gray-300">
-                        {{ __('Chapters') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -65,12 +70,12 @@
                     <!-- Dropdown Trigger -->
                     <button @click="dropdownOpen = !dropdownOpen"
                         class="inline-flex items-center justify-center p-2 rounded-full text-white dark:text-gray-400 bg-gray-800 dark:bg-gray-800 hover:bg-gray-700 dark:hover:bg-gray-700 focus:outline-none focus:bg-gray-700 dark:focus:bg-gray-700 transition duration-150 ease-in-out">
-                        <img src="{{ asset('images/user.png') }}" alt="User Photo" class="h-7 w-7 rounded-full object-cover">
+                        <img src="{{ asset('images/user.png') }}" alt="User Photo"
+                            class="h-7 w-7 rounded-full object-cover">
                     </button>
 
                     <!-- Dropdown Menu -->
-                    <div x-show="dropdownOpen"
-                        x-transition:enter="transition ease-out duration-200"
+                    <div x-show="dropdownOpen" x-transition:enter="transition ease-out duration-200"
                         x-transition:enter-start="opacity-0 transform scale-95"
                         x-transition:enter-end="opacity-100 transform scale-100"
                         x-transition:leave="transition ease-in duration-75"
@@ -78,7 +83,8 @@
                         x-transition:leave-end="opacity-0 transform scale-95"
                         class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
                         <div class="p-1">
-                            <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900">
+                            <a href="{{ route('profile.edit') }}"
+                                class="block px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900">
                                 {{ __('Profile') }}
                             </a>
 
@@ -140,7 +146,8 @@
                     @csrf
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
-                            this.closest('form').submit();" class="text-gray-400 dark:text-gray-300">
+                            this.closest('form').submit();"
+                        class="text-gray-400 dark:text-gray-300">
                         {{ __('Log Out') }}
                     </x-responsive-nav-link>
                 </form>
@@ -153,17 +160,17 @@
 <div id="sidebarOverlay" class="fixed inset-0 bg-black opacity-50 z-10 hidden md:hidden"></div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    document.addEventListener('DOMContentLoaded', function() {
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.querySelector('[x-data] [@click="sidebarOpen = !sidebarOpen"]');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
 
-        sidebarToggle.addEventListener('click', function () {
+        sidebarToggle.addEventListener('click', function() {
             sidebar.classList.toggle('-translate-x-full');
             sidebarOverlay.classList.toggle('hidden');
         });
 
-        sidebarOverlay.addEventListener('click', function () {
+        sidebarOverlay.addEventListener('click', function() {
             sidebar.classList.add('-translate-x-full');
             sidebarOverlay.classList.add('hidden');
         });

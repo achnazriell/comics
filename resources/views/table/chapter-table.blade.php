@@ -36,7 +36,7 @@
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
             <table class="table-auto min-w-full bg-white border border-black rounded-lg shadow-md">
-                <thead class="bg-blue-400">
+                <thead class="bg-gradient-to-r from-gray-900 via-gray-400 to-gray-900 ... text-white">
                     <tr class="border border-black">
                         <th class="py-2 px-4 border border-black">No</th>
                         <th class="py-2 px-4 border border-black">Comic</th>

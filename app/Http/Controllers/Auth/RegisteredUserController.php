@@ -45,6 +45,8 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        // Redirect dengan pesan sukses
+        return redirect(route('dashboard', absolute: false))
+            ->with('success', 'Successful Registration! Welcome, ' . $user->name . '!');
     }
 }

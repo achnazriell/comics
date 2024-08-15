@@ -16,6 +16,7 @@
         "vite": "^5.0"
     },
     "dependencies": {
-        "@heroicons/react": "^2.1.5"
+        "@heroicons/react": "^2.1.5",
+        "@preline/select": "^2.4.1"
     }
 }

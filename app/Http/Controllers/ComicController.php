@@ -79,48 +79,20 @@ class ComicController extends Controller
             'chapter_images.*.max' => 'Each chapter image may not be greater than 2048 kilobytes.',
         ]);
 
-        // Handle image upload
-        $imagePath = null;
+        $comic = Comic::create($request->except(['genres', 'synopsis', 'image']));
+
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            if ($image->isValid()) {
-                $imagePath = $image->store('images', 'public');
-                Log::info('Image uploaded to: ' . $imagePath);
-            } else {
-                Log::error('Image upload failed.');
-            }
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
+            $comic->image = $imageName;
+            $comic->save();
         }
 
-        // Handle chapter images upload
-        $chapterImagesPaths = [];
-        if ($request->hasFile('chapter_images')) {
-            foreach ($request->file('chapter_images') as $image) {
-                if ($image && $image->isValid()) {
-                    $path = $image->store('chapter_images', 'public');
-                    $chapterImagesPaths[] = $path;
-                    Log::info('Chapter image uploaded to: ' . $path);
-                } else {
-                    Log::error('Chapter image upload failed.');
-                }
-            }
-        }
+        $comic->genres()->attach($request->genres);
 
-        // Store the comic data
-        $comic = Comic::create([
-            'title' => $request->input('title'),
-            'author_id' => $request->input('author_id'),
-            'publisher_id' => $request->input('publisher_id'),
-            'synopsis' => $request->input('synopsis'),
-            'image' => $imagePath,
-        ]);
+        $comic->synopsis()->create(['content' => $request->synopsis]);
 
-        // Assuming you have a relationship to store chapter images
-        foreach ($chapterImagesPaths as $path) {
-            $comic->chapterImages()->create(['path' => $path]);
-        }
-
-        // Redirect or return response
-        return redirect()->route('comics.index')->with('success', 'Comic created successfully!');
+        return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
     }
 
     public function show(Comic $comic)
@@ -148,30 +120,47 @@ class ComicController extends Controller
             'genres' => 'required|array',
             'genres.*' => 'exists:genres,id',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ], [
+            'title.required' => 'The title field is required.',
+            'title.string' => 'The title must be a string.',
+            'title.max' => 'The title may not be greater than 255 characters.',
+            'author_id.required' => 'The author field is required.',
+            'author_id.exists' => 'The selected author does not exist.',
+            'publisher_id.required' => 'The publisher field is required.',
+            'publisher_id.exists' => 'The selected publisher does not exist.',
+            'synopsis.required' => 'The synopsis field is required.',
+            'synopsis.string' => 'The synopsis must be a string.',
+            'genres.required' => 'At least one genre must be selected.',
+            'genres.array' => 'The genres field must be an array.',
+            'genres.*.exists' => 'One or more selected genres are invalid.',
+            'image.image' => 'The image must be an image file.',
+            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+            'image.max' => 'The image may not be greater than 2048 kilobytes.',
         ]);
 
-        // Update comic information
         $comic->update($request->except(['genres', 'synopsis', 'image']));
 
-        // Handle image update
         if ($request->hasFile('image')) {
+            // Delete old image if it exists
             if ($comic->image) {
                 Storage::disk('public')->delete($comic->image);
             }
-            $imagePath = $request->file('image')->store('images', 'public');
-            $comic->image = $imagePath;
+
+            $imageName = time() . '.' . $request->image->extension();
+            $request->image->move(public_path('images','public'), $imageName);
+            $comic->image = $imageName;
+            $comic->save();
         }
 
-        // Update or create synopsis
-        $comic->synopsis()->updateOrCreate([], ['content' => $request->synopsis]);
-
-        // Update genres
+        // Sync genres (removes old and attaches new ones)
         $comic->genres()->sync($request->genres);
 
-        $comic->save(); // Ensure the image change is saved
+        // Update synopsis
+        $comic->synopsis->update(['content' => $request->synopsis]);
 
         return redirect()->route('comics.index')->with('success', 'Comic updated successfully.');
     }
+
 
     public function destroy(Comic $comic)
     {
@@ -180,7 +169,10 @@ class ComicController extends Controller
             Storage::disk('public')->delete($comic->image);
         }
 
-        foreach ($comic->chapterImages as $chapterImage) {
+        // Ensure chapterImages is an empty collection if null
+        $chapterImages = $comic->chapterImages ?? collect();
+
+        foreach ($chapterImages as $chapterImage) {
             Storage::disk('public')->delete($chapterImage->path);
         }
 

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Comics</h1>
-        <a href="{{ route('comics.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
+        <a href="{{ route('comics.create') }}" class="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
 
         <!-- Search Form -->
         <form action="{{ route('comics.index') }}" method="GET" class="flex items-center mt-4">
@@ -10,9 +10,9 @@
                 name="search"
                 value="{{ request('search') }}"
                 placeholder="Search Comics..."
-                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300"
+                class="border border-gray-700 rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-gray-300"
             />
-            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white rounded-md hover:bg-blue-600">
                 Search
             </button>
             <a href="{{ route('comics.index') }}" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</a>
@@ -20,7 +20,7 @@
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
             <table class="table-auto min-w-full bg-white border border-black rounded-lg shadow-md">
-                <thead class="bg-blue-400">
+                <thead class="bg-gradient-to-r from-gray-900 via-gray-400 to-gray-900 ... text-white">
                     <tr class="border border-black">
                         <th class="py-2 px-4">No</th>
                         <th class="py-2 px-4">Title</th>
@@ -46,9 +46,9 @@
                                     No Genres
                                 @endif
                             </td>
-                            <td class="py-2 px-4">
+                            <td class="py-2 px-2">
                                 @if ($comic->image)
-                                <img src="{{ asset('storage/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-16 h-16 object-cover">
+                                <img src="{{ asset('images/' . $comic->image) }}" alt="{{ $comic->title }}" class="w-16 h-16 object-cover">
                             @else
                                 No Image
                             @endif

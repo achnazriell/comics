@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Publishers</h1>
-        <a href="{{ route('publishers.create') }}" class="bg-blue-500 text-black px-4 py-2 rounded hover:bg-blue-600 border border-black">Add Publisher</a>
+        <a href="{{ route('publishers.create') }}" class="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white px-4 py-2 rounded hover:bg-blue-600 border border-black">Add Publisher</a>
 
         <!-- Search Form -->
         <form action="{{ route('publishers.index') }}" method="GET" class="flex items-center mt-4">
@@ -10,8 +10,8 @@
                 name="search"
                 value="{{ request('search') }}"
                 placeholder="Search Publishers..."
-                class="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:border-blue-300">
-            <button type="submit" class="ml-2 px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">
+                class="border border-gray-700 rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-gray-300">
+            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white rounded-md hover:bg-blue-600">
                 Search
             </button>
 
@@ -20,7 +20,7 @@
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
             <table class="table-auto min-w-full bg-white rounded-lg shadow-md">
-                <thead class='bg-blue-400'>
+                <thead class='bg-gradient-to-r from-gray-900 via-gray-400 to-gray-900 ... text-white'>
                     <tr>
                         <th class="py-2 px-4">No</th>
                         <th class="py-2 px-4">Publisher Name</th>
