@@ -91,6 +91,11 @@
 
             <div class="mb-4">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Update Comic</button>
+
+                <!-- Button to navigate to Edit Chapter -->
+                @foreach($comic->chapters as $chapter)
+                <a href="{{ route('chapters.edit', ['chapter' => $chapter->id]) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Update Chapter {{ $chapter->number }}</a>
+            @endforeach            
             </div>
         </form>
     </div>

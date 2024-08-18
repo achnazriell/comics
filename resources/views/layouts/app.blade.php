@@ -25,7 +25,7 @@
     <!-- SweetAlert2 CDN -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+
     <!-- Preline Select CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/preline@latest/dist/preline.min.css">
 
@@ -77,14 +77,26 @@
             });
         });
     </script>
+
+    <script>
+window.addEventListener('load', function() {
+    setTimeout(function() {
+        // Tambahkan class 'slide-out-up' untuk memulai transisi
+        document.getElementById('preloader').classList.add('transform', '-translate-y-full');
+
+        // Hapus preloader setelah transisi selesai (misal 700ms)
+        setTimeout(function() {
+            document.getElementById('preloader').style.display = 'none';
+            document.getElementById('content').classList.remove('opacity-0');
+            document.getElementById('content').classList.add('opacity-100');
+        }, 700); // Sesuaikan dengan durasi transisi
+    }, 1000); // Durasi preloader ditampilkan (3000ms = 3 detik)
+});
+
+    </script>
 </head>
 
 <body class="font-sans antialiased">
-    <!-- Toggle button for mobile -->
-    <button id="sidebarToggle" class="p-2 m-2 bg-gray-800 text-white rounded-md md:hidden">
-        ☰
-    </button>
-
     <div class="flex-1 flex flex-col">
         @include('layouts.navigation')
 
@@ -99,9 +111,11 @@
 
         <!-- Page Content -->
         <main class="flex-1">
+            <div id="preloader" class="fixed inset-0 flex items-center justify-center bg-white z-50 transition-transform duration-700 transform">
+                <img src="{{ asset('images/KomikQue1.png') }}" alt="Loading" class="h-20 w-20 animate-shake">
+            </div>
             {{ $slot }}
         </main>
-    </div>
     </div>
 </body>
 

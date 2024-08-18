@@ -2,15 +2,21 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Authors</h1>
 
-        <a href="{{ route('authors.create') }}" class="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white px-4 py-2 rounded hover:bg-blue-600">Add
+        <a href="{{ route('authors.create') }}" class="bg-gradient-to-r from-gray-900 to-gray-400 ... text-white px-4 py-2 rounded hover:bg-blue-600">Add
             Author</a>
         <!-- Search Bar -->
-        <form action="{{ route('authors.index') }}" method="GET" class="mb-4 mt-3">
-            <input type="text" name="query" value="{{ request('query') }}" class="border border-gray-700 rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-gray-300"
-                placeholder="Search authors...">
-            <button type="submit" class="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white px-4 py-2 rounded hover:bg-blue-600">Search</button>
-            <a href="{{ route('authors.index') }}"
-                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Reset</a>
+        <form action="{{ route('authors.index') }}" method="GET" class="flex items-center mt-4">
+            <input
+                type="text"
+                name="search"
+                value="{{ request('search') }}"
+                placeholder="Search Authors..."
+                class="border border-gray-700 rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-gray-300"
+            />
+            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-900 to-gray-400 ... text-white rounded-md hover:bg-gray-600">
+                Search
+            </button>
+            <a href="{{ route('authors.index') }}" class="ml-2 px-4 py-2 bg-gradient-to-r to-gray-900 from-gray-400 ... text-white rounded-md hover:bg-gray-600">Reset</a>
         </form>
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
@@ -29,13 +35,13 @@
                             <td class="py-2 px-4 border-1">{{ $author->name }}</td>
                             <td class="py-2 px-4 border-1">
                                 <a href="{{ route('authors.edit', $author) }}"
-                                    class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600 m-2">Edit</a>
+                                    class="bg-gradient-to-r from-gray-900 to-blue-500 ... text-white px-6 py-2 rounded hover:bg-blue-600 m-2">Edit</a>
                                 <form action="{{ route('authors.destroy', $author) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 m-2"
+                                        class="px-4 py-2 bg-gradient-to-r from-gray-900 to-red-500 ... text-white rounded hover:bg-red-600 m-2"
                                         onclick="return confirm('Apakah Anda Yakin menghapus data author?');">Delete</button>
                                 </form>
                             </td>

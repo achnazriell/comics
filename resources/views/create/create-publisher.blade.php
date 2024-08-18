@@ -13,11 +13,6 @@
                         class="mt-1 block w-full border border-gray-300 rounded-md p-2">
                 </div>
                 <div class="mb-4">
-                    <label for="address" class="block text-gray-700 font-medium">Address</label>
-                    <input type="text" name="address" id="address"
-                        class="mt-1 block w-full border border-gray-300 rounded-md p-2">
-                </div>
-                <div class="mb-4">
                     <button type="submit"
                         class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Submit</button>
                 </div>

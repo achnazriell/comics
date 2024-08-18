@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Comics</h1>
-        <a href="{{ route('comics.create') }}" class="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
+        <a href="{{ route('comics.create') }}" class="bg-gradient-to-r from-gray-900 to-gray-400 ... text-white px-4 py-2 rounded hover:bg-blue-600">Add Comic</a>
 
         <!-- Search Form -->
         <form action="{{ route('comics.index') }}" method="GET" class="flex items-center mt-4">
@@ -12,10 +12,10 @@
                 placeholder="Search Comics..."
                 class="border border-gray-700 rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-gray-300"
             />
-            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white rounded-md hover:bg-blue-600">
+            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-900 to-gray-400 ... text-white rounded-md hover:bg-gray-600">
                 Search
             </button>
-            <a href="{{ route('comics.index') }}" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</a>
+            <a href="{{ route('comics.index') }}" class="ml-2 px-4 py-2 bg-gradient-to-r to-gray-900 from-gray-400 ... text-white rounded-md hover:bg-gray-600">Reset</a>
         </form>
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
@@ -61,13 +61,13 @@
                                 @endif
                             </td>
                             <td class="py-2 px-4">
-                                <a href="{{ route('comics.edit', $comic) }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">Edit</a>
+                                <a href="{{ route('comics.edit', $comic) }}" class="inline-block px-4 py-2 bg-gradient-to-r from-gray-900 to-blue-500 ... text-white rounded hover:bg-blue-600">Edit</a>
                             </td>
                             <td class="py-2 px-4">
                                 <form action="{{ route('comics.destroy', $comic) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onclick="return confirm('Are you sure you want to delete this comic?')">Delete</button>
+                                    <button type="submit" class="px-4 py-2 bg-gradient-to-r from-gray-900 to-red-500 ... text-white rounded hover:bg-red-600" onclick="return confirm('Are you sure you want to delete this comic?')">Delete</button>
                                 </form>
                             </td>
                         </tr>

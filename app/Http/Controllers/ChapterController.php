@@ -30,17 +30,18 @@ class ChapterController extends Controller
 
         $chapter = Chapter::create($request->only(['comic_id']));
 
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = time() . rand(1, 100) . '.' . $image->extension();
-                $image->move(public_path('chapter_images'), $imageName);
+        if ($request->hasFile('chapter_images')) {
+            foreach ($request->file('chapter_images') as $file) {
+                $imageName = time() . rand(1, 100) . '.' . $file->extension();
+                $file->move(public_path('chapter_images'), $imageName);
 
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
-                    'image' => $imageName,
+                    'image' => $imageName, // Make sure the field name is consistent
                 ]);
             }
         }
+
 
         return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
     }
@@ -60,24 +61,40 @@ class ChapterController extends Controller
     {
         $request->validate([
             'comic_id' => 'required|exists:comics,id',
+            'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-
+    
+        // Update comic_id if needed
         $chapter->update($request->only(['comic_id']));
-
-        if ($request->hasFile('images')) {
-            foreach ($request->file('images') as $image) {
-                $imageName = time() . rand(1, 100) . '.' . $image->extension();
-                $image->move(public_path('chapter_images'), $imageName);
-
+    
+        // Hapus gambar yang dipilih
+        if ($request->has('delete_images')) {
+            $deleteImages = ChapterImage::whereIn('id', $request->delete_images)->get();
+            foreach ($deleteImages as $image) {
+                $imagePath = public_path('chapter_images/' . $image->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath); // Hapus file dari server
+                }
+                $image->delete(); // Hapus dari database
+            }
+        }
+    
+        // Upload dan simpan gambar baru
+        if ($request->hasFile('chapter_images')) {
+            foreach ($request->file('chapter_images') as $file) {
+                $imageName = time() . rand(1, 100) . '.' . $file->extension();
+                $file->move(public_path('chapter_images'), $imageName);
+    
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
                     'image' => $imageName,
                 ]);
             }
         }
-
-        return redirect()->route('chapters.index')->with('success', 'Chapter updated successfully.');
+    
+        return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
     }
+    
 
     public function destroy(Chapter $chapter)
     {
@@ -89,9 +106,9 @@ class ChapterController extends Controller
             $chapter->images()->delete(); // Deleting associated images first
             $chapter->delete();
 
-            return redirect()->route('chapters.index')->with('success', 'Chapter deleted successfully.');
+            return redirect()->route('comics.index')->with('success', 'Chapter deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('chapters.index')->with('error', 'An error occurred while deleting the chapter.');
+            return redirect()->route('comics.index')->with('error', 'An error occurred while deleting the chapter.');
         }
     }
 }

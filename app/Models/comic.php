@@ -9,7 +9,7 @@ class Comic extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'author_id', 'publisher_id', 'image'];
+    protected $fillable = ['title', 'author_id', 'synopsis', 'publisher_id', 'image','chapter_id', 'chapter_images'];
 
     public function author()
     {
@@ -31,11 +31,8 @@ class Comic extends Model
         return $this->belongsTo(Publisher::class);
     }
 
-
     public function chapters()
     {
-        return $this->hasMany(Chapter::class); // Assuming each comic has many chapters
+        return $this->hasMany(Chapter::class);
     }
-
-
 }

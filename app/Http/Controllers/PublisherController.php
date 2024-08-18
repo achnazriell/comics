@@ -29,7 +29,6 @@ class PublisherController extends Controller
 
         $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
         ], [
             'name.required' => 'Genre must be filled in',
             'address.required' => 'Address must be filled in',
@@ -55,7 +54,6 @@ class PublisherController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'address' => 'required|string|max:255',
         ], [
             'name.required' => 'Genre must be filled in',
             'address.required' => 'Address must be filled in',
@@ -71,12 +69,12 @@ class PublisherController extends Controller
     {
         try {
             if ($publisher->comics()->exists()) {
-                return redirect()->route('publishers.index')->with('error', 'Publisher tidak bisa dihapus karena masih terkait dengan data comic.');
+                return redirect()->route('publishers.index')->with('error', 'Publisher cannot be deleted because it is still related to comic data.');
             }
             $publisher->delete();
             return redirect()->route('publishers.index')->with('success', 'Publisher deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('publishers.index')->with('error', 'Terjadi kesalahan saat menghapus publisher.');
+            return redirect()->route('publishers.index')->with('error', 'An error occurs when removing the publisher.');
         }
     }
 

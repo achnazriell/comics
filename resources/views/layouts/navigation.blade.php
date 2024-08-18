@@ -14,23 +14,28 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
+                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Home') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('comics.index')" :active="request()->routeIs('comics.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                    <x-nav-link :href="route('comics.index')" :active="request()->routeIs('comics.index')"
+                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Comics') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                    <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')"
+                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Authors') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('publishers.index')" :active="request()->routeIs('publishers.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                    <x-nav-link :href="route('publishers.index')" :active="request()->routeIs('publishers.index')"
+                        class="text-white dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Publishers') }}
                     </x-nav-link>
 
-                    <x-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')" class="text-gray-100 dark:text-gray-300 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                    <x-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')"
+                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Genre') }}
                     </x-nav-link>
                 </div>
@@ -81,7 +86,7 @@
                         x-transition:leave="transition ease-in duration-75"
                         x-transition:leave-start="opacity-100 transform scale-100"
                         x-transition:leave-end="opacity-0 transform scale-95"
-                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg">
+                        class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg z-50">
                         <div class="p-1">
                             <a href="{{ route('profile.edit') }}"
                                 class="block px-4 py-2 text-sm text-gray-800 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-900">
@@ -100,6 +105,7 @@
                     </div>
                 </div>
             </div>
+
 
 
             <!-- Hamburger -->
@@ -123,9 +129,6 @@
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-gray-400 dark:text-gray-300">
                 {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')" class="text-gray-400 dark:text-gray-300">
-                {{ __('Genres') }}
             </x-responsive-nav-link>
         </div>
 

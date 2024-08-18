@@ -9,10 +9,6 @@
                 <input type="text" name="name" id="name" class="mt-1 block w-full" value="{{ old('name', $publisher->name) }}" required>
             </div>
             <div class="mb-4">
-                <label for="address" class="block text-gray-700">Address</label>
-                <input type="text" name="address" id="address" class="mt-1 block w-full" value="{{ old('address', $publisher->address) }}" required>
-            </div>
-            <div class="mb-4">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Update</button>
             </div>
         </form>

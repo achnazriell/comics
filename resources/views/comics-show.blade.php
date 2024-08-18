@@ -29,7 +29,7 @@
             </a>
         </div>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-            @forelse($comic->chapters as $chapter)
+            @forelse($filteredChapters as $chapter)
                 <a href="{{ route('chapters.show', $chapter) }}" class="block p-4 bg-gray-200 rounded-lg shadow-md text-center hover:bg-gray-300">
                     <span class="text-lg font-semibold">Chapter {{ $loop->iteration }}</span>
                 </a>
