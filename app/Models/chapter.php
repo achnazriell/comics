@@ -9,7 +9,7 @@ class Chapter extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['comic_id', 'title', 'number'];
+    protected $fillable = ['comic_id', 'title',];
 
     public function comic()
     {
@@ -18,6 +18,13 @@ class Chapter extends Model
 
     public function chapterImages()
     {
+    return $this->hasMany(ChapterImage::class);
+    }
+
+
+    // Chapter.php
+    public function images()
+        {
     return $this->hasMany(ChapterImage::class);
     }
 

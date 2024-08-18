@@ -97,7 +97,7 @@ class GenreController extends Controller
             $genre->delete();
             return redirect()->route('genre.table')->with('success', 'Genre deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('genre.table')->with('error', 'Terjadi kesalahan saat menghapus genre.');
+            return redirect()->route('genre.table')->with('error', 'An error occurs when removing the genre.');
         }
     }
 

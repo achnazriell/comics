@@ -62,12 +62,12 @@ class AuthorController extends Controller
     {
         try {
             if ($author->comics()->exists()) {
-                return redirect()->route('authors.index')->with('error', 'Author tidak bisa dihapus karena masih terkait dengan data comic.');
+                return redirect()->route('authors.index')->with('error', 'Author cannot be deleted because it is still related to comic data.');
             }
             $author->delete();
             return redirect()->route('authors.index')->with('success', 'Author deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('authors.index')->with('error', 'Terjadi kesalahan saat menghapus author.');
+            return redirect()->route('authors.index')->with('error', 'An error occurs when deleting the author.');
         }
     }
 }

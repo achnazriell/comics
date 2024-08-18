@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Comic;
 use App\Models\Author;
+use App\Models\Chapter;
+use App\Models\ChapterImage;
 use App\Models\Genre;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
@@ -78,13 +80,13 @@ class ComicController extends Controller
             'chapter_images.*.mimes' => 'Each chapter image must be a file of type: jpeg, png, jpg.',
             'chapter_images.*.max' => 'Each chapter image may not be greater than 2048 kilobytes.',
         ]);
-
-        $comic = Comic::create($request->except(['genres', 'synopsis', 'image']));
+        $comic = Comic::create($request->except(['genres', 'synopsis', 'image', 'chapter_images']));
 
         if ($request->hasFile('image')) {
             $imageName = time() . '.' . $request->image->extension();
             $request->image->move(public_path('images'), $imageName);
             $comic->image = $imageName;
+            $imageName = old('image');
             $comic->save();
         }
 
@@ -92,14 +94,37 @@ class ComicController extends Controller
 
         $comic->synopsis()->create(['content' => $request->synopsis]);
 
-        return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
+        if ($request->hasFile('chapter_images')) {
+            foreach ($request->file('chapter_images') as $file) {
+                $imageName = time() . rand(1, 100) . '.' . $file->extension(); // Ensure the name is consistent
+                $file->move(public_path('chapter_images'), $imageName);
+                $comic->chapters()->create(['image' => $imageName]); // Consistent naming
+
+                ChapterImage::create([
+                    'chapter_id' => $comic->id,
+                    'image' => $imageName, // Make sure the field name is consistent
+                ]);
+
+            }
+        }
+
+        return redirect()->route('comics.index',  $comic->comic_id)->with('success', 'Comic created successfully.');
     }
+
 
     public function show(Comic $comic)
     {
-        $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.chapterImages']);
-        return view('comics-show', compact('comic'));
+        // Load related models
+        $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.images']);
+        
+        // Filter chapters to only include those that have images
+        $filteredChapters = $comic->chapters->filter(function($chapter) {
+            return $chapter->images->isNotEmpty();
+        });
+    
+        return view('comics-show', compact('comic', 'filteredChapters'));
     }
+    
 
     public function edit(Comic $comic)
     {

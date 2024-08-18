@@ -14,5 +14,5 @@ class ChapterImage extends Model
     public function chapter()
     {
         return $this->belongsTo(Chapter::class);
-    }    
+    }
 }

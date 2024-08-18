@@ -40,7 +40,6 @@
                     <tr class="border border-black">
                         <th class="py-2 px-4 border border-black">No</th>
                         <th class="py-2 px-4 border border-black">Comic</th>
-                        <th class="py-2 px-4 border border-black">Chapter Number</th>
                         <th class="py-2 px-4 border border-black">Actions</th>
                     </tr>
                 </thead>
@@ -49,16 +48,15 @@
                         <tr class="border border-black">
                             <td class="py-2 px-4 border border-black">{{ $loop->iteration }}</td>
                             <td class="py-2 px-4 border border-black">{{ $chapter->comic->title }}</td>
-                            <td class="py-2 px-4 border border-black">{{ $chapter->number }}</td>
                             <td class="py-2 px-4 border border-black">
                                 <a href="{{ route('chapters.edit', $chapter) }}"
-                                    class="bg-yellow-500 text-black px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
+                                    class="bg-gradient-to-r from-gray-900 to-blue-500 ... text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
                                 <form action="{{ route('chapters.destroy', $chapter) }}" method="POST"
                                     style="display:inline;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="bg-red-500 text-black px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                                        class="bg-gradient-to-r from-gray-900 to-red-500 ... text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
                                 </form>
                             </td>
                         </tr>

@@ -10,4 +10,10 @@ class Publisher extends Model
     use HasFactory;
 
     protected $fillable = ['name', 'address'];
+
+    // Mendefinisikan relasi satu-ke-banyak dengan Comic
+    public function comics()
+    {
+        return $this->hasMany(Comic::class);
+    }
 }

@@ -11,25 +11,25 @@
                 <h2 class="text-xl font-semibold mb-4">Step 1: Comic Details</h2>
                 <div class="mb-4">
                     <label for="title" class="block text-sm font-medium text-gray-700">Title</label>
-                    <input type="text" name="title" id="title"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                    <input type="text" name="title" id="title" value="{{ old('title') }}"
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 </div>
                 <div class="mb-4">
                     <label for="author_id" class="block text-sm font-medium text-gray-700">Author</label>
                     <select name="author_id" id="author_id"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="" disabled selected>Choose a Author</option>
                         @foreach ($authors as $author)
-                            <option value="{{ $author->id }}">{{ $author->name }}</option>
+                            <option value="{{ $author->id }}" {{ old('author_id') == $author->id ? 'selected' : '' }}>
+                                {{ $author->name }}</option>
                         @endforeach
                     </select>
                 </div>
                 <div class="mb-4">
                     <label for="publisher_id" class="block text-sm font-medium text-gray-700">Publisher</label>
                     <select name="publisher_id" id="publisher_id"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="" disabled selected>Choose a Publisher</option>
                         @foreach ($publishers as $publisher)
                             <option value="{{ $publisher->id }}">{{ $publisher->name }}</option>
                         @endforeach
@@ -49,7 +49,8 @@
                         }'
                         class="hidden">
                         @foreach ($genres as $genre)
-                            <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                            <option value="{{ $genre->id }}" {{ (collect(old('genres'))->contains($genre->id)) ? 'selected' : '' }}>
+                                {{ $genre->name }}</option>
                         @endforeach
                     </select>
                     <!-- End Select -->
@@ -57,8 +58,7 @@
                 <div class="mb-4">
                     <label for="synopsis" class="block text-sm font-medium text-gray-700">Synopsis</label>
                     <textarea name="synopsis" id="synopsis"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required></textarea>
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ old('synopsis') }}</textarea>
                 </div>
                 <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     onclick="showStep(2)">Next</button>
@@ -70,29 +70,24 @@
                 <div class="mb-4">
                     <label for="image" class="block text-sm font-medium text-gray-700">Image</label>
                     <input type="file" name="image" id="image" accept="image/*"
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                        required>
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     <!-- Image preview -->
-                    <img id="image-preview" class="mt-2 w-32" style="display: none;" />
+                    <img id="image-preview" class="mt-2 w-32" style="{{ old('image') ? '' : 'display: none;' }}"
+                    src="{{ old('image') ? asset('images/' . old('image')) : '' }}" alt="Old Image Preview"/>
                 </div>
                 <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                     onclick="showStep(1)">Back</button>
                 <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     onclick="showStep(3)">Next</button>
             </div>
-
             <!-- Step 3: Add Chapter -->
             <div id="step3" class="wizard-step" style="display:none;">
                 <h2 class="text-xl font-semibold mb-4">Step 3: Add Chapter</h2>
                 <div id="chapterSection">
                     <!-- Chapter Input Fields -->
                     <div class="mb-4">
-                        <label for="chapter_title" class="block text-sm font-medium text-gray-700">Chapter Title</label>
-                        <input type="text" name="chapter_title[]" id="chapter_title"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                    </div>
-                    <div class="mb-4">
-                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
+                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter
+                            Images</label>
                         <input type="file" name="chapter_images[]" id="chapter_images"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
                             multiple>
@@ -129,15 +124,29 @@
             }
         });
 
+        document.getElementById('chapter_images').addEventListener('change', function(event) {
+            const imagePreview = document.getElementById('image-preview');
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+            }
+        });
+
         document.getElementById('addChapter').addEventListener('click', function() {
             const chapterSection = document.getElementById('chapterSection');
             const newChapter = document.createElement('div');
             newChapter.className = 'mb-4';
             newChapter.innerHTML = `
-                <label for="chapter_title" class="block text-sm font-medium text-gray-700">Chapter Title</label>
-                <input type="text" name="chapter_title[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>
+
                 <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
-                <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" multiple required>
+                <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" multiple >
             `;
             chapterSection.appendChild(newChapter);
         });

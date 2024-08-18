@@ -13,18 +13,10 @@ class CreateChaptersTable extends Migration
             $table->foreignId('comic_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
-
-        Schema::create('chapter_images', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('chapter_id')->constrained()->onDelete('cascade');
-            $table->string('image');
-            $table->timestamps();
-        });
     }
 
     public function down()
     {
-        Schema::dropIfExists('chapter_images');
         Schema::dropIfExists('chapters');
     }
 }

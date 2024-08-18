@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Publishers</h1>
-        <a href="{{ route('publishers.create') }}" class="bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white px-4 py-2 rounded hover:bg-blue-600 border border-black">Add Publisher</a>
+        <a href="{{ route('publishers.create') }}" class="bg-gradient-to-r from-gray-900 to-gray-400 ... text-white px-4 py-2 rounded hover:bg-blue-600 border border-black">Add Publisher</a>
 
         <!-- Search Form -->
         <form action="{{ route('publishers.index') }}" method="GET" class="flex items-center mt-4">
@@ -11,11 +11,11 @@
                 value="{{ request('search') }}"
                 placeholder="Search Publishers..."
                 class="border border-gray-700 rounded-md px-4 py-2 w-1/3 focus:outline-none focus:ring focus:border-gray-300">
-            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-500 via-gray-400 to-gray-500 ... text-white rounded-md hover:bg-blue-600">
+            <button type="submit" class="ml-2 px-4 py-2 bg-gradient-to-r from-gray-900 to-gray-400 ... text-white rounded-md hover:bg-blue-600">
                 Search
             </button>
 
-            <a href="{{ route('publishers.index') }}" class="ml-2 px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">Reset</a>
+            <a href="{{ route('publishers.index') }}" class="ml-2 px-4 py-2 bg-gradient-to-r to-gray-900 from-gray-400 ... text-white rounded-md hover:bg-gray-600">Reset</a>
         </form>
 
         <div class="table-container rounded-lg shadow-md mt-4 overflow-x-auto">
@@ -33,11 +33,11 @@
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
                             <td class="py-2 px-4">{{ $publisher->name }}</td>
                             <td class="py-2 px-4">
-                                <a href="{{ route('publishers.edit', $publisher) }}" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 m-2">Edit</a>
+                                <a href="{{ route('publishers.edit', $publisher) }}" class="inline-block px-4 py-2 bg-gradient-to-r from-gray-900 to-blue-500 ... text-white rounded hover:bg-blue-600 m-2">Edit</a>
                                 <form action="{{ route('publishers.destroy', $publisher) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 m-2" onclick="return confirm('Are you sure want to delete this publisher?')">Delete</button>
+                                    <button type="submit" class="px-4 py-2 bg-gradient-to-r from-gray-900 to-red-500 ... text-white rounded hover:bg-red-600 m-2" onclick="return confirm('Are you sure want to delete this publisher?')">Delete</button>
                                 </form>
                             </td>
                         </tr>
