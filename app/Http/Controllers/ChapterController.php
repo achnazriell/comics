@@ -59,8 +59,8 @@ class ChapterController extends Controller
                            ->get();
         return view('update.edit-chapter', compact('chapter', 'comics', 'chapters'));
     }
-    
-    
+
+
 
     public function update(Request $request, Chapter $chapter)
     {
@@ -68,10 +68,10 @@ class ChapterController extends Controller
             'comic_id' => 'required|exists:comics,id',
             'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         // Update comic_id if needed
         $chapter->update($request->only(['comic_id']));
-    
+
         // Hapus gambar yang dipilih
         if ($request->has('delete_images')) {
             $deleteImages = ChapterImage::whereIn('id', $request->delete_images)->get();
@@ -83,23 +83,23 @@ class ChapterController extends Controller
                 $image->delete(); // Hapus dari database
             }
         }
-    
+
         // Upload dan simpan gambar baru
         if ($request->hasFile('chapter_images')) {
             foreach ($request->file('chapter_images') as $file) {
                 $imageName = time() . rand(1, 100) . '.' . $file->extension();
                 $file->move(public_path('chapter_images'), $imageName);
-    
+
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
                     'image' => $imageName,
                 ]);
             }
         }
-    
-        return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
+
+        return redirect()->route('comics.edit', $chapter->comic_id)->with('success', 'Chapter updated successfully.');
     }
-    
+
 
     public function destroy(Chapter $chapter)
     {

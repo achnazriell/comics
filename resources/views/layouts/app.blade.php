@@ -79,20 +79,19 @@
     </script>
 
     <script>
-window.addEventListener('load', function() {
-    setTimeout(function() {
-        // Tambahkan class 'slide-out-up' untuk memulai transisi
-        document.getElementById('preloader').classList.add('transform', '-translate-y-full');
+        window.addEventListener('load', function() {
+            setTimeout(function() {
+                // Tambahkan class 'slide-out-up' untuk memulai transisi
+                document.getElementById('preloader').classList.add('transform', '-translate-y-full');
 
-        // Hapus preloader setelah transisi selesai (misal 700ms)
-        setTimeout(function() {
-            document.getElementById('preloader').style.display = 'none';
-            document.getElementById('content').classList.remove('opacity-0');
-            document.getElementById('content').classList.add('opacity-100');
-        }, 700); // Sesuaikan dengan durasi transisi
-    }, 1000); // Durasi preloader ditampilkan (3000ms = 3 detik)
-});
-
+                // Hapus preloader setelah transisi selesai (misal 700ms)
+                setTimeout(function() {
+                    document.getElementById('preloader').style.display = 'none';
+                    document.getElementById('content').classList.remove('opacity-0');
+                    document.getElementById('content').classList.add('opacity-100');
+                }, 700); // Sesuaikan dengan durasi transisi
+            }, 1000); // Durasi preloader ditampilkan (3000ms = 3 detik)
+        });
     </script>
 </head>
 
@@ -111,10 +110,31 @@ window.addEventListener('load', function() {
 
         <!-- Page Content -->
         <main class="flex-1">
-            <div id="preloader" class="fixed inset-0 flex items-center justify-center bg-white z-50 transition-transform duration-700 transform">
+            <div id="preloader"
+                class="fixed inset-0 flex items-center justify-center bg-white z-50 transition-transform duration-700 transform">
                 <img src="{{ asset('images/KomikQue1.png') }}" alt="Loading" class="h-20 w-20 animate-shake">
             </div>
             {{ $slot }}
+            <!-- SweetAlert2 Script -->
+            <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    @if (session('success'))
+                        Swal.fire({
+                            title: 'Success!',
+                            text: "{{ session('success') }}",
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        });
+                    @elseif ($errors->any())
+                        Swal.fire({
+                            title: 'Oops!',
+                            text: "{{ $errors->first() }}",
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    @endif
+                });
+            </script>
         </main>
     </div>
 </body>

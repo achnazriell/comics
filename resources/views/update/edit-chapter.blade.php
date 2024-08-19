@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Edit Chapter</h1>
-        
+
         <!-- Wizard Step 3: Add Chapter -->
         <div id="step3" class="wizard-step">
             <h2 class="text-xl font-semibold mb-4">Edit Chapter</h2>
@@ -79,4 +79,3 @@
         });
     </script>
 </x-app-layout>
-    

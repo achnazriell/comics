@@ -59,8 +59,6 @@ class ComicController extends Controller
         'genres.*' => 'exists:genres,id',
         'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-<<<<<<< HEAD
-=======
     ], [
         'title.required' => 'The title field is required.',
         'title.string' => 'The title must be a string.',
@@ -77,7 +75,6 @@ class ComicController extends Controller
         'image.image' => 'The image must be an image file.',
         'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
         'image.max' => 'The image may not be greater than 2048 kilobytes.',
->>>>>>> 3b028b515335ca918438f0ce4acbc6fa29ea2b1f
     ]);
 
     // Create the comic
@@ -116,11 +113,6 @@ class ComicController extends Controller
 
     return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
 }
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 3b028b515335ca918438f0ce4acbc6fa29ea2b1f
 
     public function show(Comic $comic)
     {
