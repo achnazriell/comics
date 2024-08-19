@@ -57,11 +57,13 @@
                         <div class="relative p-2 border rounded">
                             <p>Chapter {{ $index + 1 }}</p>
                             <a href="{{ route('chapters.edit', $ch->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                           <!-- Delete button -->
-<form action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
+ <!-- Delete button -->
+<form action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2" id="delete-form-{{ $ch->id }}">
     @csrf
     @method('DELETE')
-    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+    <button type="button" onclick="oneClickDelete({{ $ch->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+        Delete
+    </button>
 </form>
 
                         </div>
@@ -81,6 +83,13 @@
     </div>
 
     <script>
+
+    function oneClickDelete(chapterId) {
+        if (confirm('Are you sure you want to delete this chapter?')) {
+            document.getElementById('delete-form-' + chapterId).submit();
+        }
+    }
+
         // Function to add a new chapter form
         document.getElementById('addChapter').addEventListener('click', function() {
             const wrapper = document.getElementById('newChaptersWrapper');
@@ -106,5 +115,7 @@
             `;
             wrapper.appendChild(newInput);
         });
+
+        
     </script>
 </x-app-layout>

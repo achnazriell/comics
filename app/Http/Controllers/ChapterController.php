@@ -111,19 +111,13 @@ class ChapterController extends Controller
 public function destroy(Chapter $chapter)
 {
     try {
-        // Check if the chapter is associated with a comic
-        if ($chapter->comic) {
-            return redirect()->route('chapters.show', $chapter->id)
-                ->with('error', 'Chapter cannot be deleted because it is still associated with a comic.');
-        }
-
         // Delete associated images
         foreach ($chapter->images as $image) {
             $imagePath = public_path('chapter_images/' . $image->image);
             if (file_exists($imagePath)) {
-                unlink($imagePath); // Delete the file
+                unlink($imagePath); // Delete the file from the filesystem
             }
-            $image->delete(); // Delete from database
+            $image->delete(); // Delete the image record from the database
         }
 
         // Delete the chapter
