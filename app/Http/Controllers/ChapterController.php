@@ -54,8 +54,13 @@ class ChapterController extends Controller
     public function edit(Chapter $chapter)
     {
         $comics = Comic::all();
-        return view('update.edit-chapter', compact('chapter', 'comics'));
+        $chapters = Chapter::where('comic_id', $chapter->comic_id)
+                           ->orderBy('created_at', 'asc')
+                           ->get();
+        return view('update.edit-chapter', compact('chapter', 'comics', 'chapters'));
     }
+    
+    
 
     public function update(Request $request, Chapter $chapter)
     {
