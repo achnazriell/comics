@@ -32,11 +32,11 @@
                 <!-- Input untuk mengunggah gambar baru -->
                 <div id="chapterSection">
                     <h3 class="text-sm font-medium text-gray-700 mb-2">Add New Chapter Images</h3>
-                    <div class="mb-4">
-                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
-                        <input type="file" name="chapter_images[]" id="chapter_images"
-                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            multiple>
+                    <div id="chapterImagesWrapper" class="mb-4">
+                        <div class="mb-4">
+                            <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
+                            <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        </div>
                     </div>
                 </div>
 
@@ -59,11 +59,24 @@
 
                 <!-- Tombol navigasi -->
                 <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
-                    onclick="showStep(2)">Back</button>
+                    onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
                 <button type="submit"
                     class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
             </form>
         </div>
     </div>
+
+    <script>
+        document.getElementById('addChapter').addEventListener('click', function() {
+            const wrapper = document.getElementById('chapterImagesWrapper');
+            const newInput = document.createElement('div');
+            newInput.classList.add('mb-4');
+            newInput.innerHTML = `
+                <label class="block text-sm font-medium text-gray-700">Chapter Images</label>
+                <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            `;
+            wrapper.appendChild(newInput);
+        });
+    </script>
 </x-app-layout>
     

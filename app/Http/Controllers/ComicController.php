@@ -48,68 +48,72 @@ class ComicController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validate request
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author_id' => 'required|exists:authors,id',
-            'publisher_id' => 'required|exists:publishers,id',
-            'synopsis' => 'required|string',
-            'genres' => 'required|array',
-            'genres.*' => 'exists:genres,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ], [
-            // Custom error messages
-            'title.required' => 'The title field is required.',
-            'title.string' => 'The title must be a string.',
-            'title.max' => 'The title may not be greater than 255 characters.',
-            'author_id.required' => 'The author field is required.',
-            'author_id.exists' => 'The selected author does not exist.',
-            'publisher_id.required' => 'The publisher field is required.',
-            'publisher_id.exists' => 'The selected publisher does not exist.',
-            'synopsis.required' => 'The synopsis field is required.',
-            'synopsis.string' => 'The synopsis must be a string.',
-            'genres.required' => 'At least one genre must be selected.',
-            'genres.array' => 'The genres field must be an array.',
-            'genres.*.exists' => 'One or more selected genres are invalid.',
-            'image.image' => 'The image must be an image file.',
-            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
-            'image.max' => 'The image may not be greater than 2048 kilobytes.',
-            'chapter_images.*.image' => 'Each chapter image must be an image file.',
-            'chapter_images.*.mimes' => 'Each chapter image must be a file of type: jpeg, png, jpg.',
-            'chapter_images.*.max' => 'Each chapter image may not be greater than 2048 kilobytes.',
-        ]);
-        $comic = Comic::create($request->except(['genres', 'synopsis', 'image', 'chapter_images']));
+{
+    // Validate request
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'author_id' => 'required|exists:authors,id',
+        'publisher_id' => 'required|exists:publishers,id',
+        'synopsis' => 'required|string',
+        'genres' => 'required|array',
+        'genres.*' => 'exists:genres,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+    ], [
+        'title.required' => 'The title field is required.',
+        'title.string' => 'The title must be a string.',
+        'title.max' => 'The title may not be greater than 255 characters.',
+        'author_id.required' => 'The author field is required.',
+        'author_id.exists' => 'The selected author does not exist.',
+        'publisher_id.required' => 'The publisher field is required.',
+        'publisher_id.exists' => 'The selected publisher does not exist.',
+        'synopsis.required' => 'The synopsis field is required.',
+        'synopsis.string' => 'The synopsis must be a string.',
+        'genres.required' => 'At least one genre must be selected.',
+        'genres.array' => 'The genres field must be an array.',
+        'genres.*.exists' => 'One or more selected genres are invalid.',
+        'image.image' => 'The image must be an image file.',
+        'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+        'image.max' => 'The image may not be greater than 2048 kilobytes.',
+    ]);
 
-        if ($request->hasFile('image')) {
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images'), $imageName);
-            $comic->image = $imageName;
-            $imageName = old('image');
-            $comic->save();
-        }
+    // Create the comic
+    $comic = Comic::create($request->except(['genres', 'synopsis', 'image', 'chapter_images']));
 
-        $comic->genres()->attach($request->genres);
-
-        $comic->synopsis()->create(['content' => $request->synopsis]);
-
-        if ($request->hasFile('chapter_images')) {
-            foreach ($request->file('chapter_images') as $file) {
-                $imageName = time() . rand(1, 100) . '.' . $file->extension(); // Ensure the name is consistent
-                $file->move(public_path('chapter_images'), $imageName);
-                $comic->chapters()->create(['image' => $imageName]); // Consistent naming
-
-                ChapterImage::create([
-                    'chapter_id' => $comic->id,
-                    'image' => $imageName, // Make sure the field name is consistent
-                ]);
-
-            }
-        }
-
-        return redirect()->route('comics.index',  $comic->comic_id)->with('success', 'Comic created successfully.');
+    // Handle comic image
+    if ($request->hasFile('image')) {
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        $comic->image = $imageName;
+        $comic->save();
     }
+
+    // Attach genres to the comic
+    $comic->genres()->attach($request->genres);
+
+    // Create synopsis
+    $comic->synopsis()->create(['content' => $request->synopsis]);
+
+    // Handle chapter images
+    if ($request->hasFile('chapter_images')) {
+        // Create a chapter first
+        $chapter = $comic->chapters()->create(); // Add other chapter-specific fields if necessary
+
+        foreach ($request->file('chapter_images') as $file) {
+            $imageName = time() . rand(1, 100) . '.' . $file->extension();
+            $file->move(public_path('chapter_images'), $imageName);
+
+            // Create chapter images
+            ChapterImage::create([
+                'chapter_id' => $chapter->id,
+                'image' => $imageName,
+            ]);
+        }
+    }
+
+    return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
+}
+
 
 
     public function show(Comic $comic)
