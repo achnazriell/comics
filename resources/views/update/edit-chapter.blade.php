@@ -57,13 +57,21 @@
                         <div class="relative p-2 border rounded">
                             <p>Chapter {{ $index + 1 }}</p>
                             <a href="{{ route('chapters.edit', $ch->id) }}" class="text-blue-500 hover:underline">Edit</a>
+                           <!-- Delete button -->
+<form action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
+    @csrf
+    @method('DELETE')
+    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+</form>
+
                         </div>
                     @endforeach
                 </div>
             </div>
 
             <!-- Buttons for adding chapters and images -->
-            <a href="{{ route('chapters.create') }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
+            <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
+
             <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
 
             <!-- Navigation buttons -->
