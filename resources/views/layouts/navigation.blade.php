@@ -8,7 +8,6 @@
                 <div class="flex-shrink-0">
                     <a href="{{ route('dashboard') }}">
                         <img src="{{ asset('images/KomikQue.png') }}" alt="Logo" class="h-12">
-                        <!-- Ubah path dan ukuran sesuai kebutuhan -->
                     </a>
                 </div>
 
@@ -61,11 +60,12 @@
                     x-transition:leave-start="opacity-100 transform scale-100"
                     x-transition:leave-end="opacity-0 transform scale-95"
                     class="absolute z-50 right-0 mt-0 bg-transparent dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-md shadow-lg w-80 p-2 mr-11">
-                    <form action="{{ route('dashboard') }}" method="GET" class="flex items-center">
+                    <form id="searchForm" action="{{ route('dashboard') }}" method="GET" class="flex items-center">
                         <input type="text" name="search" placeholder="Search..."
                             class="border border-gray-300 dark:border-gray-600 rounded-md p-2 w-full bg-gray-100 dark:bg-gray-900 text-gray-800 dark:text-gray-200"
                             value="{{ old('search', $search) }}">
                         <button type="submit" class="ml-2 p-2 bg-gray-100 text-gray-800 rounded-md">Search</button>
+                        <!-- Reset Button -->
                     </form>
                 </div>
             </div>
@@ -105,8 +105,6 @@
                     </div>
                 </div>
             </div>
-
-
 
             <!-- Hamburger -->
             <div class="-mr-2 flex items-center sm:hidden">
@@ -167,6 +165,8 @@
         const sidebar = document.getElementById('sidebar');
         const sidebarToggle = document.querySelector('[x-data] [@click="sidebarOpen = !sidebarOpen"]');
         const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const searchForm = document.getElementById('searchForm');
+        const searchInput = searchForm.querySelector('input[name="search"]');
 
         sidebarToggle.addEventListener('click', function() {
             sidebar.classList.toggle('-translate-x-full');
@@ -177,5 +177,21 @@
             sidebar.classList.add('-translate-x-full');
             sidebarOverlay.classList.add('hidden');
         });
+
+        window.resetSearch = function() {
+            const searchInput = document.querySelector('#searchForm input[name="search"]');
+            searchInput.value = '';
+            document.querySelector('#searchForm').submit();
+        };
+
+        // Function to reset search
+        function resetSearch() {
+            searchInput.value = '';
+            document.querySelector('form').submit();
+        }
+
+        document.querySelector('button[onclick="resetSearch()"]').addEventListener('click', resetSearch);
+
+    };
     });
 </script>
