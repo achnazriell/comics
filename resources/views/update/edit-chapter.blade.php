@@ -1,10 +1,10 @@
 <x-app-layout>
-        <!-- Wizard Step 3: Add Chapter -->
-        <div id="step3" class="wizard-step">
-            <h2 class="text-xl font-semibold mb-4">Edit Chapter</h2>
-            <form action="{{ route('chapters.update', $chapter) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
+    <!-- Wizard Step 3: Add Chapter -->
+    <div id="step3" class="wizard-step">
+        <h2 class="text-xl font-semibold mb-4">Edit Chapter</h2>
+        <form action="{{ route('chapters.update', $chapter) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
 
             <!-- Hidden fields for chapter and comic IDs -->
             <input type="hidden" name="chapter_id" value="{{ $chapter->id }}">
@@ -19,11 +19,13 @@
             <div id="currentChapterSection">
                 <h3 class="text-sm font-medium text-gray-700 mb-2">Current Chapter Images</h3>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    @foreach($chapter->images as $image)
+                    @foreach ($chapter->images as $image)
                         <div class="relative">
-                            <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image" class="w-full h-32 object-cover">
+                            <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image"
+                                class="w-full h-32 object-cover">
                             <!-- Checkbox for image deletion -->
-                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="absolute top-0 right-0 m-2">
+                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
+                                class="absolute top-0 right-0 m-2">
                         </div>
                     @endforeach
                 </div>
@@ -35,8 +37,10 @@
                 <div id="chapterImagesWrapper" class="mb-4">
                     <!-- Initial image input -->
                     <div class="chapter-image-input mb-4">
-                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
-                        <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter
+                            Images</label>
+                        <input type="file" name="chapter_images[]"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                 </div>
             </div>
@@ -53,16 +57,18 @@
             <div id="allChapters">
                 <h3 class="text-sm font-medium text-gray-700 mb-2">All Chapters</h3>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    @foreach($chapters as $index => $ch)
+                    @foreach ($chapters as $index => $ch)
                         <div class="relative p-2 border rounded">
                             <p>Chapter {{ $index + 1 }}</p>
-                            <a href="{{ route('chapters.edit', $ch->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                           <!-- Delete button -->
-<form action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
-    @csrf
-    @method('DELETE')
-    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
-</form>
+                            <a href="{{ route('chapters.edit', $ch->id) }}"
+                                class="text-blue-500 hover:underline">Edit</a>
+                            <!-- Delete button -->
+                            <form action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit"
+                                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Delete</button>
+                            </form>
 
                         </div>
                     @endforeach
@@ -70,12 +76,16 @@
             </div>
 
             <!-- Buttons for adding chapters and images -->
-            <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
+            <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}"
+                class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
 
-            <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
+            <button type="button" id="addImageToExistingChapter"
+                class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing
+                Chapter</button>
 
             <!-- Navigation buttons -->
-            <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
+            <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
         </form>
     </div>
@@ -105,6 +115,26 @@
                 <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
             `;
             wrapper.appendChild(newInput);
+        });
+    </script>
+    <!-- SweetAlert2 Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if (session('success'))
+                Swal.fire({
+                    title: 'Success!',
+                    text: "{{ session('success') }}",
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            @elseif ($errors->any())
+                Swal.fire({
+                    title: 'Oops!',
+                    text: "{{ $errors->first() }}",
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+            @endif
         });
     </script>
 </x-app-layout>

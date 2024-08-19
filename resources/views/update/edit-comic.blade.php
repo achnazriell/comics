@@ -112,24 +112,4 @@
             }
         });
     </script>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                @if (session('success'))
-                    Swal.fire({
-                        title: 'Success!',
-                        text: "{{ session('success') }}",
-                        icon: 'success',
-                        confirmButtonText: 'OK'
-                    });
-                @elseif ($errors->any())
-                    Swal.fire({
-                        title: 'Oops!',
-                        text: "{{ $errors->first() }}",
-                        icon: 'error',
-                        confirmButtonText: 'OK'
-                    });
-                @endif
-            });
-        </script>
-
 </x-app-layout>
