@@ -28,7 +28,7 @@
                     </tr>
                 </thead>
                 <tbody class="text-center">
-                    @foreach ($publishers as $index => $publisher)
+                    @forelse ($publishers as $index => $publisher)
                         <tr>
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
                             <td class="py-2 px-4">{{ $publisher->name }}</td>
@@ -41,8 +41,13 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                    @empty
+                        <tr>
+                            <td colspan="3" class="py-2 px-4 text-center">No publisher found.</td>
+                        </tr>
+                    @endforelse
                 </tbody>
+                
             </table>
         </div>
 
