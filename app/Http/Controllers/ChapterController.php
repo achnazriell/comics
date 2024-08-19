@@ -6,6 +6,7 @@ use App\Models\Chapter;
 use App\Models\ChapterImage;
 use App\Models\Comic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class ChapterController extends Controller
 {
@@ -28,10 +29,8 @@ class ChapterController extends Controller
         'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
     ]);
 
-    // Create a new chapter
-    $chapter = Chapter::create($request->only(['comic_id']));
+    $chapter = Chapter::create($request->only('comic_id'));
 
-    // Handle image uploads
     if ($request->hasFile('images')) {
         foreach ($request->file('images') as $file) {
             if ($file->isValid()) {
@@ -48,6 +47,7 @@ class ChapterController extends Controller
 
     return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
 }
+
 
 
     public function show(Chapter $chapter)
@@ -111,9 +111,10 @@ class ChapterController extends Controller
 public function destroy(Chapter $chapter)
 {
     try {
-        // Check if chapter can be deleted
+        // Check if the chapter is associated with a comic
         if ($chapter->comic) {
-            return redirect()->route('chapters.show', $chapter->id)->with('error', 'Chapter cannot be deleted because it is still associated with a comic.');
+            return redirect()->route('chapters.show', $chapter->id)
+                ->with('error', 'Chapter cannot be deleted because it is still associated with a comic.');
         }
 
         // Delete associated images
@@ -130,7 +131,10 @@ public function destroy(Chapter $chapter)
 
         return redirect()->route('comics.index')->with('success', 'Chapter deleted successfully.');
     } catch (\Exception $e) {
-        return redirect()->route('comics.index')->with('error', 'An error occurred while deleting the chapter: ' . $e->getMessage());
+        // Log the exception for debugging
+        Log::error('Failed to delete chapter: ' . $e->getMessage());
+
+        return redirect()->route('comics.index')->with('error', 'An error occurred while deleting the chapter.');
     }
 }
 

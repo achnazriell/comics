@@ -5,7 +5,7 @@
             @csrf
             <!-- Hidden field for comic_id -->
             <input type="hidden" name="comic_id" value="{{ request()->query('comic_id') }}" />
-
+        
             <div class="mb-4">
                 <label for="images" class="block text-sm font-medium text-gray-700">Images</label>
                 <div id="image-inputs">
@@ -14,7 +14,7 @@
                 <button type="button" id="add-image" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add More Images</button>
             </div>
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Chapter</button>
-        </form>
+        </form>        
     </div>
 
     <script>
