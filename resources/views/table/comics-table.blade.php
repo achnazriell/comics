@@ -33,7 +33,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($comics as $index => $comic)
+                    @forelse ($comics as $index => $comic)
                         <tr class="border border-black">
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
                             <td class="py-2 px-4">{{ $comic->title }}</td>
@@ -71,7 +71,12 @@
                                 </form>
                             </td>
                         </tr>
-                    @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="8" class="py-2 px-4 text-center">No Comic found.</td>
+                        </tr>
+                    @endforelse
+                  
                 </tbody>
             </table>
         </div>

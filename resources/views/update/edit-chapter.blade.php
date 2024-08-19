@@ -31,7 +31,7 @@
 
                 <!-- Input untuk mengunggah gambar baru -->
                 <div id="chapterSection">
-                    <h3 class="text-sm font-medium text-gray-700 mb-2">Add New Chapter Images</h3>
+                    <h3 class="text-sm font-medium text-gray-700 mb-2"></h3>
                     <div class="mb-4">
                         <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
                         <input type="file" name="chapter_images[]" id="chapter_images"
