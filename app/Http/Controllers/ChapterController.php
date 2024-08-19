@@ -19,7 +19,7 @@ class ChapterController extends Controller
     {
         $comics = Comic::all();
         return view('create.create-chapter', compact('comics'));
-    }
+    }    
 
     public function store(Request $request)
 {
@@ -108,19 +108,30 @@ class ChapterController extends Controller
 }
 
 
-    public function destroy(Chapter $chapter)
-    {
-        try {
-            if ($chapter->comic()->exists()) {
-                return redirect()->route('chapters.show', $chapter)->with('error', 'Chapter cannot be deleted because it is still associated with a comic.');
-            }
-
-            $chapter->images()->delete(); // Deleting associated images first
-            $chapter->delete();
-
-            return redirect()->route('comics.index')->with('success', 'Chapter deleted successfully.');
-        } catch (\Exception $e) {
-            return redirect()->route('comics.index')->with('error', 'An error occurred while deleting the chapter.');
+public function destroy(Chapter $chapter)
+{
+    try {
+        // Check if chapter can be deleted
+        if ($chapter->comic) {
+            return redirect()->route('chapters.show', $chapter->id)->with('error', 'Chapter cannot be deleted because it is still associated with a comic.');
         }
+
+        // Delete associated images
+        foreach ($chapter->images as $image) {
+            $imagePath = public_path('chapter_images/' . $image->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // Delete the file
+            }
+            $image->delete(); // Delete from database
+        }
+
+        // Delete the chapter
+        $chapter->delete();
+
+        return redirect()->route('comics.index')->with('success', 'Chapter deleted successfully.');
+    } catch (\Exception $e) {
+        return redirect()->route('comics.index')->with('error', 'An error occurred while deleting the chapter: ' . $e->getMessage());
     }
+}
+
 }
