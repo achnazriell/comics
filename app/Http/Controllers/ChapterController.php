@@ -22,29 +22,33 @@ class ChapterController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'comic_id' => 'required|exists:comics,id',
-            'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
+{
+    $request->validate([
+        'comic_id' => 'required|exists:comics,id',
+        'images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ]);
 
-        $chapter = Chapter::create($request->only(['comic_id']));
+    // Create a new chapter
+    $chapter = Chapter::create($request->only(['comic_id']));
 
-        if ($request->hasFile('chapter_images')) {
-            foreach ($request->file('chapter_images') as $file) {
+    // Handle image uploads
+    if ($request->hasFile('images')) {
+        foreach ($request->file('images') as $file) {
+            if ($file->isValid()) {
                 $imageName = time() . rand(1, 100) . '.' . $file->extension();
                 $file->move(public_path('chapter_images'), $imageName);
 
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
-                    'image' => $imageName, // Make sure the field name is consistent
+                    'image' => $imageName,
                 ]);
             }
         }
-
-
-        return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
     }
+
+    return redirect()->route('comics.show', $chapter->comic_id)->with('success', 'Chapter created successfully.');
+}
+
 
     public function show(Chapter $chapter)
     {
@@ -63,43 +67,46 @@ class ChapterController extends Controller
     
 
     public function update(Request $request, Chapter $chapter)
-    {
-        $request->validate([
-            'comic_id' => 'required|exists:comics,id',
-            'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ]);
-    
-        // Update comic_id if needed
-        $chapter->update($request->only(['comic_id']));
-    
-        // Hapus gambar yang dipilih
-        if ($request->has('delete_images')) {
-            $deleteImages = ChapterImage::whereIn('id', $request->delete_images)->get();
-            foreach ($deleteImages as $image) {
-                $imagePath = public_path('chapter_images/' . $image->image);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath); // Hapus file dari server
-                }
-                $image->delete(); // Hapus dari database
+{
+    $request->validate([
+        'comic_id' => 'required|exists:comics,id',
+        'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'delete_images.*' => 'nullable|exists:chapter_images,id',
+    ]);
+
+    // Update chapter details
+    $chapter->update($request->only(['comic_id']));
+
+    // Handle image deletions
+    if ($request->has('delete_images')) {
+        $deleteImages = ChapterImage::whereIn('id', $request->delete_images)->get();
+        foreach ($deleteImages as $image) {
+            $imagePath = public_path('chapter_images/' . $image->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // Delete the file
             }
+            $image->delete(); // Delete from database
         }
-    
-        // Upload dan simpan gambar baru
-        if ($request->hasFile('chapter_images')) {
-            foreach ($request->file('chapter_images') as $file) {
+    }
+
+    // Handle new image uploads
+    if ($request->hasFile('chapter_images')) {
+        foreach ($request->file('chapter_images') as $file) {
+            if ($file->isValid()) {
                 $imageName = time() . rand(1, 100) . '.' . $file->extension();
                 $file->move(public_path('chapter_images'), $imageName);
-    
+
                 ChapterImage::create([
                     'chapter_id' => $chapter->id,
                     'image' => $imageName,
                 ]);
             }
         }
-    
-        return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
     }
-    
+
+    return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
+}
+
 
     public function destroy(Chapter $chapter)
     {

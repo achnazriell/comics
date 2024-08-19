@@ -1,8 +1,8 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Edit Chapter</h1>
-        
-        <!-- Wizard Step 3: Add Chapter -->
+
+        <!-- Wizard Step 3: Edit Chapter -->
         <div id="step3" class="wizard-step">
             <h2 class="text-xl font-semibold mb-4">Edit Chapter</h2>
             <form action="{{ route('chapters.update', $chapter) }}" method="POST" enctype="multipart/form-data">
@@ -33,10 +33,18 @@
                 <div id="chapterSection">
                     <h3 class="text-sm font-medium text-gray-700 mb-2">Add New Chapter Images</h3>
                     <div id="chapterImagesWrapper" class="mb-4">
-                        <div class="mb-4">
+                        <div class="chapter-image-input mb-4">
                             <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
-                            <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <input type="file" name="chapter_images[][image]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                         </div>
+                    </div>
+                </div>
+
+                <!-- Section for adding new chapters -->
+                <div id="newChaptersSection">
+                    <h3 class="text-sm font-medium text-gray-700 mb-2">Add New Chapters</h3>
+                    <div id="newChaptersWrapper" class="mb-4">
+                        <!-- New chapter form will be appended here -->
                     </div>
                 </div>
 
@@ -53,24 +61,38 @@
                     </div>
                 </div>
 
-                <!-- Tombol untuk menambahkan input gambar baru -->
-                <button type="button" id="addChapter"
-                    class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter Image</button>
+                <!-- Buttons for adding chapters and images -->
+                <button type="button" id="addChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</button>
+                <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
 
                 <!-- Tombol navigasi -->
                 <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
                     onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
-                <button type="submit"
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
+                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
             </form>
         </div>
     </div>
 
     <script>
+        // Function to add a new chapter form
         document.getElementById('addChapter').addEventListener('click', function() {
+            const wrapper = document.getElementById('newChaptersWrapper');
+            const index = wrapper.children.length;
+            const newChapter = document.createElement('div');
+            newChapter.classList.add('chapter-image-input', 'mb-4');
+            newChapter.innerHTML = `
+                <h4 class="text-sm font-medium text-gray-700 mb-2">Chapter ${index + 1}</h4>
+                <label class="block text-sm font-medium text-gray-700">Chapter Image</label>
+                <input type="file" name="new_chapters[][image]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            `;
+            wrapper.appendChild(newChapter);
+        });
+
+        // Function to add image input for existing chapters
+        document.getElementById('addImageToExistingChapter').addEventListener('click', function() {
             const wrapper = document.getElementById('chapterImagesWrapper');
             const newInput = document.createElement('div');
-            newInput.classList.add('mb-4');
+            newInput.classList.add('chapter-image-input', 'mb-4');
             newInput.innerHTML = `
                 <label class="block text-sm font-medium text-gray-700">Chapter Images</label>
                 <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -79,4 +101,3 @@
         });
     </script>
 </x-app-layout>
-    
