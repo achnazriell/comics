@@ -8,7 +8,7 @@
                         <div class=" overflow-hidden">
                             <a href="{{ route('comics.show', $comic->id) }}">
                                 <img src="{{ asset('images/' . $comic->image) }}" class="w-full h-59 object-cover" alt="{{ $comic->title }}">
-                                <h3 class=" absolute bottom-0 left-0 right-0 p-7 text-white text-xl font-semibold bg-black bg-opacity-50 text-left block text-ellipsis whitespace-nowrap">
+                                <h3 class=" absolute bottom-0 left-0 right-0 p-7 text-white text-xl font-semibold bg-black bg-opacity-50 text-center block text-ellipsis whitespace-nowrap">
                                     <p>{{ Str::limit($comic->title, 16) }}</p>
                                 </h3>
                             </a>

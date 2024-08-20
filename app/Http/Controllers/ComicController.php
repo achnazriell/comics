@@ -127,6 +127,7 @@ class ComicController extends Controller
         $genres = Genre::all();
         $publishers = Publisher::all();
         $selectedGenres = $comic->genres->pluck('id')->toArray();
+        
         return view('update.edit-comic', compact('comic', 'authors', 'genres', 'publishers', 'selectedGenres'));
     }
 
@@ -184,21 +185,28 @@ class ComicController extends Controller
 
     public function destroy(Comic $comic)
     {
-        // Delete images
+        // Delete comic image
         if ($comic->image) {
-            Storage::disk('public')->delete($comic->image);
+            $imagePath = public_path('images/' . $comic->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
         }
-
-        // Ensure chapterImages is an empty collection if null
-        $chapterImages = $comic->chapterImages ?? collect();
-
-        foreach ($chapterImages as $chapterImage) {
-            Storage::disk('public')->delete($chapterImage->path);
+    
+        // Delete chapter images associated with the comic
+        foreach ($comic->chapters as $chapter) {
+            foreach ($chapter->images as $image) {
+                $imagePath = public_path('chapter_images/' . $image->image);
+                if (file_exists($imagePath)) {
+                    unlink($imagePath);
+                }
+                $image->delete();
+            }
         }
-
-        // Delete comic
+    
+        // Delete the comic itself
         $comic->delete();
-
+    
         return redirect()->route('comics.index')->with('success', 'Comic deleted successfully.');
     }
-}
+}    
