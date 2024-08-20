@@ -64,13 +64,14 @@
                         <p>Chapter {{ $index + 1 }}</p>
                         <a href="{{ route('chapters.edit', $ch->id) }}" class="text-blue-500 hover:underline">Edit</a>
                         <!-- Delete button -->
-                        <form action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
+                        <form id="delete-form-{{ $ch->id }}" action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
                             @csrf
                             @method('DELETE')
                             <button type="button" onclick="oneClickDelete({{ $ch->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
                                 Delete
                             </button>
                         </form>
+                        
                     </div>
                 @endforeach
             </div>
