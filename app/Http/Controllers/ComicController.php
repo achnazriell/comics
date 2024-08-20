@@ -117,7 +117,8 @@ class ComicController extends Controller
     public function show(Comic $comic)
     {
         $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters']);
-        return view('comics-show', compact('comic'));
+        $filteredChapters = $comic->chapters()->orderBy('created_at', 'asc')->get();
+        return view('comics-show', compact('comic', 'filteredChapters'));
     }
 
     public function edit(Comic $comic)

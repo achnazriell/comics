@@ -65,7 +65,6 @@ class ChapterController extends Controller
     }
 
 
-
     public function update(Request $request, Chapter $chapter)
     {
         $request->validate([
@@ -104,11 +103,14 @@ class ChapterController extends Controller
             }
         }
 
-        return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
+        // Redirect back to the chapter edit page with a success message
+        return redirect()->route('chapters.edit', $chapter->id)->with('success', 'Chapter updated successfully.');
     }
 
     public function destroy(Chapter $chapter)
     {
+        $comicId = $chapter->comic_id; // Save the comic ID before deleting the chapter
+
         try {
             // Delete associated images
             foreach ($chapter->images as $image) {
@@ -122,10 +124,9 @@ class ChapterController extends Controller
             // Delete the chapter
             $chapter->delete();
 
-            return redirect()->back()->with('success', 'Chapter deleted successfully.');
-        } catch (\Exception $e) {
-            Log::error('Error deleting chapter: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'An error occurred while deleting the chapter.');
+            return redirect()->route('comics.edit', $comicId)->with('success', 'Chapter deleted successfully.');
+        } catch (\Exception ) {
+            return redirect()->route('comics.edit', $comicId)->with('error', 'An error occurred while deleting the chapter.');
         }
     }
 }
