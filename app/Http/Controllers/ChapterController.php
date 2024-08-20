@@ -108,6 +108,7 @@ class ChapterController extends Controller
 }
 
 
+
 public function destroy(Chapter $chapter)
 {
     try {
