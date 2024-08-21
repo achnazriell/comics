@@ -35,8 +35,6 @@
 
                 <tbody class="text-center">
 
-              
-
                     @forelse ($comics as $index => $comic)
                         <tr class="border border-black">
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
@@ -77,7 +75,9 @@
                             </td>
                             <td class="py-2 px-4">
                                 <a href="{{ route('comics.edit', $comic) }}"
-                                    class="inline-block px-4 py-2 bg-gradient-to-r from-gray-900 to-blue-500 ... text-white rounded hover:bg-blue-600">Edit</a>
+
+                                    class="inline-block px-4 py-2 bg-gradient-to-r from-gray-900 to-blue-500 ... text-white rounded hover:bg-blue-600">Update</a>
+
                             </td>
                             <td class="py-2 px-4">
                                 <form action="{{ route('comics.destroy', $comic) }}" method="POST"
@@ -92,6 +92,7 @@
                         </tr>
 
                     @empty
+
 
                         <tr>
                             <td colspan="8" class="py-2 px-4 text-center">No Comic found.</td>
