@@ -32,7 +32,9 @@
                         <th colspan="3" class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
+
                 <tbody class="text-center">
+
                     @forelse ($comics as $index => $comic)
                         <tr class="border border-black">
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
@@ -66,6 +68,7 @@
                                     class="container w-16 h-8 flex items-center justify-center bg-gray-100 border border-gray-400 rounded">
                                     {{ $comic->chapters->count() }} <!-- Display the total number of chapters -->
                                 </div>
+
                             </td>
                             <td class="py-2 px-4">
                                 <a href="{{ route('comics.show', $comic) }}"
@@ -86,6 +89,7 @@
                                 </form>
                             </td>
                         </tr>
+
                     @empty
                         <tr>
                             <td colspan="8" class="py-2 px-4 text-center">No Comic found.</td>

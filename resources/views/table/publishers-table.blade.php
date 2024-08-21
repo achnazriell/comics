@@ -33,7 +33,7 @@
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
                             <td class="py-2 px-4">{{ $publisher->name }}</td>
                             <td class="py-2 px-4">
-                                <a href="{{ route('publishers.edit', $publisher) }}" class="inline-block px-4 py-2 bg-gradient-to-r from-gray-900 to-blue-500 ... text-white rounded hover:bg-blue-600 m-2">Edit</a>
+                                <a href="{{ route('publishers.edit', $publisher) }}" class="inline-block px-4 py-2 bg-gradient-to-r from-gray-900 to-blue-500 ... text-white rounded hover:bg-blue-600 m-2">Update</a>
                                 <form action="{{ route('publishers.destroy', $publisher) }}" method="POST" style="display:inline-block">
                                     @csrf
                                     @method('DELETE')
@@ -47,7 +47,7 @@
                         </tr>
                     @endforelse
                 </tbody>
-                
+
             </table>
         </div>
 

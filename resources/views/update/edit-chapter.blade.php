@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Chapter</h1>
+        <h1 class="text-2xl font-bold mb-4">Update Chapter</h1>
 
 
 
@@ -47,7 +47,7 @@
             <div id="currentChapterSection">
                 <h3 class="text-sm font-medium text-gray-700 mb-2">Current Chapter Images</h3>
                 <div class="grid grid-cols-3 gap-4 mb-4">
-                    @foreach($chapter->images as $image)
+                    @foreach ($chapter->images as $image)
                         <div class="relative">
                             <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image" class="w-full h-32 object-cover">
                             <!-- Checkbox for image deletion -->
@@ -77,18 +77,16 @@
             <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
 
             <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
-
         </form>
-
-        
 
         <!-- Display all chapters -->
         <div id="allChapters" class="mt-6">
             <h3 class="text-sm font-medium text-gray-700 mb-2">All Chapters</h3>
-            <div class="grid grid-cols-3 gap-4 mb-4">
-                @foreach($chapters as $index => $ch)
+            <div class="grid grid-cols-5 gap-4 mb-4 text-center">
+                @foreach ($chapters as $index => $ch)
                     <div class="relative p-2 border rounded">
                         <p>Chapter {{ $index + 1 }}</p>
+
                         <a href="{{ route('chapters.edit', $ch->id) }}" class="text-blue-500 hover:underline">Edit</a>
                         <!-- Delete button -->
                         <form id="delete-form-{{ $ch>id }}" action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">

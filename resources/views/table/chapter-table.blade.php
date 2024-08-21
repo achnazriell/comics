@@ -50,7 +50,7 @@
                             <td class="py-2 px-4 border border-black">{{ $chapter->comic->title }}</td>
                             <td class="py-2 px-4 border border-black">
                                 <a href="{{ route('chapters.edit', $chapter) }}"
-                                    class="bg-gradient-to-r from-gray-900 to-blue-500 ... text-white px-4 py-2 rounded hover:bg-yellow-600">Edit</a>
+                                    class="bg-gradient-to-r from-gray-900 to-blue-500 ... text-white px-4 py-2 rounded hover:bg-yellow-600">Update</a>
                                 <form action="{{ route('chapters.destroy', $chapter) }}" method="POST"
                                     style="display:inline;">
                                     @csrf

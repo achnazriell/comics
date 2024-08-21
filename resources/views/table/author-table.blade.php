@@ -35,7 +35,7 @@
                             <td class="py-2 px-4 border-1">{{ $author->name }}</td>
                             <td class="py-2 px-4 border-1">
                                 <a href="{{ route('authors.edit', $author) }}"
-                                    class="bg-gradient-to-r from-gray-900 to-blue-500 ... text-white px-6 py-2 rounded hover:bg-blue-600 m-2">Edit</a>
+                                    class="bg-gradient-to-r from-gray-900 to-blue-500 ... text-white px-6 py-2 rounded hover:bg-blue-600 m-2">Update</a>
                                 <form action="{{ route('authors.destroy', $author) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
@@ -51,7 +51,7 @@
                         </tr>
                     @endforelse
                 </tbody>
-                
+
             </table>
         </div>
         <!-- SweetAlert2 Alert Script -->
