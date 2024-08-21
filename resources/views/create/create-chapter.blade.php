@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Add Chapter</h1>
-        <form action="{{ route('chapters.store') }}" method="POST" enctype="multipart/form-data"
+        <form id="create-chapter-form" action="{{ route('chapters.store') }}" method="POST" enctype="multipart/form-data"
             class="bg-white p-6 rounded shadow-md">
             @csrf
             <!-- Hidden field for comic_id -->
@@ -17,8 +17,7 @@
                 <button type="button" id="add-image"
                     class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add More Images</button>
             </div>
-            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create
-                Chapter</button>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Create Chapter</button>
         </form>
     </div>
 

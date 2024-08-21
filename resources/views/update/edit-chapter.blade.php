@@ -24,6 +24,7 @@
                     @foreach ($chapter->images as $image)
                         <div class="relative">
                             <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image" class="w-full h-32 object-cover">
+                            <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image" class="w-full h-32 object-cover">
                             <!-- Checkbox for image deletion -->
                             <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="absolute top-0 right-0 m-2 delete-checkbox">
                             <!-- Trash can icon for delete -->
@@ -43,6 +44,8 @@
                     <div class="chapter-image-input mb-4">
                         <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
                         <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
+                        <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                 </div>
             </div>
@@ -51,9 +54,12 @@
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
 
             <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
+            <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
 
             <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
+            <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
 
+            <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
             <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
         </form>
 
