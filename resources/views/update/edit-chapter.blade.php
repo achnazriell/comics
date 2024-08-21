@@ -71,7 +71,7 @@
                                 Delete
                             </button>
                         </form>
-                        
+-                        
                     </div>
                 @endforeach
             </div>

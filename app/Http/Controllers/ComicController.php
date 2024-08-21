@@ -141,55 +141,59 @@ class ComicController extends Controller
     }
 
     public function update(Request $request, Comic $comic)
-    {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'author_id' => 'required|exists:authors,id',
-            'publisher_id' => 'required|exists:publishers,id',
-            'synopsis' => 'required|string',
-            'genres' => 'required|array',
-            'genres.*' => 'exists:genres,id',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        ], [
-            'title.required' => 'The title field is required.',
-            'title.string' => 'The title must be a string.',
-            'title.max' => 'The title may not be greater than 255 characters.',
-            'author_id.required' => 'The author field is required.',
-            'author_id.exists' => 'The selected author does not exist.',
-            'publisher_id.required' => 'The publisher field is required.',
-            'publisher_id.exists' => 'The selected publisher does not exist.',
-            'synopsis.required' => 'The synopsis field is required.',
-            'synopsis.string' => 'The synopsis must be a string.',
-            'genres.required' => 'At least one genre must be selected.',
-            'genres.array' => 'The genres field must be an array.',
-            'genres.*.exists' => 'One or more selected genres are invalid.',
-            'image.image' => 'The image must be an image file.',
-            'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
-            'image.max' => 'The image may not be greater than 2048 kilobytes.',
-        ]);
+{
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'author_id' => 'required|exists:authors,id',
+        'publisher_id' => 'required|exists:publishers,id',
+        'synopsis' => 'required|string',
+        'genres' => 'required|array',
+        'genres.*' => 'exists:genres,id',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+    ], [
+        'title.required' => 'The title field is required.',
+        'title.string' => 'The title must be a string.',
+        'title.max' => 'The title may not be greater than 255 characters.',
+        'author_id.required' => 'The author field is required.',
+        'author_id.exists' => 'The selected author does not exist.',
+        'publisher_id.required' => 'The publisher field is required.',
+        'publisher_id.exists' => 'The selected publisher does not exist.',
+        'synopsis.required' => 'The synopsis field is required.',
+        'synopsis.string' => 'The synopsis must be a string.',
+        'genres.required' => 'At least one genre must be selected.',
+        'genres.array' => 'The genres field must be an array.',
+        'genres.*.exists' => 'One or more selected genres are invalid.',
+        'image.image' => 'The image must be an image file.',
+        'image.mimes' => 'The image must be a file of type: jpeg, png, jpg.',
+        'image.max' => 'The image may not be greater than 2048 kilobytes.',
+    ]);
 
-        $comic->update($request->except(['genres', 'synopsis', 'image']));
+    $comic->update($request->except(['genres', 'synopsis', 'image']));
 
-        if ($request->hasFile('image')) {
-            // Delete old image if it exists
-            if ($comic->image) {
-                Storage::disk('public')->delete($comic->image);
+    if ($request->hasFile('image')) {
+        // Delete old image if it exists
+        if ($comic->image) {
+            $oldImagePath = public_path('images/' . $comic->image);
+            if (file_exists($oldImagePath)) {
+                unlink($oldImagePath);
             }
-
-            $imageName = time() . '.' . $request->image->extension();
-            $request->image->move(public_path('images','public'), $imageName);
-            $comic->image = $imageName;
-            $comic->save();
         }
 
-        // Sync genres (removes old and attaches new ones)
-        $comic->genres()->sync($request->genres);
-
-        // Update synopsis
-        $comic->synopsis->update(['content' => $request->synopsis]);
-
-        return redirect()->route('comics.index')->with('success', 'Comic updated successfully.');
+        $imageName = time() . '.' . $request->image->extension();
+        $request->image->move(public_path('images'), $imageName);
+        $comic->image = $imageName;
+        $comic->save();
     }
+
+    // Sync genres (removes old and attaches new ones)
+    $comic->genres()->sync($request->genres);
+
+    // Update synopsis
+    $comic->synopsis->update(['content' => $request->synopsis]);
+
+    return redirect()->route('comics.index')->with('success', 'Comic updated successfully.');
+}
+
 
 
     public function destroy(Comic $comic)
