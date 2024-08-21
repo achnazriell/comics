@@ -120,15 +120,15 @@ class ComicController extends Controller
     {
         // Load related models
         $comic->load(['author', 'genres', 'publisher', 'synopsis', 'chapters.images']);
-        
+
         // Filter chapters to only include those that have images
         $filteredChapters = $comic->chapters->filter(function($chapter) {
             return $chapter->images->isNotEmpty();
         });
-    
+
         return view('comics-show', compact('comic', 'filteredChapters'));
     }
-    
+
 
     public function edit(Comic $comic)
     {
@@ -136,7 +136,7 @@ class ComicController extends Controller
         $genres = Genre::all();
         $publishers = Publisher::all();
         $selectedGenres = $comic->genres->pluck('id')->toArray();
-        
+
         return view('update.edit-comic', compact('comic', 'authors', 'genres', 'publishers', 'selectedGenres'));
     }
 
@@ -205,7 +205,7 @@ class ComicController extends Controller
                 unlink($imagePath);
             }
         }
-    
+
         // Delete chapter images associated with the comic
         foreach ($comic->chapters as $chapter) {
             foreach ($chapter->images as $image) {
@@ -216,10 +216,10 @@ class ComicController extends Controller
                 $image->delete();
             }
         }
-    
+
         // Delete the comic itself
         $comic->delete();
-    
+
         return redirect()->route('comics.index')->with('success', 'Comic deleted successfully.');
     }
-}    
+}

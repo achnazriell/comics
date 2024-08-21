@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Comic</h1>
+        <h1 class="text-2xl font-bold mb-4">Update Comic</h1>
         <form action="{{ route('comics.update', $comic) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
             @csrf
             @method('PUT')
@@ -59,7 +59,9 @@
                 }'
                 class="hidden">
                 @foreach ($genres as $genre)
-                    <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                    <option value="{{ $genre->id }}" {{ in_array($genre->id, old('genres', $selectedGenres)) ? 'selected' : '' }}>
+                        {{ $genre->name }}
+                    </option>
                 @endforeach
             </select>
                 @error('genres')
@@ -70,7 +72,7 @@
             <!-- Synopsis -->
             <div class="mb-4">
                 <label for="synopsis" class="block text-sm font-medium text-gray-700">Synopsis</label>
-                <textarea name="synopsis" id="synopsis" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>{{ old('synopsis', $comic->synopsis->content ?? '') }}</textarea>
+                <textarea name="synopsis" id="synopsis" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >{{ old('synopsis', $comic->synopsis->content ?? '') }}</textarea>
                 @error('synopsis')
                     <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
@@ -83,6 +85,8 @@
                 @if($comic->image)
                     <img src="{{ asset('images/'.$comic->image) }}" alt="Comic Image" id="image-preview" class="mt-2 w-32">
                 @endif
+                <img id="image-preview" class="mt-2 w-32" style="{{ old('image') ? '' : 'display: none;' }}"
+                src="{{ old('image') ? asset('images/' . old('image')) : '' }}" alt="Old Image Preview"/>
                 @error('image')
                     <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
@@ -93,7 +97,7 @@
 
                 <!-- Button to navigate to Edit the first chapter -->
                 @if($comic->chapters->isNotEmpty())
-                    <a href="{{ route('chapters.edit', ['chapter' => $comic->chapters->first()->id]) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Edit First Chapter</a>
+                    <a href="{{ route('chapters.edit', ['chapter' => $comic->chapters->first()->id]) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Update First Chapter</a>
                 @endif
             </div>
         </form>
@@ -107,8 +111,11 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
             }
         });
     </script>

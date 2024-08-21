@@ -65,11 +65,23 @@ export default {
                         backgroundColor: 'transparent',
                     },
                 },
+                bounce: {
+                    '0%, 20%, 50%, 80%, 100%': {
+                        transform: 'translateY(0)',
+                    },
+                    '40%': {
+                        transform: 'translateY(-30px)',
+                    },
+                    '60%': {
+                        transform: 'translateY(-15px)',
+                    },
+                },
             },
             animation: {
                 tada: 'tada 1s ease-in-out 0.25s 1',
                 shake: 'shake 0.6s ease-in-out 0.25s 1',
                 slideInUp: 'slideInUp 0.5s ease-out',
+                bounce: 'bounce 1s infinite',
             },
         },
     },

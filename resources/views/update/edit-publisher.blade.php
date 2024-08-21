@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Publisher</h1>
+        <h1 class="text-2xl font-bold mb-4">Update Publisher</h1>
         <form action="{{ route('publishers.update', $publisher) }}" method="POST">
             @csrf
             @method('PUT')
