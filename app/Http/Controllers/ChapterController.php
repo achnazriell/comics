@@ -67,27 +67,27 @@ class ChapterController extends Controller
 
 
     public function update(Request $request, Chapter $chapter)
-    {
-        $request->validate([
-            'comic_id' => 'required|exists:comics,id',
-            'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'delete_images.*' => 'nullable|exists:chapter_images,id',
-        ]);
 
-        $comicId = $chapter->comic_id;
+{
+    $request->validate([
+        'comic_id' => 'required|exists:comics,id',
+        'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        'delete_images.*' => 'nullable|exists:chapter_images,id',
+    ], [
+        'chapter_images.*.mimes' => 'Only jpeg, png, jpg, and gif files are allowed.',
+        'chapter_images.*.max' => 'Each image may not be greater than 2MB.',
+    ]);
 
-        // Update chapter details
-        $chapter->update($request->only(['comic_id']));
+    // Update chapter details
+    $chapter->update($request->only(['comic_id']));
 
-        // Handle image deletions
-        if ($request->has('delete_images')) {
-            $deleteImages = ChapterImage::whereIn('id', $request->delete_images)->get();
-            foreach ($deleteImages as $image) {
-                $imagePath = public_path('chapter_images/' . $image->image);
-                if (file_exists($imagePath)) {
-                    unlink($imagePath); // Delete the file
-                }
-                $image->delete(); // Delete from database
+    // Handle image deletions
+    if ($request->has('delete_images')) {
+        $deleteImages = ChapterImage::whereIn('id', $request->delete_images)->get();
+        foreach ($deleteImages as $image) {
+            $imagePath = public_path('chapter_images/' . $image->image);
+            if (file_exists($imagePath)) {
+                unlink($imagePath); // Delete the file
             }
         }
 
