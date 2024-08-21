@@ -22,6 +22,7 @@
 </head>
 
 <body class="bg-image font-sans text-gray-900 antialiased ">
+
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-cover bg-center h-screen"
          style="background-image: url('/images/black.jpg'); dark:bg-gray-900">
         <div>
@@ -36,6 +37,51 @@
             {{ $slot }}
         </div>
     </div>
+    <script>
+        const $bigBall = document.querySelector('.cursor__ball--big');
+        const $smallBall = document.querySelector('.cursor__ball--small');
+        const $hoverables = document.querySelectorAll('.hoverable');
+
+        document.body.addEventListener('mousemove', onMouseMove);
+        $hoverables.forEach(item => {
+            item.addEventListener('mouseenter', onMouseHover);
+            item.addEventListener('mouseleave', onMouseHoverOut);
+        });
+
+        const cursorSizeBig = 30; // Diameter of the big cursor circle
+        const cursorSizeSmall = 12; // Diameter of the small cursor circle
+
+        // Move the cursor
+        function onMouseMove(e) {
+            const offsetBig = cursorSizeBig / 1.2; // Half of the size to center the big cursor
+            const offsetSmall = cursorSizeSmall / 2; // Half of the size to center the small cursor
+
+            TweenMax.to($bigBall, 1, {
+                x: e.pageX - offsetBig,
+                y: e.pageY - offsetBig
+            });
+            TweenMax.to($smallBall, 0.1, {
+                x: e.pageX - offsetSmall,
+                y: e.pageY - offsetSmall
+            });
+        }
+
+
+        // Hover an element
+        function onMouseHover() {
+            TweenMax.to($bigBall, 0.3, {
+                scale: 2, // Slightly smaller scaling for the hover effect
+                fill: "rgba(255, 255, 255, 0.6)"
+            });
+        }
+
+        function onMouseHoverOut() {
+            TweenMax.to($bigBall, 0.3, {
+                scale: 1,
+                fill: "rgba(255, 255, 255, 0.2)"
+            });
+        }
+    </script>
 </body>
 
 </html>
