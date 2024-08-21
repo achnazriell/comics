@@ -59,7 +59,9 @@
                 }'
                 class="hidden">
                 @foreach ($genres as $genre)
-                    <option value="{{ $genre->id }}">{{ $genre->name }}</option>
+                    <option value="{{ $genre->id }}" {{ in_array($genre->id, old('genres', $selectedGenres)) ? 'selected' : '' }}>
+                        {{ $genre->name }}
+                    </option>
                 @endforeach
             </select>
                 @error('genres')
@@ -70,7 +72,7 @@
             <!-- Synopsis -->
             <div class="mb-4">
                 <label for="synopsis" class="block text-sm font-medium text-gray-700">Synopsis</label>
-                <textarea name="synopsis" id="synopsis" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" required>{{ old('synopsis', $comic->synopsis->content ?? '') }}</textarea>
+                <textarea name="synopsis" id="synopsis" rows="4" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm" >{{ old('synopsis', $comic->synopsis->content ?? '') }}</textarea>
                 @error('synopsis')
                     <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
@@ -83,6 +85,8 @@
                 @if($comic->image)
                     <img src="{{ asset('images/'.$comic->image) }}" alt="Comic Image" id="image-preview" class="mt-2 w-32">
                 @endif
+                <img id="image-preview" class="mt-2 w-32" style="{{ old('image') ? '' : 'display: none;' }}"
+                src="{{ old('image') ? asset('images/' . old('image')) : '' }}" alt="Old Image Preview"/>
                 @error('image')
                     <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
                 @enderror
@@ -107,8 +111,11 @@
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
             }
         });
     </script>

@@ -111,6 +111,8 @@ class ChapterController extends Controller
 
     public function destroy(Chapter $chapter)
     {
+        $comicId = $chapter->comic_id;
+
         try {
             // Delete associated images
             foreach ($chapter->images as $image) {
@@ -124,12 +126,12 @@ class ChapterController extends Controller
             // Delete the chapter
             $chapter->delete();
 
-            return redirect()->route('comics.index')->with('success', 'Chapter deleted successfully.');
+            return redirect()->route('comics.edit', $comicId)->with('success', 'Chapter deleted successfully.');
         } catch (\Exception $e) {
             // Log the exception for debugging
             Log::error('Failed to delete chapter: ' . $e->getMessage());
 
-            return redirect()->route('comics.index')->with('error', 'An error occurred while deleting the chapter.');
+            return redirect()->route('comics.edit', $comicId)->with('error', 'An error occurred while deleting the chapter.');
         }
     }
 }

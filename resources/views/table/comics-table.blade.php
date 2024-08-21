@@ -62,7 +62,10 @@
                                 @endif
                             </td>
                             <td class="py-2 px-4">
-                                {{ $comic->chapters->count() }} <!-- Display the total number of chapters -->
+                                <div
+                                    class="container w-16 h-8 flex items-center justify-center bg-gray-100 border border-gray-400 rounded">
+                                    {{ $comic->chapters->count() }} <!-- Display the total number of chapters -->
+                                </div>
                             </td>
                             <td class="py-2 px-4">
                                 <a href="{{ route('comics.show', $comic) }}"
