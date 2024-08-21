@@ -76,8 +76,8 @@ class ChapterController extends Controller
 
         $comicId = $chapter->comic_id;
 
-        // Update chapter details
-        $chapter->update($request->only(['comic_id']));
+    // Update chapter details
+    $chapter->update($request->only(['comic_id']));
 
         // Handle image deletions
         if ($request->has('delete_images')) {

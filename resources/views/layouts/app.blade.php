@@ -65,7 +65,7 @@
                         hits.forEach(hit => {
                             const li = document.createElement('li');
                             li.textContent =
-                                `${hit.title} - ${hit.author}`; // Adjust based on your data
+                                ${hit.title} - ${hit.author}; // Adjust based on your data
                             ul.appendChild(li);
                         });
                         resultsContainer.appendChild(ul);
