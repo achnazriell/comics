@@ -32,7 +32,11 @@
                         <th colspan="3" class="py-2 px-4">Actions</th>
                     </tr>
                 </thead>
+
                 <tbody class="text-center">
+
+              
+
                     @forelse ($comics as $index => $comic)
                         <tr class="border border-black">
                             <td class="py-2 px-4">{{ $index + 1 }}</td>
@@ -86,7 +90,9 @@
                                 </form>
                             </td>
                         </tr>
+
                     @empty
+
                         <tr>
                             <td colspan="8" class="py-2 px-4 text-center">No Comic found.</td>
                         </tr>
