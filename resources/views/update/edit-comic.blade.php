@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Comic</h1>
+        <h1 class="text-2xl font-bold mb-4">Update Comic</h1>
         <form action="{{ route('comics.update', $comic) }}" method="POST" enctype="multipart/form-data" class="bg-white p-6 rounded shadow-md">
             @csrf
             @method('PUT')
@@ -97,7 +97,7 @@
 
                 <!-- Button to navigate to Edit the first chapter -->
                 @if($comic->chapters->isNotEmpty())
-                    <a href="{{ route('chapters.edit', ['chapter' => $comic->chapters->first()->id]) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Edit First Chapter</a>
+                    <a href="{{ route('chapters.edit', ['chapter' => $comic->chapters->first()->id]) }}" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600">Update First Chapter</a>
                 @endif
             </div>
         </form>

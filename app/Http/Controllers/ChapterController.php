@@ -74,6 +74,8 @@ class ChapterController extends Controller
             'delete_images.*' => 'nullable|exists:chapter_images,id',
         ]);
 
+        $comicId = $chapter->comic_id;
+
         // Update chapter details
         $chapter->update($request->only(['comic_id']));
 
@@ -104,10 +106,8 @@ class ChapterController extends Controller
             }
         }
 
-        return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
+        return redirect()->route('comics.edit', $comicId)->with('success', 'Chapter updated successfully.');
     }
-
-
 
     public function destroy(Chapter $chapter)
     {
@@ -134,4 +134,5 @@ class ChapterController extends Controller
             return redirect()->route('comics.edit', $comicId)->with('error', 'An error occurred while deleting the chapter.');
         }
     }
+
 }

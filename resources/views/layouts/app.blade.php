@@ -15,6 +15,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.3/TweenMax.min.js"></script>
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -96,6 +97,18 @@
 </head>
 
 <body class="font-sans antialiased">
+    <div class="cursor">
+        <div class="cursor__ball cursor__ball--big">
+            <svg height="30" width="30">
+                <circle cx="15" cy="15" r="14"></circle>
+            </svg>
+        </div>
+        <div class="cursor__ball cursor__ball--small">
+            <svg height="12" width="12">
+                <circle cx="5" cy="5" r="4"></circle>
+            </svg>
+        </div>
+    </div>
     <div class="flex-1 flex flex-col">
         @include('layouts.navigation')
 
@@ -137,6 +150,53 @@
             </script>
         </main>
     </div>
+
+    <!-- Cursor JS -->
+    <script>
+        const $bigBall = document.querySelector('.cursor__ball--big');
+        const $smallBall = document.querySelector('.cursor__ball--small');
+        const $hoverables = document.querySelectorAll('.hoverable');
+
+        document.body.addEventListener('mousemove', onMouseMove);
+        $hoverables.forEach(item => {
+            item.addEventListener('mouseenter', onMouseHover);
+            item.addEventListener('mouseleave', onMouseHoverOut);
+        });
+
+        const cursorSizeBig = 30; // Diameter of the big cursor circle
+        const cursorSizeSmall = 12; // Diameter of the small cursor circle
+
+        // Move the cursor
+        function onMouseMove(e) {
+            const offsetBig = cursorSizeBig / 1.2; // Half of the size to center the big cursor
+            const offsetSmall = cursorSizeSmall / 2; // Half of the size to center the small cursor
+
+            TweenMax.to($bigBall, 1, {
+                x: e.pageX - offsetBig,
+                y: e.pageY - offsetBig
+            });
+            TweenMax.to($smallBall, 0.1, {
+                x: e.pageX - offsetSmall,
+                y: e.pageY - offsetSmall
+            });
+        }
+
+
+        // Hover an element
+        function onMouseHover() {
+            TweenMax.to($bigBall, 0.3, {
+                scale: 2, // Slightly smaller scaling for the hover effect
+                fill: "rgba(255, 255, 255, 0.6)"
+            });
+        }
+
+        function onMouseHoverOut() {
+            TweenMax.to($bigBall, 0.3, {
+                scale: 1,
+                fill: "rgba(255, 255, 255, 0.2)"
+            });
+        }
+    </script>
 </body>
 
 </html>

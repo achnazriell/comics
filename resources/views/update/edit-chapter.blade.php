@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Chapter</h1>
+        <h1 class="text-2xl font-bold mb-4">Update Chapter</h1>
 
         <form id="edit-chapter-form" action="{{ route('chapters.update', $chapter) }}" method="POST"
             enctype="multipart/form-data">
@@ -72,12 +72,16 @@
                     <div class="relative p-2 border rounded">
                         <p>Chapter {{ $index + 1 }}</p>
                         <div class="flex gap-2 mt-2 mb-2 justify-center">
-                            <button type="button" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="window.location.href='{{ route('chapters.edit', $ch->id) }}'">Edit</button>
+                            <button type="button"
+                                class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                onclick="window.location.href='{{ route('chapters.edit', $ch->id) }}'">Update</button>
                             <!-- Delete button -->
-                            <form id="delete-form-{{ $ch->id }}" action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="inline-block">
+                            <form id="delete-form-{{ $ch->id }}"
+                                action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" onclick="oneClickDelete({{ $ch->id }})" class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
+                                <button type="button" onclick="oneClickDelete({{ $ch->id }})"
+                                    class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -105,6 +109,63 @@
                     <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                 `;
                 wrapper.appendChild(newInput);
+            });
+        </script>
+        <!-- JavaScript for handling form actions -->
+        <script>
+            // Function to delete chapter with one click
+            function oneClickDelete(chapterId) {
+                if (confirm('Are you sure you want to delete this chapter?')) {
+                    document.getElementById('delete-form-' + chapterId).submit();
+                }
+            }
+
+            // Function to add image input to existing chapter
+            document.getElementById('addImageToExistingChapter').addEventListener('click', function() {
+                const wrapper = document.getElementById('chapterImagesWrapper');
+                const newInput = document.createElement('div');
+                newInput.classList.add('chapter-image-input', 'mb-4');
+                newInput.innerHTML = `
+                    <label class="block text-sm font-medium text-gray-700">Chapter Images</label>
+                    <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                `;
+                wrapper.appendChild(newInput);
+            });
+
+            // Validate image before form submission
+            document.getElementById('edit-chapter-form').addEventListener('submit', function(event) {
+                const inputs = document.querySelectorAll('input[type="file"]');
+                const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+                const maxFileSize = 2 * 1024 * 1024; // 2MB
+
+                for (const input of inputs) {
+                    if (input.files.length > 0) {
+                        const file = input.files[0];
+                        const fileExtension = file.name.split('.').pop().toLowerCase();
+
+                        if (!allowedExtensions.includes(fileExtension)) {
+                            event.preventDefault();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Invalid file type',
+                                text: 'Only JPG, JPEG, PNG, and GIF files are allowed.',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+
+                        if (file.size > maxFileSize) {
+                            event.preventDefault();
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'File too large',
+                                text: 'The file size must not exceed 2MB.',
+                                confirmButtonText: 'OK'
+                            });
+                            return;
+                        }
+                    }
+                }
             });
         </script>
     </div>

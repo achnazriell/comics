@@ -192,6 +192,5 @@
 
         document.querySelector('button[onclick="resetSearch()"]').addEventListener('click', resetSearch);
 
-    };
     });
 </script>
