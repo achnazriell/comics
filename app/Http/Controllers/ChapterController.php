@@ -72,6 +72,9 @@ class ChapterController extends Controller
         'comic_id' => 'required|exists:comics,id',
         'chapter_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'delete_images.*' => 'nullable|exists:chapter_images,id',
+    ], [
+        'chapter_images.*.mimes' => 'Only jpeg, png, jpg, and gif files are allowed.',
+        'chapter_images.*.max' => 'Each image may not be greater than 2MB.',
     ]);
 
     // Update chapter details
@@ -106,6 +109,8 @@ class ChapterController extends Controller
 
     return redirect()->route('comics.index')->with('success', 'Chapter updated successfully.');
 }
+
+    
 
 
 
