@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="container mx-auto p-4">
-        <h1 class="text-2xl font-bold mb-4">Edit Author</h1>
+        <h1 class="text-2xl font-bold mb-4">Update Author</h1>
         <form action="{{ route('authors.update', $author) }}" method="POST" class="bg-white p-6 rounded shadow-md">
             @csrf
             @method('PUT')

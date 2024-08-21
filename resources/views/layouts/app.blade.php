@@ -98,12 +98,12 @@
 
 <body class="font-sans antialiased">
     <div class="cursor">
-        <div class="cursor_ball cursor_ball--big">
+        <div class="cursor__ball cursor__ball--big">
             <svg height="30" width="30">
                 <circle cx="15" cy="15" r="14"></circle>
             </svg>
         </div>
-        <div class="cursor_ball cursor_ball--small">
+        <div class="cursor__ball cursor__ball--small">
             <svg height="12" width="12">
                 <circle cx="5" cy="5" r="4"></circle>
             </svg>
