@@ -14,27 +14,27 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')"
-                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                        class="text-white  dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Home') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('comics.index')" :active="request()->routeIs('comics.index')"
-                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                        class="text-white  dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Comics') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('authors.index')" :active="request()->routeIs('authors.index')"
-                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                        class="text-white  dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Authors') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('publishers.index')" :active="request()->routeIs('publishers.index')"
-                        class="text-white dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                        class="text-white dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Publishers') }}
                     </x-nav-link>
 
                     <x-nav-link :href="route('genres.index')" :active="request()->routeIs('genres.index')"
-                        class="text-white  dark:text-gray-200 hover:bg-gray-400 dark:hover:bg-gray-700 rounded-md p-1 transition duration-150 ease-in-out">
+                        class="text-white  dark:text-gray-100 hover:bg-gray-300 dark:hover:bg-gray-500 rounded-md p-1 transition duration-150 ease-in-out">
                         {{ __('Genre') }}
                     </x-nav-link>
                 </div>
@@ -66,6 +66,8 @@
                             value="{{ old('search', $search) }}">
                         <button type="submit" class="ml-2 p-2 bg-gray-100 text-gray-800 rounded-md">Search</button>
                         <!-- Reset Button -->
+                        <a href="{{ route('dashboard') }}"
+                        class="ml-2 px-4 py-2 bg-gray-100 text-gray-800 rounded-md">Reset</a>
                     </form>
                 </div>
             </div>

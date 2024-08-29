@@ -24,7 +24,7 @@ class Chapter extends Model
 
     // Chapter.php
     public function images()
-        {
+    {
     return $this->hasMany(ChapterImage::class);
     }
 

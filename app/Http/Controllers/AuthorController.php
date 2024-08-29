@@ -9,7 +9,7 @@ class AuthorController extends Controller
 {
     public function index(Request $request)
 {
-    $search = $request->input('search'); 
+    $search = $request->input('search');
 
     if ($search) {
         $authors = Author::where('name', 'LIKE', "%$search%")->get();
@@ -65,10 +65,10 @@ class AuthorController extends Controller
             if ($author->comics()->exists()) {
                 return redirect()->route('authors.index')->with('error', 'Author cannot be deleted because it is still related to comic data.');
             }
-            $author->delete();
+            $author->delete(); 
             return redirect()->route('authors.index')->with('success', 'Author deleted successfully.');
         } catch (\Exception $e) {
-            return redirect()->route('authors.index')->with('error', 'An error occurs when deleting the author.');
+            return redirect()->route('authors.index')->with('error', 'An error occurs when deleting the author.' . $e->getMessage());
         }
     }
 }

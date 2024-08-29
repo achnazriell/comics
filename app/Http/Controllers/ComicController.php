@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Storage;
 use App\Models\Comic;
 use App\Models\Author;
-use App\Models\Chapter;
 use App\Models\ChapterImage;
 use App\Models\Genre;
 use App\Models\Publisher;
@@ -112,7 +109,7 @@ class ComicController extends Controller
     }
 
     return redirect()->route('comics.index')->with('success', 'Comic created successfully.');
-}
+} //return digunakan untuk mengakhiri eksekusi sebuah fungsi dan mengembalikan nilai tertentu ke pemanggil fungsi tersebut
 
 
 

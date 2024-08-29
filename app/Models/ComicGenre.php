@@ -23,3 +23,7 @@ class ComicGenre extends Model
         return $this->belongsTo(Genre::class);
     }
 }
+//hasMany digunakan ketika satu model memiliki banyak entri di model lain
+//belongsTo untuk tabel yang memiliki kolom foreign key yang merujuk ke primary key di tabel lain
+//fillable untuk untuk mendefinisikan atribut mana yang dapat diisi secara massal
+//belongsToMany digunakan untuk mendefinisikan hubungan many-to-many (banyak-ke-banyak) antara dua model

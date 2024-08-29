@@ -40,11 +40,6 @@ class PublisherController extends Controller
         return redirect()->route('publishers.index')->with('success', 'Publisher created successfully.');
     }
 
-    public function show(Publisher $publisher)
-    {
-        // return view('update.edit-publisher', compact('publisher'));
-    }
-
     public function edit(Publisher $publisher)
     {
         return view('update.edit-publisher', compact('publisher'));

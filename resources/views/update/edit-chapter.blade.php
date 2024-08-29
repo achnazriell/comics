@@ -2,7 +2,8 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Update Chapter</h1>
 
-        <form id="edit-chapter-form" action="{{ route('chapters.update', $chapter) }}" method="POST" enctype="multipart/form-data">
+        <form id="edit-chapter-form" action="{{ route('chapters.update', $chapter) }}" method="POST"
+            enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
@@ -20,17 +21,23 @@
             <div id="currentChapterSection">
                 <h3 class="text-sm font-medium text-gray-700 mb-2">Current Chapter Images</h3>
                 <p class="text-sm text-gray-600 mb-4">Check the box next to an image to mark it for deletion.</p>
+                <!-- Display message if images are checked -->
+                <div id="deleteImagesWarning" class="text-sm text-red-600 hidden mb-2">
+                    The checked chapter image will be deleted after pressing the "Finish" button.
+                </div>  {{-- Chapter image yang dicentang akan dihapus setelah menekan tombol "Finish" --}}
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     @foreach ($chapter->images as $image)
-                        <div class="relative">
-                            <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image" class="w-full h-32 object-cover">
-
+                        <div class="flex ">
+                            <div
+                                class="w-10 h-10 flex items-center justify-center bg-gray-200 border border-gray-400 rounded relative mr-0 top-0 ">
+                                <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
+                                    class="delete-checkbox">
+                                <!-- Trash can icon for delete -->
+                                <span class="absolute top-0 right-8 m-2 text-red-500 trash-icon hidden"></span>
+                            </div>
+                            <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image"
+                                class="w-full h-32 object-cover">
                             <!-- Checkbox for image deletion -->
-                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="absolute top-0 right-0 m-2 delete-checkbox">
-                            <!-- Trash can icon for delete -->
-                            <span class="absolute top-0 right-6 mt-1 mr-2 text-red-500 trash-icon hidden">
-                                <i class="fas fa-trash-alt"></i>
-                            </span>
                         </div>
                     @endforeach
                 </div>
@@ -42,18 +49,25 @@
                 <div id="chapterImagesWrapper" class="mb-4">
                     <!-- Initial image input -->
                     <div class="chapter-image-input mb-4">
-                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter Images</label>
-                        <input type="file" name="chapter_images[]" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter
+                            Images</label>
+                        <input type="file" name="chapter_images[]"
+                            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                     </div>
                 </div>
             </div>
 
             <!-- Submit button -->
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
-            <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
 
-            <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
-            <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
+            <!-- Additional buttons -->
+            <button type="button" id="addImageToExistingChapter"
+                class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing
+                Chapter</button>
+            <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600"
+                onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
+            <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}"
+                class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
         </form>
 
         <!-- Display all chapters -->
@@ -63,14 +77,17 @@
                 @foreach ($chapters as $index => $ch)
                     <div class="relative p-2 border rounded">
                         <p>Chapter {{ $index + 1 }}</p>
-
                         <div class="flex gap-2 mt-2 mb-2 justify-center">
-                            <button type="button" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="window.location.href='{{ route('chapters.edit', $ch->id) }}'">Update</button>
+                            <button type="button"
+                                class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                onclick="window.location.href='{{ route('chapters.edit', $ch->id) }}'">Update</button>
                             <!-- Delete button -->
-                            <form id="delete-form-{{ $ch->id }}" action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="inline-block">
+                            <form id="delete-form-{{ $ch->id }}"
+                                action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="inline-block">
                                 @csrf
                                 @method('DELETE')
-                                <button type="button" onclick="oneClickDelete({{ $ch->id }})" class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
+                                <button type="button" onclick="oneClickDelete({{ $ch->id }})"
+                                    class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
                             </form>
                         </div>
                     </div>
@@ -106,11 +123,12 @@
             document.querySelectorAll('.delete-checkbox').forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
                     const trashIcon = this.parentElement.querySelector('.trash-icon');
-                    if (this.checked) {
-                        trashIcon.classList.remove('hidden');
-                    } else {
-                        trashIcon.classList.add('hidden');
-                    }
+                    trashIcon.classList.toggle('hidden', !this.checked);
+
+                    // Show warning if any checkbox is checked
+                    const isAnyChecked = Array.from(document.querySelectorAll('.delete-checkbox')).some(cb => cb
+                        .checked);
+                    document.getElementById('deleteImagesWarning').classList.toggle('hidden', !isAnyChecked);
                 });
             });
 

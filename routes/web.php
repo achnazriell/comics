@@ -25,18 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('comics', ComicController::class);
     Route::resource('chapters', ChapterController::class);
     Route::resource('publishers', PublisherController::class);
-    Route::resource('reviews', ReviewController::class);
     Route::resource('synopses', SynopsisController::class);
-
-    // Additional routes that need authentication
-    Route::get('/genre-table', [GenreController::class, 'index'])->name('genre.table');
-    Route::get('/create-genre', [GenreController::class, 'create'])->name('genre.create');
-
-    Route::get('/comics/{comic}', [ComicController::class, 'show'])->name('comics.show');
-    Route::get('/chapters/{chapter}', [ChapterController::class, 'show'])->name('chapters.show');
-
-    Route::get('/comics/{comic}/review', [ReviewController::class, 'create'])->name('review.create');
-    Route::post('/comics/{comic}/review', [ReviewController::class, 'store'])->name('review.store');
 });
 
 // Dashboard route with middleware
@@ -46,10 +35,10 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 // Profile routes with authentication middleware
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); //patch unutuk update tapi hanya sebagian yang di update
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
+// middleware adalah lapisan perantara untuk memproses permintaan (request) sebelum mencapai tujuan akhirnya
 
 // Authentication routes
 require __DIR__ . '/auth.php';

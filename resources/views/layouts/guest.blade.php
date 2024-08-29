@@ -5,8 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <link rel="icon" type="image/png" href="{{ asset('images/KomikQue1.png') }}">
+    <title>{{ config('app.name', 'KomikQue') }}</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -22,9 +22,20 @@
 </head>
 
 <body class="bg-image font-sans text-gray-900 antialiased ">
-
     <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-cover bg-center h-screen"
          style="background-image: url('/images/black.jpg'); dark:bg-gray-900">
+         <div class="cursor">
+            <div class="cursor__ball cursor__ball--big">
+                <svg height="30" width="30">
+                    <circle cx="15" cy="15" r="14"></circle>
+                </svg>
+            </div>
+            <div class="cursor__ball cursor__ball--small">
+                <svg height="12" width="12">
+                    <circle cx="5" cy="5" r="4"></circle>
+                </svg>
+            </div>
+        </div>
         <div>
             <a href="/">
                 <!-- Ganti bagian ini dengan logo baru -->
@@ -82,6 +93,52 @@
             });
         }
     </script>
+        <!-- Cursor JS -->
+        <script>
+            const $bigBall = document.querySelector('.cursor__ball--big');
+            const $smallBall = document.querySelector('.cursor__ball--small');
+            const $hoverables = document.querySelectorAll('.hoverable');
+
+            document.body.addEventListener('mousemove', onMouseMove);
+            $hoverables.forEach(item => {
+                item.addEventListener('mouseenter', onMouseHover);
+                item.addEventListener('mouseleave', onMouseHoverOut);
+            });
+
+            const cursorSizeBig = 30; // Diameter of the big cursor circle
+            const cursorSizeSmall = 12; // Diameter of the small cursor circle
+
+            // Move the cursor
+            function onMouseMove(e) {
+                const offsetBig = cursorSizeBig / 1.2; // Half of the size to center the big cursor
+                const offsetSmall = cursorSizeSmall / 2; // Half of the size to center the small cursor
+
+                TweenMax.to($bigBall, 1, {
+                    x: e.pageX - offsetBig,
+                    y: e.pageY - offsetBig
+                });
+                TweenMax.to($smallBall, 0.1, {
+                    x: e.pageX - offsetSmall,
+                    y: e.pageY - offsetSmall
+                });
+            }
+
+
+            // Hover an element
+            function onMouseHover() {
+                TweenMax.to($bigBall, 0.3, {
+                    scale: 2, // Slightly smaller scaling for the hover effect
+                    fill: "rgba(255, 255, 255, 0.6)"
+                });
+            }
+
+            function onMouseHoverOut() {
+                TweenMax.to($bigBall, 0.3, {
+                    scale: 1,
+                    fill: "rgba(255, 255, 255, 0.2)"
+                });
+            }
+        </script>
 </body>
 
 </html>
