@@ -1,0 +1,62 @@
+body {
+    height: 100vh;
+    background: white;
+    cursor: default;
+    margin: 0;
+    display: flex;
+    font-family: monospace;
+}
+
+.cursor {
+    pointer-events: none;
+}
+
+.cursor__ball {
+    position: fixed;
+    top: 0;
+    left: 0;
+    mix-blend-mode: difference;
+    z-index: 1000;
+}
+
+.cursor__ball--big {
+    width: 30px; /* Set this to the diameter of your cursor circle */
+    height: 30px; /* Set this to the diameter of your cursor circle */
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -50%); /* Center the cursor circle */
+}
+
+
+.cursor__ball--small {
+    width: 12px; /* Set this to the diameter of your cursor circle */
+    height: 12px; /* Set this to the diameter of your cursor circle */
+    border-radius: 50%;
+    fill: rgba(255, 255, 255, 0.8);
+    opacity: 0.3;
+    position: absolute;
+    pointer-events: none;
+    transform: translate(-50%, -50%); /* Center the cursor circle */
+}
+
+.left, .right {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.right {
+    background: #fff;
+    a {
+        border-bottom: 2px solid #000;
+    }
+    h1, p, a {
+        color: #000;
+    }
+
+}

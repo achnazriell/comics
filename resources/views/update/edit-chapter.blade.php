@@ -2,33 +2,6 @@
     <div class="container mx-auto p-4">
         <h1 class="text-2xl font-bold mb-4">Update Chapter</h1>
 
-
-
-
-        @if ($errors->any())
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-            <strong class="font-bold">Whoops!</strong>
-            <span class="block sm:inline">There were some problems with your input.</span>
-            <ul class="mt-3 list-disc list-inside text-sm text-red-600">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-            
-                <!-- Display success or error messages -->
-                @if (session('success'))
-                <div class="bg-green-500 text-white p-4 rounded mb-4">
-                    {{ session('success') }}
-                </div>
-            @elseif (session('error'))
-                <div class="bg-red-500 text-white p-4 rounded mb-4">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-
         <form id="edit-chapter-form" action="{{ route('chapters.update', $chapter) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
@@ -43,15 +16,25 @@
                 <p class="mt-1 block w-full bg-gray-200 p-2 rounded">{{ $chapter->comic->title }}</p>
             </div>
 
+            <!-- Display message if images are checked -->
+            <div id="deleteImagesWarning" class="text-sm text-red-600 hidden mb-2">
+                Gambar yang dicentang akan dihapus setelah menekan tombol "Finish".
+            </div>
+
             <!-- Display existing chapter images with delete option -->
             <div id="currentChapterSection">
                 <h3 class="text-sm font-medium text-gray-700 mb-2">Current Chapter Images</h3>
+                <p class="text-sm text-gray-600 mb-4">Check the box next to an image to mark it for deletion.</p>
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     @foreach ($chapter->images as $image)
                         <div class="relative">
                             <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image" class="w-full h-32 object-cover">
                             <!-- Checkbox for image deletion -->
-                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="absolute top-0 right-0 m-2">
+                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="absolute top-0 right-0 m-2 delete-checkbox">
+                            <!-- Trash can icon for delete -->
+                            <span class="absolute top-0 right-8 m-2 text-red-500 trash-icon hidden">
+                                <i class="fas fa-trash-alt"></i>
+                            </span>
                         </div>
                     @endforeach
                 </div>
@@ -72,10 +55,9 @@
             <!-- Submit button -->
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
 
+            <!-- Additional buttons -->
             <button type="button" id="addImageToExistingChapter" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing Chapter</button>
-
             <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600" onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
-
             <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}" class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
         </form>
 
@@ -86,23 +68,22 @@
                 @foreach ($chapters as $index => $ch)
                     <div class="relative p-2 border rounded">
                         <p>Chapter {{ $index + 1 }}</p>
-
-                        <a href="{{ route('chapters.edit', $ch->id) }}" class="text-blue-500 hover:underline">Edit</a>
-                        <!-- Delete button -->
-                        <form id="delete-form-{{ $ch>id }}" action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="mt-2">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" onclick="oneClickDelete({{ $ch->id }})" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
-                                Delete
-                            </button>
-                        </form>
--                        
+                        <div class="flex gap-2 mt-2 mb-2 justify-center">
+                            <button type="button" class="inline-block px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600" onclick="window.location.href='{{ route('chapters.edit', $ch->id) }}'">Update</button>
+                            <!-- Delete button -->
+                            <form id="delete-form-{{ $ch->id }}" action="{{ route('chapters.destroy', $ch->id) }}" method="POST" class="inline-block">
+                                @csrf
+                                @method('DELETE')
+                                <button type="button" onclick="oneClickDelete({{ $ch->id }})" class="inline-block px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">Delete</button>
+                            </form>
+                        </div>
                     </div>
                 @endforeach
             </div>
         </div>
 
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
 
         <!-- JavaScript for handling form actions -->
         <script>
@@ -125,9 +106,19 @@
                 wrapper.appendChild(newInput);
             });
 
-            
+            // Show or hide trash can icon based on checkbox status
+            document.querySelectorAll('.delete-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const trashIcon = this.parentElement.querySelector('.trash-icon');
+                    trashIcon.classList.toggle('hidden', !this.checked);
 
-        // Validate image before form submission
+                    // Show warning if any checkbox is checked
+                    const isAnyChecked = Array.from(document.querySelectorAll('.delete-checkbox')).some(cb => cb.checked);
+                    document.getElementById('deleteImagesWarning').classList.toggle('hidden', !isAnyChecked);
+                });
+            });
+
+            // Validate image before form submission
             document.getElementById('edit-chapter-form').addEventListener('submit', function(event) {
                 const inputs = document.querySelectorAll('input[type="file"]');
                 const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];

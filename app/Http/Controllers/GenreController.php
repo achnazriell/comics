@@ -45,7 +45,7 @@ class GenreController extends Controller
 
         Genre::create($request->all());
 
-        return redirect()->route('genre.table')->with('success', 'Genre created successfully.');
+        return redirect()->route('table.genre-table')->with('success', 'Genre created successfully.');
     }
 
     /**

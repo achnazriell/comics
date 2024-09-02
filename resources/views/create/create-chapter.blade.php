@@ -25,48 +25,50 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Function to add more image inputs
-            document.getElementById('add-image').addEventListener('click', function () {
-                const imageInputs = document.getElementById('image-inputs');
-                const newInput = document.createElement('input');
-                newInput.type = 'file';
-                newInput.name = 'images[]';
-                newInput.className = 'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm';
-                imageInputs.appendChild(newInput);
-            });
+        document.getElementById('add-image').addEventListener('click', function() {
+            const imageInputs = document.getElementById('image-inputs');
+            const newInput = document.createElement('input');
+            newInput.type = 'file';
+            newInput.name = 'images[]';
+            newInput.className =
+                'mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm';
+            imageInputs.appendChild(newInput);
+        });
 
-            // Validate images before form submission
-            document.getElementById('create-chapter-form').addEventListener('submit', function (event) {
-                const allowedExtensions = ['jpeg', 'jpg', 'png', 'gif'];
-                const maxSize = 2 * 1024 * 1024; // 2MB in bytes
-                const files = document.querySelectorAll('input[type="file"]');
+        // Validate image before form submission
+        document.getElementById('create-chapter-form').addEventListener('submit', function(event) {
+            const inputs = document.querySelectorAll('input[type="file"]');
+            const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+            const maxFileSize = 2 * 1024 * 1024; // 2MB
 
-                for (let fileInput of files) {
-                    for (let file of fileInput.files) {
-                        const fileExtension = file.name.split('.').pop().toLowerCase();
-                        if (!allowedExtensions.includes(fileExtension)) {
-                            event.preventDefault();
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Invalid File Type',
-                                text: 'Only JPEG, PNG, and GIF files are allowed.',
-                            });
-                            return;
-                        }
+            for (const input of inputs) {
+                if (input.files.length > 0) {
+                    const file = input.files[0];
+                    const fileExtension = file.name.split('.').pop().toLowerCase();
 
-                        if (file.size > maxSize) {
-                            event.preventDefault();
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'File Too Large',
-                                text: 'Each file must be less than 2MB.',
-                            });
-                            return;
-                        }
+                    if (!allowedExtensions.includes(fileExtension)) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Invalid file type',
+                            text: 'Only JPG, JPEG, PNG, and GIF files are allowed.',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
+                    }
+
+                    if (file.size > maxFileSize) {
+                        event.preventDefault();
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'File too large',
+                            text: 'The file size must not exceed 2MB.',
+                            confirmButtonText: 'OK'
+                        });
+                        return;
                     }
                 }
-            });
+            }
         });
     </script>
 </x-app-layout>
