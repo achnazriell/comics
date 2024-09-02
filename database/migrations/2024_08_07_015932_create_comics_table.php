@@ -9,7 +9,7 @@ class CreateComicsTable extends Migration
     public function up()
     {
         Schema::create('comics', function (Blueprint $table) {
-            $table->id();
+            $table->id();   
             $table->string('title');
             $table->foreignId('author_id')->constrained()->onUpdate('cascade');
             $table->foreignId('publisher_id')->constrained()->onUpdate('cascade');

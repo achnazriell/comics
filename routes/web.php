@@ -6,7 +6,6 @@ use App\Http\Controllers\GenreController;
 use App\Http\Controllers\ComicController;
 use App\Http\Controllers\ChapterController;
 use App\Http\Controllers\PublisherController;
-use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\SynopsisController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('chapters', ChapterController::class);
     Route::resource('publishers', PublisherController::class);
     Route::resource('synopses', SynopsisController::class);
+
 });
 
 // Dashboard route with middleware

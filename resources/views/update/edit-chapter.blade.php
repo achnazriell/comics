@@ -17,6 +17,11 @@
                 <p class="mt-1 block w-full bg-gray-200 p-2 rounded">{{ $chapter->comic->title }}</p>
             </div>
 
+            <!-- Display message if images are checked -->
+            <div id="deleteImagesWarning" class="text-sm text-red-600 hidden mb-2">
+                Gambar yang dicentang akan dihapus setelah menekan tombol "Finish".
+            </div>
+
             <!-- Display existing chapter images with delete option -->
             <div id="currentChapterSection">
                 <h3 class="text-sm font-medium text-gray-700 mb-2">Current Chapter Images</h3>
@@ -27,6 +32,7 @@
                 </div>  {{-- Chapter image yang dicentang akan dihapus setelah menekan tombol "Finish" --}}
                 <div class="grid grid-cols-3 gap-4 mb-4">
                     @foreach ($chapter->images as $image)
+
                         <div class="flex ">
                             <div
                                 class="w-10 h-10 flex items-center justify-center bg-gray-200 border border-gray-400 rounded relative mr-0 top-0 ">
@@ -37,6 +43,7 @@
                             </div>
                             <img src="{{ asset('chapter_images/' . $image->image) }}" alt="Chapter Image"
                                 class="w-full h-32 object-cover">
+
                             <!-- Checkbox for image deletion -->
                         </div>
                     @endforeach
@@ -49,10 +56,12 @@
                 <div id="chapterImagesWrapper" class="mb-4">
                     <!-- Initial image input -->
                     <div class="chapter-image-input mb-4">
+
                         <label for="chapter_images" class="block text-sm font-medium text-gray-700">Chapter
                             Images</label>
                         <input type="file" name="chapter_images[]"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
                     </div>
                 </div>
             </div>
@@ -61,6 +70,7 @@
             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Finish</button>
 
             <!-- Additional buttons -->
+
             <button type="button" id="addImageToExistingChapter"
                 class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Image to Existing
                 Chapter</button>
@@ -68,6 +78,7 @@
                 onclick="window.location.href='{{ route('comics.edit', $chapter->comic_id) }}'">Back</button>
             <a href="{{ route('chapters.create', ['comic_id' => $chapter->comic_id]) }}"
                 class="mt-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Add Another Chapter</a>
+
         </form>
 
         <!-- Display all chapters -->
@@ -126,6 +137,7 @@
                     trashIcon.classList.toggle('hidden', !this.checked);
 
                     // Show warning if any checkbox is checked
+
                     const isAnyChecked = Array.from(document.querySelectorAll('.delete-checkbox')).some(cb => cb
                         .checked);
                     document.getElementById('deleteImagesWarning').classList.toggle('hidden', !isAnyChecked);
