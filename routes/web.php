@@ -38,7 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update'); //patch unutuk update tapi hanya sebagian yang di update
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-// middleware adalah lapisan perantara untuk memproses permintaan (request) sebelum mencapai tujuan akhirnya
 
 // Authentication routes
 require __DIR__ . '/auth.php';

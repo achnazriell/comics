@@ -11,8 +11,8 @@ class CreateComicsTable extends Migration
         Schema::create('comics', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->foreignId('author_id')->constrained()->onDelete('cascade');
-            $table->foreignId('publisher_id')->constrained()->onDelete('cascade');
+            $table->foreignId('author_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('publisher_id')->constrained()->onUpdate('cascade');
             $table->string('image')->nullable(); // Adding image column
             $table->timestamps();
         });

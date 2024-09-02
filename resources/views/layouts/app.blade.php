@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/KomikQue1.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/KomikQue.png') }}">
     <title>KomikQue</title>
 
     <!-- Fonts -->
@@ -125,7 +125,7 @@
         <main class="flex-1">
             <div id="preloader"
                 class="fixed inset-0 flex items-center justify-center bg-white z-50 transition-transform duration-700 transform">
-                <img src="{{ asset('images/KomikQue1.png') }}" alt="Loading" class="h-20 w-20 animate-shake">
+                <img src="{{ asset('images/KomikQue.png') }}" alt="Loading" class="h-20 w-20 animate-shake">
             </div>
             {{ $slot }}
             <!-- SweetAlert2 Script -->

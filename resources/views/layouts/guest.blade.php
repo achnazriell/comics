@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <link rel="icon" type="image/png" href="{{ asset('images/KomikQue1.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/KomikQue.png') }}">
     <title>{{ config('app.name', 'KomikQue') }}</title>
 
     <!-- Fonts -->
@@ -39,7 +39,7 @@
         <div>
             <a href="/">
                 <!-- Ganti bagian ini dengan logo baru -->
-                <img src="{{ asset('images/KomikQue1.png') }}" alt="Logo" class="w-20 h-auto border border-black rounded-lg  ">
+                <img src="{{ asset('images/KomikQue.png') }}" alt="Logo" class="w-20 h-auto border border-black rounded-lg  ">
             </a>
         </div>
 
